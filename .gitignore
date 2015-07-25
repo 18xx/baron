@@ -1,2 +1,9 @@
+# rspec for re-running failed tests
 /spec/examples.txt
+
+# Installed gems
 /vendor/bundle
+
+# Documentaiton
+/.yardoc
+/doc
