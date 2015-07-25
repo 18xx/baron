@@ -2,5 +2,6 @@
 module Baron
 end
 
-require 'baron/player'
 require 'baron/major_company'
+require 'baron/player'
+require 'baron/private_company'
