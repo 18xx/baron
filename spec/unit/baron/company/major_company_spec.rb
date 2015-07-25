@@ -1,4 +1,4 @@
-RSpec.describe Baron::MajorCompany do
+RSpec.describe Baron::Company::MajorCompany do
   subject { described_class.new(abbreviation, name) }
   let(:abbreviation) { 'LNWR' }
   let(:name) { 'London and North Western Railway' }

@@ -1,4 +1,4 @@
-RSpec.describe Baron::PrivateCompany do
+RSpec.describe Baron::Company::PrivateCompany do
   subject do
     described_class.new('Camden & Amboy', face_value: 160, revenue: 25)
   end

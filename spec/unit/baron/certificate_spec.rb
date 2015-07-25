@@ -1,7 +1,7 @@
 RSpec.describe Baron::Certificate do
   subject { described_class.new(company, portion) }
   let(:company) do
-    Baron::MajorCompany.new('LNWR', nil)
+    Baron::Company::MajorCompany.new('LNWR', nil)
   end
   let(:portion) { BigDecimal.new '0.1' }
 
