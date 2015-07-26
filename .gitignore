@@ -7,3 +7,6 @@
 # Documentaiton
 /.yardoc
 /doc
+
+# Test coverage
+/coverage

@@ -1,5 +1,13 @@
 require 'baron'
 
+if ENV['COVERAGE'] == 'true'
+  require 'simplecov'
+
+  SimpleCov.start do
+    command_name 'spec:unit'
+  end
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
