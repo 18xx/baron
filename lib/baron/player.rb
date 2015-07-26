@@ -1,6 +1,8 @@
 module Baron
   # A partipant in a game
   class Player
+    include Shareholder
+
     # The player's name
     #
     # @return [String]

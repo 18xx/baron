@@ -6,5 +6,6 @@ module Baron
   # than things held in the bank pool for the purposes of pricing, dividend
   # payouts and more.
   module InitialOffering
+    include Shareholder
   end
 end

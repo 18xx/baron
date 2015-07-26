@@ -4,6 +4,8 @@ module Baron
     # It has a directors certificate which represents a 20% stake in the company
     # and eight standard certificates each representing a 10% stake
     class MajorCompany
+      include Shareholder
+
       # The full name of the company
       # Example: London and North Western Railway
       #

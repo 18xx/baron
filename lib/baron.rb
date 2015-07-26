@@ -4,6 +4,8 @@ require 'bigdecimal'
 module Baron
 end
 
+require 'baron/shareholder'
+
 require 'baron/bank'
 require 'baron/company'
 require 'baron/company/private_company'
