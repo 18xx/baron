@@ -1,0 +1,123 @@
+title: '1860: Railways on the Isle of Wight'
+designer: 'Mike Hutton'
+stock_market:
+  type: 'linear'
+  values:
+    - 0
+    - 7
+    - 14
+    - 20
+    - 26
+    - 31
+    - 36
+    - 40
+    - 44
+    - 47
+    - 50
+    - 52
+    - 54
+    - 56
+    - 58
+    - 60
+    - 62
+    - 65
+    - 68
+    - 71
+    - 74
+    - 78
+    - 82
+    - 86
+    - 90
+    - 95
+    - 100
+    - 105
+    - 110
+    - 116
+    - 122
+    - 128
+    - 134
+    - 142
+    - 150
+    - 158
+    - 166
+    - 174
+    - 182
+    - 191
+    - 200
+    - 210
+    - 220
+    - 230
+    - 240
+    - 250
+    - 260
+    - 270
+    - 280
+    - 290
+    - 300
+    - 320
+    - 310
+    - 330
+    - 340
+companies:
+  private:
+    -
+      name: 'Brading Harbour Company'
+      face_value: 30
+      revenue: 5
+    -
+      name: 'Yarmouth Harbour Company'
+      face_value: 50
+      revenue: 10
+    -
+      name: 'Cowes Marina and Harbour'
+      face_value: 90
+      revenue: 20
+    -
+      name: 'Ryde Pier & Shipping Company'
+      face_value: 130
+      revenue: 30
+    -
+      name: 'Fishbourne Ferry Company'
+      face_value: 200
+      revenue: 25
+  major:
+    -
+      name: 'Cowes & Newport'
+      abbreviation: 'C&N'
+      tokens: 4
+      base: 'F2'
+    -
+      name: 'Isle of Wight (Eastern Section)'
+      abbreviation: 'IOW'
+      tokens: 4
+      base: 'I3'
+    -
+      name: 'Freshwater, Yarmouth & Newport'
+      abbreviation: 'FYN'
+      tokens: 3
+      base: 'B4'
+    -
+      name: 'Isle of Wight, Newport Junction'
+      abbreviation: 'IWNJ'
+      tokens: 3
+      base: 'G7'
+    -
+      name: 'Brading Harbour Improvement & Railway'
+      abbreviation: 'BHI&R'
+      tokens: 2
+      base: 'L6'
+    -
+      name: 'Newport, Godshill & St. Lawrence'
+      abbreviation: 'NGStL'
+      tokens: 2
+      base: 'G9'
+    -
+      name: 'Shanklin & Chale'
+      abbreviation: 'S&C'
+      tokens: 2
+      base: 'F12'
+    -
+      name: 'Ventnor, Yarmouth & South Coast'
+      abbreviation: 'VYSC'
+      tokens: 2
+      base: 'E9'
