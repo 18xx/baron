@@ -30,11 +30,56 @@ module Baron
     #
     # @return [Array<Object>]
     attr_reader :seller_items
+
+    # Initialize the object
+    #
+    # @param [Object] buyer
+    # @param [Array<Object>] buyer_items
+    # @param [Object] seller
+    # @param [Array<Object>] seller_items
     def initialize(buyer, buyer_items, seller, seller_items)
       @buyer = buyer
       @buyer_items = buyer_items
       @seller = seller
       @seller_items = seller_items
+    end
+
+    # The items which the shareholder transferred away
+    #
+    # @params [Shareholder] shareholder
+    # @returns [Array<Object>] The objects transferred away
+    def debits(shareholder)
+      shareholder_effects(shareholder, :debit)
+    end
+
+    # The items which the shareholder received
+    #
+    # @params [Shareholder] shareholder
+    # @returns [Array<Object>] The objects receieved
+    def credits(shareholder)
+      shareholder_effects(shareholder, :credit)
+    end
+
+    private
+
+    def shareholder_effects(shareholder, type)
+      validate(shareholder)
+      effects.fetch(shareholder).fetch(type)
+    end
+
+    def effects
+      {
+        buyer => { debit: seller_items, credit: buyer_items },
+        seller => { debit: buyer_items, credit: seller_items }
+      }
+    end
+
+    def validate(shareholder)
+      fail InvalidPartyError unless [buyer, seller].include?(shareholder)
+    end
+
+    # This party is not involved in the transaction
+    class InvalidPartyError < StandardError
     end
   end
 end
