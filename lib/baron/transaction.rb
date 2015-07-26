@@ -46,16 +46,16 @@ module Baron
 
     # The items which the shareholder transferred away
     #
-    # @params [Shareholder] shareholder
-    # @returns [Array<Object>] The objects transferred away
+    # @param [Shareholder] shareholder
+    # @return [Array<Object>] The objects transferred away
     def debits(shareholder)
       shareholder_effects(shareholder, :debit)
     end
 
     # The items which the shareholder received
     #
-    # @params [Shareholder] shareholder
-    # @returns [Array<Object>] The objects receieved
+    # @param [Shareholder] shareholder
+    # @return [Array<Object>] The objects receieved
     def credits(shareholder)
       shareholder_effects(shareholder, :credit)
     end

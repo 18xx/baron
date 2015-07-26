@@ -4,10 +4,16 @@ module Baron
   # owning their own shares, private companies, or shares in other companies),
   # the bank pool, and the initial offering.
   module Shareholder
+    # The current amount of money that this shareholder has
+    #
+    # @return [Money]
     def balance
       money_total(:credits) - money_total(:debits)
     end
 
+    # Adds a transaction to this shareholder
+    #
+    # @param [Transaction] transaction
     def add_transaction(transaction)
       transactions.push transaction
     end
