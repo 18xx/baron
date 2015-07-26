@@ -1,7 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'binding_of_caller'
-gem 'pry'
+group :development, :test do
+  gem 'binding_of_caller'
 
-gem 'mutant'
-gem 'devtools', git: 'https://github.com/mbj/devtools.git'
+  gem 'pry'
+  gem 'pry-byebug'
+  gem 'pry-stack_explorer'
+
+  gem 'mutant'
+  gem 'devtools', git: 'https://github.com/mbj/devtools.git'
+end
