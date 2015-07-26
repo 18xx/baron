@@ -10,3 +10,5 @@ group :development, :test do
   gem 'mutant'
   gem 'devtools', git: 'https://github.com/mbj/devtools.git'
 end
+
+gemspec

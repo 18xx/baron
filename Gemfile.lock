@@ -17,6 +17,12 @@ GIT
       yard (~> 0.8.7.6)
       yardstick (~> 0.9.9)
 
+PATH
+  remote: .
+  specs:
+    baron (0.0.1)
+      rake
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -152,12 +158,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  baron!
   binding_of_caller
   devtools!
   mutant
   pry
   pry-byebug
   pry-stack_explorer
+  rspec (>= 3.3.0)
 
 BUNDLED WITH
    1.10.6
