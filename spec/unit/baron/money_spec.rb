@@ -1,6 +1,16 @@
 RSpec.describe Baron::Money do
   subject { Baron::Money.new 15 }
 
+  describe 'initialization' do
+    context 'when no parameter is specified' do
+      subject { Baron::Money.new }
+
+      it 'leaves the amount as 0' do
+        expect(subject.amount).to eq 0
+      end
+    end
+  end
+
   describe '#amount' do
     it 'returns the amount' do
       expect(subject.amount).to eq 15
@@ -12,6 +22,14 @@ RSpec.describe Baron::Money do
 
     it 'adds the two amounts and returns a new money' do
       expect((subject + other_money).amount).to eq 25
+    end
+  end
+
+  describe 'subtracting' do
+    let(:other_money) { Baron::Money.new 10 }
+
+    it 'adds the two amounts and returns a new money' do
+      expect((subject - other_money).amount).to eq 5
     end
   end
 

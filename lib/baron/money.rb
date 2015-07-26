@@ -16,7 +16,7 @@ module Baron
     # Initialize the money object
     #
     # @param [Fixnum] amount
-    def initialize(amount)
+    def initialize(amount = 0)
       @amount = amount
     end
 
@@ -26,6 +26,14 @@ module Baron
     # @return [Baron::Money]
     def +(other)
       Money.new(amount + other.amount)
+    end
+
+    # Subtracts one money from another returns a new money with the summed value
+    #
+    # @param [Baron::Money] other
+    # @return [Baron::Money]
+    def -(other)
+      Money.new(amount - other.amount)
     end
 
     # Compares the money amounts
