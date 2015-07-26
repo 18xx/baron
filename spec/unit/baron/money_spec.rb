@@ -1,0 +1,43 @@
+RSpec.describe Baron::Money do
+  subject { Baron::Money.new 15 }
+
+  describe '#amount' do
+    it 'returns the amount' do
+      expect(subject.amount).to eq 15
+    end
+  end
+
+  describe 'adding' do
+    let(:other_money) { Baron::Money.new 10 }
+
+    it 'adds the two amounts and returns a new money' do
+      expect((subject + other_money).amount).to eq 25
+    end
+  end
+
+  describe 'comparing' do
+    context 'when subject is greater' do
+      let(:other_money) { Baron::Money.new 10 }
+      specify do
+        expect(subject < other_money).to be false
+        expect(subject > other_money).to be true
+      end
+    end
+
+    context 'when subject is equal' do
+      let(:other_money) { Baron::Money.new 15 }
+      specify do
+        expect(subject == other_money).to be true
+        expect(subject.equal? other_money).to be false
+      end
+    end
+
+    context 'when subject is less' do
+      let(:other_money) { Baron::Money.new 20 }
+      specify do
+        expect(subject < other_money).to be true
+        expect(subject > other_money).to be false
+      end
+    end
+  end
+end
