@@ -1,4 +1,4 @@
-RSpec.describe Baron::Game::Config do
+RSpec.describe Baron::Rules do
   let(:config_file) { '1860' }
   let(:config) { described_class.new config_file }
 
