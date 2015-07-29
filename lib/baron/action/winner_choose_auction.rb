@@ -10,13 +10,6 @@ module Baron
       # @return [Array<Baron::Player>]
       attr_reader :active_players
 
-      # The player who has made the highest bid so far. If the auction is done,
-      # then this is the auction winner.
-      #
-      # @return [Baron::Player] Returns the player who has bid the highest,
-      # nil if there are no bids.
-      attr_reader :high_bidder
-
       # Initialize the auction
       #
       # @param [Array<Baron::Player>] players All players participating in this
@@ -33,7 +26,6 @@ module Baron
       def bid(player_bid)
         validate_turn(player_bid.player)
         validate_bid(player_bid)
-        @high_bidder = current_player
         @bids << player_bid
         @active_players.push @active_players.shift
       end
@@ -65,6 +57,15 @@ module Baron
       # there are no bids.
       def current_bid
         @bids.last
+      end
+
+      # The player who has made the highest bid so far. If the auction is done,
+      # then this is the auction winner.
+      #
+      # @return [Baron::Player] Returns the player who has bid the highest,
+      # nil if there are no bids.
+      def high_bidder
+        current_bid.player if current_bid
       end
 
       private
