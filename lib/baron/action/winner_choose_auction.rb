@@ -31,6 +31,7 @@ module Baron
       #
       # @param [Baron::Action:Bid] player_bid The bid being made.
       def bid(player_bid)
+        validate_turn(player_bid.player)
         validate_bid(player_bid)
         @high_bidder = current_player
         @bids << player_bid
@@ -67,6 +68,11 @@ module Baron
       end
 
       private
+
+      def validate_turn(player)
+        fail WrongTurn, "#{player} bid, but it is " \
+          "#{current_player}'s turn" unless player.equal?(current_player)
+      end
 
       def validate_bid(bid)
         fail IllegalBidAmount, 'Amount must be greater than previous bids' if

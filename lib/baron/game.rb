@@ -25,5 +25,12 @@ module Baron
       @rules = rules
       @players = players
     end
+
+    # The current action in the game.
+    #
+    # @return [Baron::Action]
+    def current_action
+      @action ||= Action::WinnerChooseAuction.new(@players)
+    end
   end
 end
