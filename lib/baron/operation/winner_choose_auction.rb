@@ -10,10 +10,10 @@ module Baron
       # @return [Array<Baron::Player>]
       attr_reader :active_players
 
-      # The private company the player chose after winning this auction.
+      # The certificate the player chose after winning this auction.
       #
-      # @return [Baron::Company::PrivateCompany]
-      attr_reader :company
+      # @return [Baron::Certificate]
+      attr_reader :certificate
 
       # Initialize the auction
       #
@@ -41,11 +41,11 @@ module Baron
         @active_players.shift
       end
 
-      # The player selects a private company with their action
+      # The player selects a certificate with their action
       #
-      # @param [Baron::Operation::SelectPrivateCompany] action
+      # @param [Baron::Operation::SelectCertificate] action
       def select(action)
-        @company = action.company
+        @certificate = action.certificate
       end
 
       # Determine the current player.
@@ -85,10 +85,10 @@ module Baron
       # @return [Array<Baron::Action::Base>] An array of actions the current
       # player can perform.
       def available_actions
-        if @company
+        if certificate
           []
         elsif winner?
-          [Action::SelectPrivateCompany]
+          [Action::SelectCertificate]
         else
           [Action::Bid, Action::Pass]
         end

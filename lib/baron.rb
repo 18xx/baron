@@ -11,7 +11,7 @@ require 'baron/action/base'
 require 'baron/action/bid'
 require 'baron/action/illegal_bid_amount'
 require 'baron/action/pass'
-require 'baron/action/select_private_company'
+require 'baron/action/select_certificate'
 
 require 'baron/bank'
 require 'baron/company'

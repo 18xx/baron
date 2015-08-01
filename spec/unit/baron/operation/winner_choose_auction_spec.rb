@@ -194,9 +194,9 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
         auction.pass
       end
 
-      context 'when they have selected their company' do
+      context 'when they have selected their certificate' do
         let(:action) do
-          Baron::Action::SelectPrivateCompany.new(player3, double)
+          Baron::Action::SelectCertificate.new(player3, double)
         end
 
         before { auction.select(action) }
@@ -204,25 +204,32 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
         it { should be_empty }
       end
 
-      context 'when they have not selected their company' do
-        it 'allows them to select a private company' do
-          should match_array [Baron::Action::SelectPrivateCompany]
+      context 'when they have not selected their certificate' do
+        it 'allows them to select a certificate' do
+          should match_array [Baron::Action::SelectCertificate]
         end
       end
     end
   end
 
   describe '#select' do
-    let(:company) { double }
+    let(:certificate) { double }
     let(:select_action) do
-      Baron::Action::SelectPrivateCompany.new player3, company
+      Baron::Action::SelectCertificate.new player3, certificate
     end
 
     subject { auction.select select_action }
 
-    it 'assigns the company from the action' do
+    it 'assigns the certificate from the action' do
       subject
-      expect(auction.company).to eq company
+      expect(auction.certificate).to eq certificate
+    end
+  end
+
+  describe '#certificate' do
+    subject { auction.certificate }
+    context 'when unassigned' do
+      it { should be_nil }
     end
   end
 end
