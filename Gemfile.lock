@@ -1,12 +1,12 @@
 GIT
   remote: https://github.com/mbj/devtools.git
-  revision: 428658998b533b42876e50fdcb06ccdea9ef5f3e
+  revision: dc7bfaa21a96bd732d745d4a9aba71450c3892b5
   specs:
     devtools (0.0.2)
       flay (~> 2.6.1)
       flog (~> 4.3.2)
-      mutant (~> 0.8.0)
-      mutant-rspec (~> 0.8.0)
+      mutant (~> 0.8.1)
+      mutant-rspec (~> 0.8.1)
       rake (~> 10.4.2)
       reek (~> 3.0.4)
       rspec (~> 3.3.0)

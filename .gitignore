@@ -10,3 +10,6 @@
 
 # Test coverage
 /coverage
+
+# Yardstick measurements
+/measurements
