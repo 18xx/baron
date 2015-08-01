@@ -10,6 +10,11 @@ module Baron
       # @return [Array<Baron::Player>]
       attr_reader :active_players
 
+      # The private company the player chose after winning this auction.
+      #
+      # @return [Baron::Company::PrivateCompany]
+      attr_reader :company
+
       # Initialize the auction
       #
       # @param [Array<Baron::Player>] players All players participating in this
@@ -36,6 +41,13 @@ module Baron
         @active_players.shift
       end
 
+      # The player selects a private company with their action
+      #
+      # @param [Baron::Operation::SelectPrivateCompany] action
+      def select(action)
+        @company = action.company
+      end
+
       # Determine the current player.
       #
       # @return [Baron::Player] The player whose turn it is
@@ -46,7 +58,7 @@ module Baron
       # Is the auction over
       #
       # @return [Boolean] true if the auction is over, false otherwise
-      def done?
+      def winner?
         @active_players.count.equal? 1
       end
 
@@ -68,6 +80,20 @@ module Baron
         current_bid.player if current_bid
       end
 
+      # Return the actions that the user can perform right now
+      #
+      # @return [Array<Baron::Action::Base>] An array of actions the current
+      # player can perform.
+      def available_actions
+        if @company
+          []
+        elsif winner?
+          [Action::SelectPrivateCompany]
+        else
+          [Action::Bid, Action::Pass]
+        end
+      end
+
       private
 
       def validate_turn(player)
@@ -76,8 +102,10 @@ module Baron
       end
 
       def validate_bid(bid)
-        fail IllegalBidAmount, 'Amount must be greater than previous bids' if
-          current_bid && bid.amount <= current_bid.amount
+        fail(
+          Action::IllegalBidAmount,
+          'Amount must be greater than previous bids'
+        ) if current_bid && bid.amount <= current_bid.amount
       end
     end
   end

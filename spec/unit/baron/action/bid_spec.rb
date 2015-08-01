@@ -1,4 +1,4 @@
-RSpec.describe Baron::Operation::Bid do
+RSpec.describe Baron::Action::Bid do
   let(:player) { object_double Baron::Player }
   let(:amount) { 10 }
 
@@ -23,7 +23,7 @@ RSpec.describe Baron::Operation::Bid do
 
       it 'raises an error' do
         expect { bid }.to raise_error(
-          Baron::Operation::IllegalBidAmount,
+          Baron::Action::IllegalBidAmount,
           'Amount must be divisible by 5'
         )
       end
@@ -34,7 +34,7 @@ RSpec.describe Baron::Operation::Bid do
 
       it 'raises an error' do
         expect { bid }.to raise_error(
-          Baron::Operation::IllegalBidAmount,
+          Baron::Action::IllegalBidAmount,
           'Amount cannot be negative'
         )
       end

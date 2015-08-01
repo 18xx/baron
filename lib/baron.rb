@@ -7,10 +7,12 @@ end
 
 require 'baron/shareholder'
 
-require 'baron/operation/bid'
-require 'baron/operation/illegal_bid_amount'
-require 'baron/operation/winner_choose_auction'
-require 'baron/operation/wrong_turn'
+require 'baron/action/base'
+require 'baron/action/bid'
+require 'baron/action/illegal_bid_amount'
+require 'baron/action/pass'
+require 'baron/action/select_private_company'
+
 require 'baron/bank'
 require 'baron/company'
 require 'baron/company/private_company'
@@ -19,6 +21,10 @@ require 'baron/certificate'
 require 'baron/initial_offering'
 require 'baron/game'
 require 'baron/money'
+
+require 'baron/operation/winner_choose_auction'
+require 'baron/operation/wrong_turn'
+
 require 'baron/player'
 require 'baron/rules'
 require 'baron/transaction'

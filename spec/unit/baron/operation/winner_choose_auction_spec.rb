@@ -9,7 +9,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
   subject { auction }
 
-  let(:bid) { Baron::Operation::Bid.new(bid_player, bid_amount) }
+  let(:bid) { Baron::Action::Bid.new(bid_player, bid_amount) }
   let(:bid_player) { player1 }
   let(:bid_amount) { 10 }
 
@@ -44,7 +44,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when the bid is less than the current high bid' do
-      let(:new_bid) { Baron::Operation::Bid.new(player2, 5) }
+      let(:new_bid) { Baron::Action::Bid.new(player2, 5) }
 
       before do
         subject.bid bid
@@ -52,7 +52,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
       it 'raises an error' do
         expect { subject.bid new_bid }.to raise_error(
-          Baron::Operation::IllegalBidAmount,
+          Baron::Action::IllegalBidAmount,
           'Amount must be greater than previous bids'
         )
       end
@@ -60,7 +60,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when the bid is equal to the current high bid' do
       let(:bid_amount) { 5 }
-      let(:new_bid) { Baron::Operation::Bid.new(player2, 5) }
+      let(:new_bid) { Baron::Action::Bid.new(player2, 5) }
 
       before do
         subject.bid bid
@@ -68,7 +68,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
       it 'raises an error' do
         expect { subject.bid new_bid }.to raise_error(
-          Baron::Operation::IllegalBidAmount,
+          Baron::Action::IllegalBidAmount,
           'Amount must be greater than previous bids'
         )
       end
@@ -102,21 +102,21 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when some players have bid' do
       it 'is the next player in order' do
-        subject.bid Baron::Operation::Bid.new(player1, 5)
+        subject.bid Baron::Action::Bid.new(player1, 5)
         subject.pass
         expect(subject.current_player).to eq player3
       end
     end
   end
 
-  describe '#done?' do
-    subject { auction.done? }
+  describe '#winner?' do
+    subject { auction.winner? }
 
     context 'when more than 1 player are still active' do
       before do
-        auction.bid Baron::Operation::Bid.new(player1, 5)
-        auction.bid Baron::Operation::Bid.new(player2, 10)
-        auction.bid Baron::Operation::Bid.new(player3, 15)
+        auction.bid Baron::Action::Bid.new(player1, 5)
+        auction.bid Baron::Action::Bid.new(player2, 10)
+        auction.bid Baron::Action::Bid.new(player3, 15)
         auction.pass
       end
       it { should be false }
@@ -124,9 +124,9 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when only 1 player is still active' do
       before do
-        auction.bid Baron::Operation::Bid.new(player1, 5)
+        auction.bid Baron::Action::Bid.new(player1, 5)
         auction.pass
-        auction.bid Baron::Operation::Bid.new(player3, 10)
+        auction.bid Baron::Action::Bid.new(player3, 10)
         auction.pass
       end
       it { should be true }
@@ -141,10 +141,10 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when someone has bid' do
-      let(:high_bid) { Baron::Operation::Bid.new(player2, 5) }
+      let(:high_bid) { Baron::Action::Bid.new(player2, 5) }
 
       before do
-        auction.bid Baron::Operation::Bid.new(player1, 0)
+        auction.bid Baron::Action::Bid.new(player1, 0)
         auction.bid high_bid
       end
 
@@ -162,10 +162,10 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when someone has bid' do
-      let(:high_bid) { Baron::Operation::Bid.new(player2, 10) }
+      let(:high_bid) { Baron::Action::Bid.new(player2, 10) }
 
       before do
-        auction.bid Baron::Operation::Bid.new(player1, 5)
+        auction.bid Baron::Action::Bid.new(player1, 5)
         auction.bid high_bid
         auction.pass
       end
@@ -173,6 +173,56 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       it 'returns the person who made the highest bid so far' do
         should == player2
       end
+    end
+  end
+
+  describe '#available_actions' do
+    subject { auction.available_actions }
+
+    context 'when multiple players are still in the auction' do
+      it 'allows players to bid and pass' do
+        should match_array [
+          Baron::Action::Bid,
+          Baron::Action::Pass
+        ]
+      end
+    end
+
+    context 'when one player is remaining in the auction' do
+      before do
+        auction.pass
+        auction.pass
+      end
+
+      context 'when they have selected their company' do
+        let(:action) do
+          Baron::Action::SelectPrivateCompany.new(player3, double)
+        end
+
+        before { auction.select(action) }
+
+        it { should be_empty }
+      end
+
+      context 'when they have not selected their company' do
+        it 'allows them to select a private company' do
+          should match_array [Baron::Action::SelectPrivateCompany]
+        end
+      end
+    end
+  end
+
+  describe '#select' do
+    let(:company) { double }
+    let(:select_action) do
+      Baron::Action::SelectPrivateCompany.new player3, company
+    end
+
+    subject { auction.select select_action }
+
+    it 'assigns the company from the action' do
+      subject
+      expect(auction.company).to eq company
     end
   end
 end

@@ -1,11 +1,9 @@
 module Baron
-  module Operation
+  module Action
     # A bid is made on an auction, by a player in a specific amount.
-    class Bid
-      # The player who has made the bid
-      #
-      # @return [Baron::Player]
-      attr_reader :player
+    class Bid < Base
+      # Minimum bid increment
+      BID_INCREMENT = 5
 
       # The amount bid
       #
@@ -17,7 +15,7 @@ module Baron
       # @param [Baron::Player] player The player making the bid.
       # @param [Fixnum] amount The amount being bid
       def initialize(player, amount)
-        @player = player
+        super(player)
         @amount = amount
         validate_non_negative
         validate_divisibility
@@ -31,7 +29,7 @@ module Baron
 
       def validate_divisibility
         fail IllegalBidAmount, 'Amount must be divisible by 5' unless
-          (@amount % 5).zero?
+          (@amount % BID_INCREMENT).zero?
       end
     end
   end
