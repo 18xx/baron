@@ -7,10 +7,10 @@ end
 
 require 'baron/shareholder'
 
-require 'baron/action/bid'
-require 'baron/action/illegal_bid_amount'
-require 'baron/action/winner_choose_auction'
-require 'baron/action/wrong_turn'
+require 'baron/operation/bid'
+require 'baron/operation/illegal_bid_amount'
+require 'baron/operation/winner_choose_auction'
+require 'baron/operation/wrong_turn'
 require 'baron/bank'
 require 'baron/company'
 require 'baron/company/private_company'

@@ -15,14 +15,16 @@ RSpec.describe Baron::Game do
     end
   end
 
-  describe '#current_action' do
+  describe '#current_operation' do
     # TODO: Make this work for more stuff
     it 'returns a winner choose auction' do
-      expect(subject.current_action).to be_a Baron::Action::WinnerChooseAuction
+      expect(subject.current_operation).to be_a(
+        Baron::Operation::WinnerChooseAuction
+      )
     end
 
     it 'assigns the players to the round' do
-      expect(subject.current_action.active_players).to eq players
+      expect(subject.current_operation.active_players).to eq players
     end
   end
 end

@@ -26,11 +26,11 @@ module Baron
       @players = players
     end
 
-    # The current action in the game.
+    # The current operation in the game.
     #
-    # @return [Baron::Action]
-    def current_action
-      @action ||= Action::WinnerChooseAuction.new(@players)
+    # @return [Baron::Operation]
+    def current_operation
+      @current_operation ||= Operation::WinnerChooseAuction.new(@players)
     end
   end
 end

@@ -1,5 +1,5 @@
 module Baron
-  module Action
+  module Operation
     # Error raised when the player has not bid a legal amount
     class IllegalBidAmount < StandardError
     end

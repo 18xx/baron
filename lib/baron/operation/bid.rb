@@ -1,5 +1,5 @@
 module Baron
-  module Action
+  module Operation
     # A bid is made on an auction, by a player in a specific amount.
     class Bid
       # The player who has made the bid

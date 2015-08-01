@@ -1,5 +1,5 @@
 module Baron
-  module Action
+  module Operation
     # This is an auction where the players bid, and the winner then chooses
     # which thing to purchase after winning.
     class WinnerChooseAuction
@@ -22,7 +22,7 @@ module Baron
       # The player bids the amount in this auction. By bidding, the player
       # remains in the auction, and can win if all others players pass.
       #
-      # @param [Baron::Action:Bid] player_bid The bid being made.
+      # @param [Baron::Operation:Bid] player_bid The bid being made.
       def bid(player_bid)
         validate_turn(player_bid.player)
         validate_bid(player_bid)
@@ -53,7 +53,7 @@ module Baron
       # The most recent bid in the auction. If the auction is done, then this
       # is the winning bid.
       #
-      # @return [Baron::Action::Bid] Returns the most recent bid, nil if
+      # @return [Baron::Operation::Bid] Returns the most recent bid, nil if
       # there are no bids.
       def current_bid
         @bids.last

@@ -1,4 +1,4 @@
-RSpec.describe Baron::Action::WinnerChooseAuction do
+RSpec.describe Baron::Operation::WinnerChooseAuction do
   let(:player1) { double Baron::Player, to_s: 'Bart' }
   let(:player2) { double Baron::Player, to_s: 'Lisa' }
   let(:player3) { double Baron::Player, to_s: 'Maggie' }
@@ -9,7 +9,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
   subject { auction }
 
-  let(:bid) { Baron::Action::Bid.new(bid_player, bid_amount) }
+  let(:bid) { Baron::Operation::Bid.new(bid_player, bid_amount) }
   let(:bid_player) { player1 }
   let(:bid_amount) { 10 }
 
@@ -44,7 +44,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
     end
 
     context 'when the bid is less than the current high bid' do
-      let(:new_bid) { Baron::Action::Bid.new(player2, 5) }
+      let(:new_bid) { Baron::Operation::Bid.new(player2, 5) }
 
       before do
         subject.bid bid
@@ -52,7 +52,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
       it 'raises an error' do
         expect { subject.bid new_bid }.to raise_error(
-          Baron::Action::IllegalBidAmount,
+          Baron::Operation::IllegalBidAmount,
           'Amount must be greater than previous bids'
         )
       end
@@ -60,7 +60,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
     context 'when the bid is equal to the current high bid' do
       let(:bid_amount) { 5 }
-      let(:new_bid) { Baron::Action::Bid.new(player2, 5) }
+      let(:new_bid) { Baron::Operation::Bid.new(player2, 5) }
 
       before do
         subject.bid bid
@@ -68,7 +68,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
       it 'raises an error' do
         expect { subject.bid new_bid }.to raise_error(
-          Baron::Action::IllegalBidAmount,
+          Baron::Operation::IllegalBidAmount,
           'Amount must be greater than previous bids'
         )
       end
@@ -79,7 +79,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
       it 'raises a wrong turn error' do
         expect { subject.bid bid }.to raise_error(
-          Baron::Action::WrongTurn,
+          Baron::Operation::WrongTurn,
           "Lisa bid, but it is Bart's turn"
         )
       end
@@ -102,7 +102,7 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
     context 'when some players have bid' do
       it 'is the next player in order' do
-        subject.bid Baron::Action::Bid.new(player1, 5)
+        subject.bid Baron::Operation::Bid.new(player1, 5)
         subject.pass
         expect(subject.current_player).to eq player3
       end
@@ -114,9 +114,9 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
     context 'when more than 1 player are still active' do
       before do
-        auction.bid Baron::Action::Bid.new(player1, 5)
-        auction.bid Baron::Action::Bid.new(player2, 10)
-        auction.bid Baron::Action::Bid.new(player3, 15)
+        auction.bid Baron::Operation::Bid.new(player1, 5)
+        auction.bid Baron::Operation::Bid.new(player2, 10)
+        auction.bid Baron::Operation::Bid.new(player3, 15)
         auction.pass
       end
       it { should be false }
@@ -124,9 +124,9 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
 
     context 'when only 1 player is still active' do
       before do
-        auction.bid Baron::Action::Bid.new(player1, 5)
+        auction.bid Baron::Operation::Bid.new(player1, 5)
         auction.pass
-        auction.bid Baron::Action::Bid.new(player3, 10)
+        auction.bid Baron::Operation::Bid.new(player3, 10)
         auction.pass
       end
       it { should be true }
@@ -141,10 +141,10 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
     end
 
     context 'when someone has bid' do
-      let(:high_bid) { Baron::Action::Bid.new(player2, 5) }
+      let(:high_bid) { Baron::Operation::Bid.new(player2, 5) }
 
       before do
-        auction.bid Baron::Action::Bid.new(player1, 0)
+        auction.bid Baron::Operation::Bid.new(player1, 0)
         auction.bid high_bid
       end
 
@@ -162,10 +162,10 @@ RSpec.describe Baron::Action::WinnerChooseAuction do
     end
 
     context 'when someone has bid' do
-      let(:high_bid) { Baron::Action::Bid.new(player2, 10) }
+      let(:high_bid) { Baron::Operation::Bid.new(player2, 10) }
 
       before do
-        auction.bid Baron::Action::Bid.new(player1, 5)
+        auction.bid Baron::Operation::Bid.new(player1, 5)
         auction.bid high_bid
         auction.pass
       end

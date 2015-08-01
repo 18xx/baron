@@ -3,4 +3,4 @@ name: baron
 namespace: Baron
 ignore_subjects:
   # This does modulo, which triggers a false positive
-  - Baron::Action::Bid#validate_divisibility
+  - Baron::Operation::Bid#validate_divisibility
