@@ -13,26 +13,60 @@ module Baron
   class Transaction
     # One of the parties participating in the transacion, labelled as the buyer
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #   transaction.buyer #=> buyer
+    #
+    # @api public
     # @return [Object]
     attr_reader :buyer
 
     # The items the buyer is receiving
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #   transaction.buyer_items #=> buyer_items
+    #
+    # @api public
     # @return [Array<Object>]
     attr_reader :buyer_items
 
     # The second party participating in the transaction, labelled as the seller
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #   transaction.seller #=> seller
+    #
+    # @api public
     # @return [Object]
     attr_reader :seller
 
     # The items the seller is receiving
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #   transaction.seller_items #=> seller_items
+    #
+    # @api public
     # @return [Array<Object>]
     attr_reader :seller_items
 
     # Initialize the object
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #
+    # @api public
     # @param [Object] buyer
     # @param [Array<Object>] buyer_items
     # @param [Object] seller
@@ -46,6 +80,13 @@ module Baron
 
     # The items which the shareholder transferred away
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #   transaction.debits(buyer) #=> seller_items
+    #
+    # @api public
     # @param [Shareholder] shareholder
     # @return [Array<Object>] The objects transferred away
     def debits(shareholder)
@@ -54,6 +95,13 @@ module Baron
 
     # The items which the shareholder received
     #
+    # @example
+    #   transaction = Baron::Transaction.new(
+    #     buyer, buyer_items, seller, seller_items
+    #   )
+    #   transaction.credits(buyer) #=> buyuer_items
+    #
+    # @api public
     # @param [Shareholder] shareholder
     # @return [Array<Object>] The objects receieved
     def credits(shareholder)
@@ -62,11 +110,36 @@ module Baron
 
     private
 
+    # Return the items that changed hands for the type and shareholder
+    #
+    # The items the shareholder was debited if type is :debit, or credited
+    # if type is :credit
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @param [Symbol] type Either :debit or :credit
+    # @return [Array<Object>] The objects transferred
     def shareholder_effects(shareholder, type)
       validate(shareholder)
       effects.fetch(shareholder).fetch(type)
     end
 
+    # Return a hash explaining the effects of this transaction
+    #
+    # The hash format is as follows:
+    # {
+    #   buyer => {
+    #     :debit => {the items the buyer gave up},
+    #     :credit => {the items the buyer received}
+    #   },
+    #   seller => {
+    #     :debit => {the items the seller gave up},
+    #     :credit => {the items the seller received}
+    #   }
+    # }
+    #
+    # @api private
+    # @return [Hash] The effects for buyer and seller
     def effects
       {
         buyer => { debit: seller_items, credit: buyer_items },
@@ -74,6 +147,14 @@ module Baron
       }
     end
 
+    # Validate that the shareholder is a party to this transaction
+    #
+    # It will raise an InvalidPartyError if they are not a party to this
+    # transaction
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return nil
     def validate(shareholder)
       fail InvalidPartyError unless [buyer, seller].include?(shareholder)
     end

@@ -2,20 +2,48 @@ module Baron
   # Configuration file parsing. This loads the companies, stock market, map
   # tiles, trains and other basic information from the config file.
   class Rules
+    # @see class description
+    #
+    # @example
+    #   Baron::Rules.new('1860')
+    #   # loads the rules from `games/1860.yml`
+    #
+    # @api public
+    # @param [String] config_file_name
     def initialize(config_file_name)
       @config ||= YAML.load(File.open("games/#{config_file_name}.yml"))
     end
 
+    # The private companies in the rules
+    #
+    # @example
+    #   rules.private_companies
+    #   # returns all private comapnies in these rules
+    #
+    # @api public
+    # @return [Array<Baron::Company::PrivateCompany>]
     def private_companies
       init_companies('private', PrivateCompanyConfig)
     end
 
+    # The major companies in the rules
+    #
+    # @example
+    #   rules.major_companies
+    #   # returns all major comapnies in these rules
+    #
+    # @api public
+    # @return [Array<Baron::Company::MajorCompany>]
     def major_companies
       init_companies('major', MajorCompanyConfig)
     end
 
     private
 
+    # Create the companies that are defined for this game in the config
+    #
+    # @api private
+    # @return [Array<Baron::Company>]
     def init_companies(type, klass)
       @config.fetch('companies').fetch(type).map do |config|
         klass.new(config).company
@@ -26,10 +54,15 @@ module Baron
     #
     # @api private
     class YamlConfig
+      # Initialize a yaml parser
       def initialize(config)
         @config = config
       end
 
+      # Returns a money representation of the yaml key
+      #
+      # @api private
+      # @return [Baron::Money]
       def money(key)
         Money.new @config.fetch(key)
       end
@@ -41,7 +74,8 @@ module Baron
     class PrivateCompanyConfig < YamlConfig
       # Returns the private company object
       #
-      # return [Baron::PrivateCompany]
+      # @api private
+      # @return [Baron::Comany::PrivateCompany]
       def company
         Company::PrivateCompany.new(
           @config.fetch('name'),
@@ -57,7 +91,8 @@ module Baron
     class MajorCompanyConfig < YamlConfig
       # Returns the major company object
       #
-      # return [Baron::MajorCompany]
+      # @api private
+      # @return [Baron::Company::MajorCompany]
       def company
         Company::MajorCompany.new(
           @config.fetch('abbreviation'),

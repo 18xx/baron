@@ -10,11 +10,19 @@ module Baron
 
     # The amount of money
     #
+    # @example
+    #   money.amount
+    #
+    # @api public
     # @return [Fixnum]
     attr_reader :amount
 
     # Initialize the money object
     #
+    # @example
+    #   Baron::Money.new(10)
+    #
+    # @api public
     # @param [Fixnum] amount
     def initialize(amount = 0)
       @amount = amount
@@ -22,6 +30,10 @@ module Baron
 
     # Adds two moneys together and returns a new money with the summed value
     #
+    # @example
+    #   Baron::Money.new(10) + Baron::Money.new(2) #=> Baron::Money.new(12)
+    #
+    # @api public
     # @param [Baron::Money] other
     # @return [Baron::Money]
     def +(other)
@@ -30,6 +42,10 @@ module Baron
 
     # Subtracts one money from another returns a new money with the summed value
     #
+    # @example
+    #   Baron::Money.new(10) - Baron::Money.new(2) #=> Baron::Money.new(8)
+    #
+    # @api public
     # @param [Baron::Money] other
     # @return [Baron::Money]
     def -(other)
@@ -38,6 +54,10 @@ module Baron
 
     # Compares the money amounts
     #
+    # @example
+    #   Baron::Money.new(10) > Baron::Money.new(5) #=> true
+    #
+    # @api public
     # @param [Baron::Money] other
     # @return [Fixnum] Returns 1 if this object is greater, -1 if the other
     # object in is greater, 0 if they are equal, and nil if they are not

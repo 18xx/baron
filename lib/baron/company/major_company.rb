@@ -7,19 +7,29 @@ module Baron
       include Shareholder
 
       # The full name of the company
-      # Example: London and North Western Railway
       #
+      # @example
+      #   company.abbreviation #=> 'London and North Western Railway'
+      #
+      # @api public
       # @return [String]
       attr_reader :name
 
-      # The short abbreviation for the company.
-      # Example: LNWR
+      # The short abbreviation for the company
       #
+      # @example
+      #   company.abbreviation #=> 'LNWR'
+      #
+      # @api public
       # @return [String]
       attr_reader :abbreviation
 
       # Initialize the Company
       #
+      # @example
+      #   Baron::Company::MajorCompany.new('CPR', 'Canadian Pacific Railway')
+      #
+      # @api public
       # @param [String] abbreviation
       # @param [String] name
       def initialize(abbreviation, name)
@@ -29,6 +39,10 @@ module Baron
 
       # Convert the company to a string containing their abbreviation
       #
+      # @example
+      #  company.to_s #=> 'CPR'
+      #
+      # @api public
       # @return [String]
       def to_s
         abbreviation
