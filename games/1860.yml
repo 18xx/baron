@@ -1,5 +1,13 @@
 title: '1860: Railways on the Isle of Wight'
 designer: 'Mike Hutton'
+starting_money:
+  2: 1000
+  3: 670
+  4: 500
+share_configuration:
+  major:
+    '0.2': 1
+    '0.1': 8
 stock_market:
   type: 'linear'
   values:

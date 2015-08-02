@@ -38,6 +38,22 @@ module Baron
       init_companies('major', MajorCompanyConfig)
     end
 
+    # The configuration of the shares, as defined in the yaml file
+    #
+    # @example
+    #   rules.share_configuration
+    #   #=> [0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+    #
+    # @api public
+    # @return [Array<BigDecimal>] An array of big decimals defining the share
+    # configuration. The big decimals should sum to 1.
+    def share_configuration
+      @config.fetch('share_configuration').fetch('major')
+        .flat_map do |portion, number|
+        number.times.map { BigDecimal.new portion }
+      end
+    end
+
     private
 
     # Create the companies that are defined for this game in the config

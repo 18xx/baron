@@ -28,5 +28,67 @@ RSpec.describe Baron::Shareholder do
     it 'is the sum of all credits minus debits' do
       should == 35
     end
+
+    context 'when there are no debits' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, a_credits, nil, []),
+          Baron::Transaction.new(a, a_credits_2, nil, [])
+        ]
+      end
+
+      it 'is the sum of all credits' do
+        should == 110
+      end
+    end
+  end
+
+  describe '#certificates' do
+    let(:certificate) { Baron::Certificate.new double, double }
+    subject { a.certificates }
+    before { transactions.each { |t| a.add_transaction t } }
+
+    context 'when the shareholder has nothing' do
+      it { should be_empty }
+    end
+
+    context 'when the shareholder has acquired something' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, [certificate], nil, [])
+        ]
+      end
+
+      it 'includes those certificates' do
+        expect(subject).to include certificate
+      end
+    end
+
+    context 'when the shareholder has sold certificates' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, [certificate], nil, []),
+          Baron::Transaction.new(a, [], nil, [certificate])
+        ]
+      end
+
+      it 'does not include certificates they have sold' do
+        should be_empty
+      end
+    end
+
+    context 'when the shareholder, buys, sells, and buys the same cert' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, [certificate], nil, []),
+          Baron::Transaction.new(a, [], nil, [certificate]),
+          Baron::Transaction.new(a, [certificate], nil, [])
+        ]
+      end
+
+      it 'includes that certificate' do
+        expect(subject).to include certificate
+      end
+    end
   end
 end

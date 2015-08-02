@@ -1,3 +1,7 @@
 ---
+  ControlParameter:
+    enabled: false
+  NestedIterators:
+    max_allowed_nesting: 2
   UncommunicativeModuleName:
     enabled: false

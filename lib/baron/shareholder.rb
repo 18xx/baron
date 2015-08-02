@@ -16,6 +16,25 @@ module Baron
       money_total(:credits) - money_total(:debits)
     end
 
+    # The certificates this shareholder currently has
+    #
+    # @example
+    #   shareholder.certificates
+    #
+    # @api public
+    # @return [Array<Baron::Certificate>] All certificates this shareholder has
+    def certificates
+      transactions.each_with_object([]) do |transaction, certs|
+        transaction.incoming_certificates(self).each do |certificate|
+          certs << certificate
+        end
+
+        transaction.outgoing_certificates(self).each do |certificate|
+          certs.delete certificate
+        end
+      end
+    end
+
     # Adds a transaction to this shareholder
     #
     # @example
@@ -41,7 +60,7 @@ module Baron
     def money_total(type)
       transaction_details(type).select do |value|
         value.instance_of? Money
-      end.inject(:+)
+      end.inject(:+) || Money.new
     end
 
     # Get the credits or debits from the transaction

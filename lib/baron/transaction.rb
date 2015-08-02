@@ -108,7 +108,55 @@ module Baron
       shareholder_effects(shareholder, :credit)
     end
 
+    # The certificates the shareholder receieves in this transaction
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [Array<Baron::Certificate>]
+    def incoming_certificates(shareholder)
+      incoming_items(shareholder).select do |item|
+        item.instance_of? Certificate
+      end
+    end
+
+    # The certificates the shareholder loses in this transaction
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [Array<Baron::Certificate>]
+    def outgoing_certificates(shareholder)
+      outgoing_items(shareholder).select do |item|
+        item.instance_of? Certificate
+      end
+    end
+
     private
+
+    # The incoming items for the shareholder specified
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [Array<Object>]
+    def incoming_items(shareholder)
+      if shareholder.equal?(buyer)
+        buyer_items
+      else
+        seller_items
+      end
+    end
+
+    # The outgoing items for the shareholder specified
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [Array<Object>]
+    def outgoing_items(shareholder)
+      if shareholder.equal?(buyer)
+        seller_items
+      else
+        buyer_items
+      end
+    end
 
     # Return the items that changed hands for the type and shareholder
     #

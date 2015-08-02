@@ -2,7 +2,7 @@ RSpec.describe Baron::Rules do
   let(:config_file) { '1860' }
   let(:config) { described_class.new config_file }
 
-  describe '.private_companies' do
+  describe '#private_companies' do
     subject { config.private_companies }
 
     it 'loads all the private companies' do
@@ -46,7 +46,7 @@ RSpec.describe Baron::Rules do
     end
   end
 
-  describe '.major_companies' do
+  describe '#major_companies' do
     subject { config.major_companies }
 
     it 'loads all the major companies' do
@@ -82,6 +82,16 @@ RSpec.describe Baron::Rules do
         'NGStL',
         'S&C',
         'VYSC'
+      ])
+    end
+  end
+
+  describe '#share_configuration' do
+    subject { config.share_configuration }
+
+    it 'returns the configuration for this company' do
+      expect(subject).to match_array([
+        0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1
       ])
     end
   end

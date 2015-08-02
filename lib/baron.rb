@@ -26,5 +26,8 @@ require 'baron/operation/winner_choose_auction'
 require 'baron/operation/wrong_turn'
 
 require 'baron/player'
+
+require 'baron/round/initial_auction'
+
 require 'baron/rules'
 require 'baron/transaction'

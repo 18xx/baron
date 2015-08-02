@@ -5,14 +5,30 @@ module Baron
   # The basic information for the game is defined in yml files in the games
   # directory.
   class Game
-    # The rules of this game
+    # The size of the bank.
+    #
+    # In many games the bank size involves an end game trigger, however in Baron
+    # we calculate that through other means. We just need a pool of money large
+    # enough to pay out everything.
+    BANK_SIZE = 100_000_000
+
+    # The bank for this game
     #
     # @example
-    #   game.rules
+    #   game.bank
     #
     # @api public
-    # @return [Baron::Rules]
-    attr_reader :rules
+    # @return [Baron::Bank]
+    attr_reader :bank
+
+    # The initial offering
+    #
+    # @example
+    #   game.initial_offering
+    #
+    # @api public
+    # @return [Baron::InitialOffering]
+    attr_reader :initial_offering
 
     # The players involved in this game
     #
@@ -22,6 +38,15 @@ module Baron
     # @api public
     # @return [Array<Baron::Player>]
     attr_reader :players
+
+    # The rules of this game
+    #
+    # @example
+    #   game.rules
+    #
+    # @api public
+    # @return [Baron::Rules]
+    attr_reader :rules
 
     # Construct the game
     #
@@ -36,6 +61,8 @@ module Baron
     def initialize(rules, players)
       @rules = rules
       @players = players
+      init_bank
+      init_initial_offering
     end
 
     # The current operation in the game
@@ -48,6 +75,44 @@ module Baron
     def current_operation
       # FIXME: This is not fully implemented
       @current_operation ||= Operation::WinnerChooseAuction.new(@players)
+    end
+
+    private
+
+    # Initialize the bank and grant it the starting money
+    #
+    # @api private
+    # @return [Baron::Bank]
+    def init_bank
+      @bank = Bank.new
+      @bank.add_transaction(
+        Transaction.new(@bank, Money.new(BANK_SIZE), nil, nil)
+      )
+    end
+
+    # All certificates in the game
+    #
+    # @api private
+    # @return [Array<Baron::Certificate>]
+    def certificates
+      rules.major_companies.flat_map do |company|
+        rules.share_configuration.map do |portion|
+          Certificate.new company, portion
+        end
+      end
+    end
+
+    # Create the initial offering and place the certificates there
+    #
+    # @api private
+    # @return [void]
+    def init_initial_offering
+      @initial_offering = InitialOffering.new
+      certificates.each do |certificate|
+        @initial_offering.add_transaction(
+          Transaction.new @initial_offering, [certificate], nil, []
+        )
+      end
     end
   end
 end
