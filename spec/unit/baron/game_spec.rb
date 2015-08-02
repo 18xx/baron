@@ -10,14 +10,15 @@ RSpec.describe Baron::Game do
   end
 
   describe '#initial_offering' do
-    it 'starts with 72 certificates' do
-      expect(subject.initial_offering.certificates.count).to eq 72
+    it 'starts with 77 certificates' do
+      # 72 major company certs & 5 privates
+      expect(subject.initial_offering.certificates.count).to eq 77
     end
 
-    it 'has certificates for the 8 companies' do
+    it 'has certificates for the 13 companies' do
       expect(
         subject.initial_offering.certificates.map(&:company).uniq.count
-      ).to eq 8
+      ).to eq 13
     end
 
     it 'has certificates for the 8 directors certificates' do
@@ -28,10 +29,22 @@ RSpec.describe Baron::Game do
       ).to eq 8
     end
 
-    it 'has certificates for the 8 companies' do
+    it 'has certificates for the 5 private companies' do
       expect(
-        subject.initial_offering.certificates.map(&:company).uniq.count
-      ).to eq 8
+        subject.initial_offering.certificates.count do |certificate|
+          certificate.company.instance_of? Baron::Company::PrivateCompany
+        end
+      ).to eq 5
+    end
+
+    it 'has certificates for the 5 private companies' do
+      private_certificates = subject.initial_offering.certificates
+      private_certificates.select! do |certificate|
+        certificate.company.instance_of? Baron::Company::PrivateCompany
+      end
+      expect(
+        private_certificates.all? { |certificate| certificate.portion == 1 }
+      ).to be true
     end
   end
 

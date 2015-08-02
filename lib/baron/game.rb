@@ -95,10 +95,28 @@ module Baron
     # @api private
     # @return [Array<Baron::Certificate>]
     def certificates
+      major_certificates + private_certificates
+    end
+
+    # Major company certificates in the game
+    #
+    # @api private
+    # @return [Array<Baron::Certificate>]
+    def major_certificates
       rules.major_companies.flat_map do |company|
         rules.share_configuration.map do |portion|
           Certificate.new company, portion
         end
+      end
+    end
+
+    # Private company certificates in the game
+    #
+    # @api private
+    # @return [Array<Baron::Certificate>]
+    def private_certificates
+      rules.private_companies.map do |company|
+        Certificate.new company, BigDecimal.new('1')
       end
     end
 
