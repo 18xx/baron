@@ -69,22 +69,27 @@ stock_market:
 companies:
   private:
     -
+      abbreviation: 'BHC'
       name: 'Brading Harbour Company'
       face_value: 30
       revenue: 5
     -
+      abbreviation: 'YHC'
       name: 'Yarmouth Harbour Company'
       face_value: 50
       revenue: 10
     -
+      abbreviation: 'CM&H'
       name: 'Cowes Marina and Harbour'
       face_value: 90
       revenue: 20
     -
+      abbreviation: 'RP&SC'
       name: 'Ryde Pier & Shipping Company'
       face_value: 130
       revenue: 30
     -
+      abbreviation: 'FFC'
       name: 'Fishbourne Ferry Company'
       face_value: 200
       revenue: 25
@@ -129,3 +134,10 @@ companies:
       abbreviation: 'VYSC'
       tokens: 2
       base: 'E9'
+auction:
+  - 'BHC'
+  - 'YHC'
+  - 'CM&H'
+  - 'RP&SC'
+  - 'C&N'
+  - 'IOW'

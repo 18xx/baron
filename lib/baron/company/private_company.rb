@@ -1,18 +1,9 @@
 module Baron
-  module Company
+  class Company
     # A private company represents a single certificate company which can be
     # owned by a single player or company. It has a face value, and provides a
     # fixed income to the player every operating round.
-    class PrivateCompany
-      # The full name of the private company
-      #
-      # @example
-      #   private_company.name #=> 'Camden & Amboy'
-      #
-      # @api public
-      # @return [String]
-      attr_reader :name
-
+    class PrivateCompany < self
       # The face value of the company
       #
       # @example
@@ -38,29 +29,20 @@ module Baron
       # @example
       #   Baron::Company::PrivateCompany.new(
       #     'company',
+      #     'P1',
       #     face_value: 100,
       #     revenue: 10
       #   )
       #
       # @api public
-      # @param [Fixnum] name
+      # @param [String] name
+      # @param [String] name
       # @param [Fixnum] face_value
       # @param [Fixnum] revenue
-      def initialize(name, face_value:, revenue:)
-        @name = name
+      def initialize(abbreviation, name, face_value:, revenue:)
+        super(abbreviation, name)
         @face_value = face_value
         @revenue = revenue
-      end
-
-      # Convert the company to a string containing their full name
-      #
-      # @example
-      #   private_company.to_s
-      #
-      # @api public
-      # @return [String] The name of the company
-      def to_s
-        name
       end
     end
   end

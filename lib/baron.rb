@@ -14,9 +14,11 @@ require 'baron/action/pass'
 require 'baron/action/select_certificate'
 
 require 'baron/bank'
+
 require 'baron/company'
 require 'baron/company/private_company'
 require 'baron/company/major_company'
+
 require 'baron/certificate'
 require 'baron/initial_offering'
 require 'baron/game'

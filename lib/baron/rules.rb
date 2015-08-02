@@ -94,6 +94,7 @@ module Baron
       # @return [Baron::Comany::PrivateCompany]
       def company
         Company::PrivateCompany.new(
+          @config.fetch('abbreviation'),
           @config.fetch('name'),
           face_value: money('face_value'),
           revenue: money('revenue')

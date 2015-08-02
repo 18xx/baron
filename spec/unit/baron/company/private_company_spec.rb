@@ -1,6 +1,12 @@
 RSpec.describe Baron::Company::PrivateCompany do
   subject do
-    described_class.new('Camden & Amboy', face_value: 160, revenue: 25)
+    described_class.new('C&A', 'Camden & Amboy', face_value: 160, revenue: 25)
+  end
+
+  describe '#abbreviation' do
+    it 'returns the company abbreviation' do
+      expect(subject.abbreviation).to eq 'C&A'
+    end
   end
 
   describe '#name' do
@@ -23,7 +29,7 @@ RSpec.describe Baron::Company::PrivateCompany do
 
   describe '#to_s' do
     it 'returns the company name' do
-      expect(subject.to_s).to eq 'Camden & Amboy'
+      expect(subject.to_s).to eq 'C&A'
     end
   end
 end

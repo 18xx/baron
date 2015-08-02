@@ -15,6 +15,12 @@ RSpec.describe Baron::Rules do
       end).to be true
     end
 
+    it 'loads their abbreviations' do
+      expect(subject.map(&:abbreviation)).to match_array(
+        %w(BHC YHC CM&H RP&SC FFC)
+      )
+    end
+
     it 'loads their names' do
       expect(subject.map(&:name)).to match_array([
         'Brading Harbour Company',
