@@ -11,17 +11,17 @@ module Baron
       #   bid.amount
       #
       # @api public
-      # @return [Fixnum]
+      # @return [Baron::Money]
       attr_reader :amount
 
       # Create the bid
       #
       # @example
-      #   Baron::Action::Bid.new(player, 20)
+      #   Baron::Action::Bid.new(player, Baron::Money.new(20))
       #
       # @api public
       # @param [Baron::Player] player The player making the bid.
-      # @param [Fixnum] amount The amount being bid
+      # @param [Baron::Money] amount The amount being bid
       def initialize(player, amount)
         super(player)
         @amount = amount
@@ -39,7 +39,7 @@ module Baron
       # @api private
       # @return nil
       def validate_non_negative
-        fail IllegalBidAmount, 'Amount cannot be negative' if @amount < 0
+        fail IllegalBidAmount, 'Amount cannot be negative' if @amount.to_int < 0
       end
 
       # Validate that the bid is divisible by the minimum increment
@@ -53,7 +53,7 @@ module Baron
         fail(
           IllegalBidAmount,
           "Amount must be divisible by #{BID_INCREMENT}"
-        ) unless (@amount % BID_INCREMENT).zero?
+        ) unless (@amount.to_int % BID_INCREMENT).zero?
       end
     end
   end

@@ -11,7 +11,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
   let(:bid) { Baron::Action::Bid.new(bid_player, bid_amount) }
   let(:bid_player) { player1 }
-  let(:bid_amount) { 10 }
+  let(:bid_amount) { Baron::Money.new 10 }
 
   describe '#bid' do
     context 'when the bid is legal' do
@@ -44,7 +44,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when the bid is less than the current high bid' do
-      let(:new_bid) { Baron::Action::Bid.new(player2, 5) }
+      let(:new_bid) { Baron::Action::Bid.new(player2, Baron::Money.new(5)) }
 
       before do
         subject.bid bid
@@ -59,8 +59,8 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when the bid is equal to the current high bid' do
-      let(:bid_amount) { 5 }
-      let(:new_bid) { Baron::Action::Bid.new(player2, 5) }
+      let(:bid_amount) { Baron::Money.new 5 }
+      let(:new_bid) { Baron::Action::Bid.new(player2, Baron::Money.new(5)) }
 
       before do
         subject.bid bid
@@ -114,9 +114,9 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when more than 1 player are still active' do
       before do
-        auction.bid Baron::Action::Bid.new(player1, 5)
-        auction.bid Baron::Action::Bid.new(player2, 10)
-        auction.bid Baron::Action::Bid.new(player3, 15)
+        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
+        auction.bid Baron::Action::Bid.new(player2, Baron::Money.new(10))
+        auction.bid Baron::Action::Bid.new(player3, Baron::Money.new(15))
         auction.pass
       end
       it { should be false }
@@ -124,9 +124,9 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when only 1 player is still active' do
       before do
-        auction.bid Baron::Action::Bid.new(player1, 5)
+        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
         auction.pass
-        auction.bid Baron::Action::Bid.new(player3, 10)
+        auction.bid Baron::Action::Bid.new(player3, Baron::Money.new(10))
         auction.pass
       end
       it { should be true }
@@ -141,10 +141,10 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when someone has bid' do
-      let(:high_bid) { Baron::Action::Bid.new(player2, 5) }
+      let(:high_bid) { Baron::Action::Bid.new(player2, Baron::Money.new(5)) }
 
       before do
-        auction.bid Baron::Action::Bid.new(player1, 0)
+        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new)
         auction.bid high_bid
       end
 
@@ -162,10 +162,10 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when someone has bid' do
-      let(:high_bid) { Baron::Action::Bid.new(player2, 10) }
+      let(:high_bid) { Baron::Action::Bid.new(player2, Baron::Money.new(10)) }
 
       before do
-        auction.bid Baron::Action::Bid.new(player1, 5)
+        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
         auction.bid high_bid
         auction.pass
       end

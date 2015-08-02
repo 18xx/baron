@@ -1,6 +1,6 @@
 RSpec.describe Baron::Action::Bid do
   let(:player) { object_double Baron::Player }
-  let(:amount) { 10 }
+  let(:amount) { Baron::Money.new 10 }
 
   let(:bid) { described_class.new player, amount }
 

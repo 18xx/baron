@@ -66,6 +66,17 @@ module Baron
       amount <=> other.amount
     end
 
+    # Returns an integer representation of the money
+    #
+    # @example
+    #   Baron::Money.new(10).to_str #=> 10
+    #
+    # @api public
+    # @return [Fixnum]
+    def to_int
+      amount
+    end
+
     # Convert the money to a a string
     #
     # @example
