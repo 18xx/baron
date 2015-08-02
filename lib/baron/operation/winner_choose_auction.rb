@@ -130,8 +130,8 @@ module Baron
       #   # returns [Baron::Action::Bid, Baron::Action::Pass]
       #
       # @api public
-      # @return [Array<Baron::Action::Base>] An array of actions the current
-      # player can perform.
+      # @return [Array<Baron::Action>] An array of actions the current player
+      # can perform.
       def available_actions
         if certificate
           []

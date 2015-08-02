@@ -1,8 +1,8 @@
 module Baron
-  module Action
+  class Action
     # This action allows the player to select a certificate that they are
     # permitted to purchase.
-    class SelectCertificate < Base
+    class SelectCertificate < self
       # The certifiate the player has selected
       #
       # @example

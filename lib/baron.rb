@@ -7,7 +7,7 @@ end
 
 require 'baron/shareholder'
 
-require 'baron/action/base'
+require 'baron/action'
 require 'baron/action/bid'
 require 'baron/action/illegal_bid_amount'
 require 'baron/action/pass'

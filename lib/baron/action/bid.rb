@@ -1,7 +1,7 @@
 module Baron
-  module Action
+  class Action
     # A bid is made on an auction, by a player in a specific amount.
-    class Bid < Base
+    class Bid < self
       # Minimum bid increment
       BID_INCREMENT = 5
 
