@@ -74,7 +74,7 @@ module Baron
     # @return [Baron::Operation]
     def current_operation
       # FIXME: This is not fully implemented
-      @current_operation ||= Operation::WinnerChooseAuction.new(@players)
+      @current_operation ||= Operation::WinnerChooseAuction.new(@players.dup)
     end
 
     private
@@ -85,9 +85,7 @@ module Baron
     # @return [Baron::Bank]
     def init_bank
       @bank = Bank.new
-      @bank.add_transaction(
-        Transaction.new(@bank, Money.new(BANK_SIZE), nil, nil)
-      )
+      Transaction.new(@bank, Money.new(BANK_SIZE), nil, nil)
     end
 
     # All certificates in the game
@@ -127,9 +125,7 @@ module Baron
     def init_initial_offering
       @initial_offering = InitialOffering.new
       certificates.each do |certificate|
-        @initial_offering.add_transaction(
-          Transaction.new @initial_offering, [certificate], nil, []
-        )
+        Transaction.new @initial_offering, [certificate], nil, []
       end
     end
   end

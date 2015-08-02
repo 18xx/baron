@@ -17,6 +17,12 @@ RSpec.describe Baron::Money do
     end
   end
 
+  describe '#to_s' do
+    it 'returns a string of the amount with a currency symbol' do
+      expect(subject.to_s).to eq '$15'
+    end
+  end
+
   describe 'adding' do
     let(:other_money) { Baron::Money.new 10 }
 

@@ -76,6 +76,8 @@ module Baron
       @buyer_items = buyer_items
       @seller = seller
       @seller_items = seller_items
+      @buyer.add_transaction self
+      @seller.add_transaction self if @seller
     end
 
     # The items which the shareholder transferred away

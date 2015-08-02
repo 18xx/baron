@@ -1,6 +1,6 @@
 RSpec.describe Baron::Transaction do
-  let(:buyer) { double Baron::Player }
-  let(:seller) { double Baron::Player }
+  let(:buyer) { instance_double Baron::Player, add_transaction: nil }
+  let(:seller) { instance_double Baron::Player, add_transaction: nil }
   let(:buyer_items) do
     [
       buyer_certificate,
@@ -22,6 +22,29 @@ RSpec.describe Baron::Transaction do
   end
 
   subject { transaction }
+
+  describe 'initialization' do
+    let(:buyer) { spy('buyer') }
+    let(:seller) { spy('seller') }
+
+    context 'when seller is nil' do
+      let(:seller) { nil }
+
+      it 'does not assign the transaction' do
+        subject
+      end
+    end
+
+    it 'assigns the transaction to the buyer' do
+      subject
+      expect(buyer).to have_received(:add_transaction).with(subject)
+    end
+
+    it 'assigns the transaction to the seller' do
+      subject
+      expect(seller).to have_received(:add_transaction).with(subject)
+    end
+  end
 
   describe '#buyer' do
     it 'returns the buyer' do

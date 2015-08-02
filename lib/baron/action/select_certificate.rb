@@ -20,12 +20,20 @@ module Baron
       #     certificate
       #   )
       # @api public
+      # @param [Baron::Game] game
       # @param [Baron::Player] player The player acting
       # @param [Baron::Certificate] company The certifiate the player has
       # chosen to purchase.
-      def initialize(player, certificate)
+      def initialize(game, player, certificate)
         super(player)
+        @game = game
         @certificate = certificate
+        Transaction.new(
+          player,
+          certificate,
+          @game.initial_offering,
+          Money.new(certificate.company.face_value)
+        )
       end
     end
   end

@@ -65,5 +65,16 @@ module Baron
     def <=>(other)
       amount <=> other.amount
     end
+
+    # Convert the money to a a string
+    #
+    # @example
+    #   Baron::Money.new(10).to_str #=> '$10'
+    #
+    # @api public
+    # @return [String] The string representation of this money
+    def to_s
+      "$#{amount}"
+    end
   end
 end

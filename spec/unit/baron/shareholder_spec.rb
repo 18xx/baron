@@ -11,7 +11,7 @@ RSpec.describe Baron::Shareholder do
   let(:a_debits_2) { [Baron::Money.new(25)] }
   let(:b) { MyShareholder.new }
 
-  let(:transactions) do
+  let!(:transactions) do
     [
       Baron::Transaction.new(a, a_credits, b, a_debits),
       Baron::Transaction.new(a, a_credits_2, b, a_debits_2)
@@ -19,10 +19,6 @@ RSpec.describe Baron::Shareholder do
   end
 
   describe '#balance' do
-    before do
-      transactions.each { |t| a.add_transaction t }
-    end
-
     subject { a.balance.amount }
 
     it 'is the sum of all credits minus debits' do
@@ -30,7 +26,7 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when there are no debits' do
-      let(:transactions) do
+      let!(:transactions) do
         [
           Baron::Transaction.new(a, a_credits, nil, []),
           Baron::Transaction.new(a, a_credits_2, nil, [])
@@ -46,14 +42,13 @@ RSpec.describe Baron::Shareholder do
   describe '#certificates' do
     let(:certificate) { Baron::Certificate.new double, double }
     subject { a.certificates }
-    before { transactions.each { |t| a.add_transaction t } }
 
     context 'when the shareholder has nothing' do
       it { should be_empty }
     end
 
     context 'when the shareholder has acquired something' do
-      let(:transactions) do
+      let!(:transactions) do
         [
           Baron::Transaction.new(a, [certificate], nil, [])
         ]
@@ -65,7 +60,7 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when the shareholder has sold certificates' do
-      let(:transactions) do
+      let!(:transactions) do
         [
           Baron::Transaction.new(a, [certificate], nil, []),
           Baron::Transaction.new(a, [], nil, [certificate])
@@ -78,7 +73,7 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when the shareholder, buys, sells, and buys the same cert' do
-      let(:transactions) do
+      let!(:transactions) do
         [
           Baron::Transaction.new(a, [certificate], nil, []),
           Baron::Transaction.new(a, [], nil, [certificate]),

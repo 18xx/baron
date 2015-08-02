@@ -1,7 +1,7 @@
 RSpec.describe Baron::Game do
   subject { described_class.new(rules, players) }
   let(:rules) { Baron::Rules.new('1860') }
-  let(:players) { double }
+  let(:players) { [double] }
 
   describe '#bank' do
     it 'starts with 100_000' do
@@ -70,6 +70,10 @@ RSpec.describe Baron::Game do
 
     it 'assigns the players to the round' do
       expect(subject.current_operation.active_players).to eq players
+    end
+
+    it 'copies the assignment' do
+      expect(subject.current_operation.active_players).to_not equal players
     end
   end
 end

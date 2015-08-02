@@ -1,7 +1,7 @@
 RSpec.describe Baron::Operation::WinnerChooseAuction do
-  let(:player1) { double Baron::Player, to_s: 'Bart' }
-  let(:player2) { double Baron::Player, to_s: 'Lisa' }
-  let(:player3) { double Baron::Player, to_s: 'Maggie' }
+  let(:player1) { double Baron::Player, to_s: 'Bart', add_transaction: nil }
+  let(:player2) { double Baron::Player, to_s: 'Lisa', add_transaction: nil }
+  let(:player3) { double Baron::Player, to_s: 'Maggie', add_transaction: nil }
 
   let(:players) { [player1, player2, player3] }
 
@@ -195,8 +195,20 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       end
 
       context 'when they have selected their certificate' do
+        let(:certificate) do
+          instance_double Baron::Certificate, company: company
+        end
+
+        let(:company) do
+          instance_double Baron::Company::PrivateCompany, face_value: 100
+        end
+
+        let(:game) do
+          instance_double Baron::Game, initial_offering: nil
+        end
+
         let(:action) do
-          Baron::Action::SelectCertificate.new(player3, double)
+          Baron::Action::SelectCertificate.new game, player3, certificate
         end
 
         before { auction.select(action) }
@@ -213,9 +225,20 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
   end
 
   describe '#select' do
-    let(:certificate) { double }
     let(:select_action) do
-      Baron::Action::SelectCertificate.new player3, certificate
+      Baron::Action::SelectCertificate.new game, player3, certificate
+    end
+
+    let(:certificate) do
+      instance_double Baron::Certificate, company: company
+    end
+
+    let(:company) do
+      instance_double Baron::Company::PrivateCompany, face_value: 100
+    end
+
+    let(:game) do
+      instance_double Baron::Game, initial_offering: nil
     end
 
     subject { auction.select select_action }

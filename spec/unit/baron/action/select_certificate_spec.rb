@@ -1,8 +1,35 @@
 RSpec.describe Baron::Action::SelectCertificate do
-  let(:player) { object_double Baron::Player }
-  let(:certificate) { object_double Baron::Certificate }
+  let(:action) { described_class.new game, player, certificate }
 
-  let(:action) { described_class.new player, certificate }
+  let(:certificate) { instance_double(Baron::Certificate, company: company) }
+
+  let(:company) do
+    instance_double Baron::Company::PrivateCompany, face_value: 100
+  end
+
+  let(:game) do
+    instance_double Baron::Game, initial_offering: initial_offering
+  end
+
+  let(:initial_offering) do
+    instance_double Baron::InitialOffering, add_transaction: nil
+  end
+
+  let(:player) { instance_double Baron::Player, add_transaction: nil }
+
+  subject { action }
+
+  describe 'initialization' do
+    it 'creates a transaction for this process' do
+      expect(Baron::Transaction).to receive(:new).with(
+        player,
+        certificate,
+        initial_offering,
+        Baron::Money.new(100)
+      )
+      subject
+    end
+  end
 
   describe '#player' do
     it 'returns the player' do
