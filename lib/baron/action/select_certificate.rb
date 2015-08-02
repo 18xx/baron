@@ -32,7 +32,7 @@ module Baron
           player,
           certificate,
           @game.initial_offering,
-          Money.new(certificate.company.face_value)
+          certificate.company.face_value
         )
       end
     end
