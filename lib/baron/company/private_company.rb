@@ -35,7 +35,7 @@ module Baron
       #   )
       #
       # @api public
-      # @param [String] name
+      # @param [String] abbreviation
       # @param [String] name
       # @param [Fixnum] face_value
       # @param [Fixnum] revenue

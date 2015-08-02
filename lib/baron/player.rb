@@ -20,7 +20,6 @@ module Baron
     #   shareholder.position #=> 5
     #
     # @api public
-    # @param [Fixnum] position The player's seating position in the game.
     # @return [Fixnum] The player's seating position in the game.
     attr_accessor :position
 

@@ -22,7 +22,7 @@ module Baron
       # @api public
       # @param [Baron::Game] game
       # @param [Baron::Player] player The player acting
-      # @param [Baron::Certificate] company The certifiate the player has
+      # @param [Baron::Certificate] certificate The certifiate the player has
       # chosen to purchase.
       def initialize(game, player, certificate)
         super(player)
