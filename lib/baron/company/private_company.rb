@@ -7,10 +7,10 @@ module Baron
       # The face value of the company
       #
       # @example
-      #   private_company.face_value #=> 100
+      #   private_company.face_value #=> $100
       #
       # @api public
-      # @return [Fixnum]
+      # @return [Baron::Money]
       attr_reader :face_value
 
       # The recurring revenue earned every operating round
@@ -18,10 +18,10 @@ module Baron
       # This revenue is paid during the private operation phase of the turn.
       #
       # @example
-      #   private_company.revenue #=> 10
+      #   private_company.revenue #=> $10
       #
       # @api public
-      # @return [Fixnum]
+      # @return [Baron::Money]
       attr_reader :revenue
 
       # Initialize the private company
@@ -30,15 +30,15 @@ module Baron
       #   Baron::Company::PrivateCompany.new(
       #     'company',
       #     'P1',
-      #     face_value: 100,
-      #     revenue: 10
+      #     face_value: Baron::Money.new(100),
+      #     revenue: Baron::Money.new(10)
       #   )
       #
       # @api public
       # @param [String] abbreviation
       # @param [String] name
-      # @param [Fixnum] face_value
-      # @param [Fixnum] revenue
+      # @param [Baron::Money] face_value
+      # @param [Baron::Money] revenue
       def initialize(abbreviation, name, face_value:, revenue:)
         super(abbreviation, name)
         @face_value = face_value

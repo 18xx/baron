@@ -7,5 +7,19 @@ module Baron
   # payouts and more.
   class InitialOffering
     include Shareholder
+
+    # Returns the cost of the certificate
+    #
+    # This will be determined by its face value or par price.
+    #
+    # @example
+    #   initial_offering.cost(certificate) #=> $100
+    #
+    # @api public
+    # @param [Baron::Certificate] certificate
+    # @return [Baron::Money]
+    def cost(certificate)
+      certificate.company.face_value
+    end
   end
 end

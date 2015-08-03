@@ -3,3 +3,6 @@
     max_allowed_nesting: 2
   UncommunicativeModuleName:
     enabled: false
+  UtilityFunction:
+    # Temporarily Disabled
+    enabled: false

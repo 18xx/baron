@@ -23,6 +23,8 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
   let(:bid_player) { player1 }
   let(:bid_amount) { Baron::Money.new 10 }
 
+  let(:initial_offering) { Baron::InitialOffering.new }
+
   describe '#active_players' do
     it 'copies players' do
       expect(subject.active_players).to eq players
@@ -252,7 +254,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
         end
 
         let(:game) do
-          instance_double Baron::Game, initial_offering: nil
+          instance_double Baron::Game, initial_offering: initial_offering
         end
 
         let(:action) do
@@ -286,7 +288,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     let(:game) do
-      instance_double Baron::Game, initial_offering: nil
+      instance_double Baron::Game, initial_offering: initial_offering
     end
 
     subject { auction.select select_action }
@@ -317,7 +319,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       end
 
       let(:game) do
-        instance_double Baron::Game, initial_offering: nil
+        instance_double Baron::Game, initial_offering: initial_offering
       end
 
       let(:action) do

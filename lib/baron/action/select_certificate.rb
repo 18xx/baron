@@ -26,13 +26,13 @@ module Baron
       # chosen to purchase.
       def initialize(game, player, certificate)
         super(player)
-        @game = game
+        @initial_offering = game.initial_offering
         @certificate = certificate
         Transaction.new(
           player,
           [certificate],
-          @game.initial_offering,
-          [certificate.company.face_value]
+          @initial_offering,
+          [@initial_offering.cost(certificate)]
         )
       end
     end
