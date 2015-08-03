@@ -23,6 +23,13 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
   let(:bid_player) { player1 }
   let(:bid_amount) { Baron::Money.new 10 }
 
+  describe '#active_players' do
+    it 'copies players' do
+      expect(subject.active_players).to eq players
+      expect(subject.active_players).to_not equal players
+    end
+  end
+
   describe '#bid' do
     context 'when the bid is legal' do
       it 'changes the current bid' do

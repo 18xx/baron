@@ -66,7 +66,24 @@ module Baron
       init_starting_cash
     end
 
+    # The current round in the game
+    #
+    # This will return a stock round, operating round, auction round or some
+    # other round.
+    #
+    # @example
+    #   game.current_round
+    #
+    # @api public
+    # @return [Baron::Round]
+    def current_round
+      # FIXME: This is not fully implemented
+      @current_round ||= Round::InitialAuction.new(self)
+    end
+
     # The current operation in the game
+    #
+    # This is delegated to the current round
     #
     # @example
     #   game.current_operation
@@ -74,10 +91,7 @@ module Baron
     # @api public
     # @return [Baron::Operation]
     def current_operation
-      # FIXME: This is not fully implemented
-      @current_operation ||= Operation::WinnerChooseAuction.new(
-        @players.dup, bank
-      )
+      current_round.current_operation
     end
 
     private

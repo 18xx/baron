@@ -43,7 +43,7 @@ module Baron
       # @param [Array<Baron::Player>] players All players participating in this
       # auction.
       def initialize(players, bank)
-        @active_players = players
+        @active_players = players.dup
         @bank = bank
         @bids = []
       end
