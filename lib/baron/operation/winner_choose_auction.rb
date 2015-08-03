@@ -54,13 +54,13 @@ module Baron
       # others players pass.
       #
       # @api private
-      # @param [Baron::Action:Bid] player_bid The bid being made.
+      # @param [Baron::Action:Bid] action The bid being made.
       # @return [Array<Baron::Action::Bid>] All bids on this auction
-      def bid(player_bid)
-        validate_turn(player_bid.player)
-        validate_bid(player_bid)
+      def bid(action)
+        validate_turn(action.player)
+        validate_bid(action)
         @active_players.push @active_players.shift
-        @bids << player_bid
+        @bids << action
       end
 
       # The player passes on this auction
