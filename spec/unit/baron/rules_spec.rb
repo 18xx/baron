@@ -101,4 +101,12 @@ RSpec.describe Baron::Rules do
       ])
     end
   end
+
+  describe '#starting_cash' do
+    subject { config.starting_cash 3 }
+
+    it 'returns the money for the number of players' do
+      expect(subject).to eq Baron::Money.new(670)
+    end
+  end
 end

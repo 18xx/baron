@@ -63,6 +63,7 @@ module Baron
       @players = players
       init_bank
       init_initial_offering
+      init_starting_cash
     end
 
     # The current operation in the game
@@ -126,6 +127,16 @@ module Baron
       @initial_offering = InitialOffering.new
       certificates.each do |certificate|
         Transaction.new @initial_offering, [certificate], nil, []
+      end
+    end
+
+    # Grant the players their initial starting capital
+    #
+    # @api private
+    # @return [void]
+    def init_starting_cash
+      players.each do |player|
+        Transaction.new player, rules.starting_cash(players.count), bank, nil
       end
     end
   end

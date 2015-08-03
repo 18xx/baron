@@ -1,11 +1,17 @@
 RSpec.describe Baron::Game do
   subject { described_class.new(rules, players) }
   let(:rules) { Baron::Rules.new('1860') }
-  let(:players) { [double] }
+  let(:players) do
+    [
+      Baron::Player.new('a'),
+      Baron::Player.new('b')
+    ]
+  end
 
   describe '#bank' do
-    it 'starts with 100_000' do
-      expect(subject.bank.balance).to eq Baron::Money.new(100_000_000)
+    it 'starts with a a large amount of money' do
+      # $100MM - $2000 in starting capital
+      expect(subject.bank.balance).to eq Baron::Money.new(99_998_000)
     end
   end
 
@@ -57,6 +63,14 @@ RSpec.describe Baron::Game do
   describe '#players' do
     it 'returns the players in this game' do
       expect(subject.players).to eq(players)
+    end
+
+    it 'gives the players their starting capital' do
+      expect(
+        subject.players.all? do |player|
+          player.balance == Baron::Money.new(1000)
+        end
+      ).to be true
     end
   end
 

@@ -54,6 +54,18 @@ module Baron
       end
     end
 
+    # The starting cash for this game for the number of players
+    #
+    # @example
+    #   rules.starting_cash #=> $540
+    #
+    # @api public
+    # @param [Fixnum] num_players The number of players in this game
+    # @return [Baron::Money] The money that each player starts the game with.
+    def starting_cash(num_players)
+      Money.new @config.fetch('starting_money').fetch(num_players)
+    end
+
     private
 
     # Create the companies that are defined for this game in the config
