@@ -1,11 +1,21 @@
 RSpec.describe Baron::Operation::WinnerChooseAuction do
-  let(:player1) { double Baron::Player, to_s: 'Bart', add_transaction: nil }
-  let(:player2) { double Baron::Player, to_s: 'Lisa', add_transaction: nil }
-  let(:player3) { double Baron::Player, to_s: 'Maggie', add_transaction: nil }
+  let(:player1) do
+    instance_double Baron::Player, to_s: 'Bart', add_transaction: nil
+  end
+
+  let(:player2) do
+    instance_double Baron::Player, to_s: 'Lisa', add_transaction: nil
+  end
+
+  let(:player3) do
+    instance_double Baron::Player, to_s: 'Maggie', add_transaction: nil
+  end
+
+  let(:bank) { instance_double Baron::Bank, add_transaction: nil }
 
   let(:players) { [player1, player2, player3] }
 
-  let(:auction) { described_class.new(players) }
+  let(:auction) { described_class.new(players, bank) }
 
   subject { auction }
 
@@ -91,6 +101,26 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       subject.pass
       expect(subject.active_players).to_not include player1
     end
+
+    context 'when it does not lead to a winning bid' do
+      it 'does not cause money to change hands' do
+        expect(bank).to_not receive(:add_transaction)
+      end
+    end
+
+    context 'when it leads to a winning bid' do
+      before do
+        subject.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
+        subject.pass
+      end
+
+      it 'transfers the bid from the winning player to the bank' do
+        expect(Baron::Transaction).to receive(:new).with(
+          player1, nil, bank, Baron::Money.new(5)
+        )
+        subject.pass
+      end
+    end
   end
 
   describe '#current_player' do
@@ -123,13 +153,23 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     context 'when only 1 player is still active' do
-      before do
-        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
-        auction.pass
-        auction.bid Baron::Action::Bid.new(player3, Baron::Money.new(10))
-        auction.pass
+      context 'when someone has bid' do
+        before do
+          auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
+          auction.pass
+          auction.bid Baron::Action::Bid.new(player3, Baron::Money.new(10))
+          auction.pass
+        end
+        it { should be true }
       end
-      it { should be true }
+
+      context 'when no one has bid' do
+        before do
+          auction.pass
+          auction.pass
+        end
+        it { should be false }
+      end
     end
   end
 
@@ -190,6 +230,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when one player is remaining in the auction' do
       before do
+        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
         auction.pass
         auction.pass
       end

@@ -75,7 +75,9 @@ module Baron
     # @return [Baron::Operation]
     def current_operation
       # FIXME: This is not fully implemented
-      @current_operation ||= Operation::WinnerChooseAuction.new(@players.dup)
+      @current_operation ||= Operation::WinnerChooseAuction.new(
+        @players.dup, bank
+      )
     end
 
     private

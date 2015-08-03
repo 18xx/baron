@@ -89,5 +89,9 @@ RSpec.describe Baron::Game do
     it 'copies the assignment' do
       expect(subject.current_operation.active_players).to_not equal players
     end
+
+    it 'assigns the bank to the round' do
+      expect(subject.current_operation.bank).to equal subject.bank
+    end
   end
 end

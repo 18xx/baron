@@ -16,6 +16,15 @@ module Baron
       # @return [Array<Baron::Player>]
       attr_reader :active_players
 
+      # The bank for this game
+      #
+      # @example
+      #   game.bank
+      #
+      # @api public
+      # @return [Baron::Bank]
+      attr_reader :bank
+
       # The certificate the player chose after winning this auction
       #
       # @example
@@ -33,8 +42,9 @@ module Baron
       # @api public
       # @param [Array<Baron::Player>] players All players participating in this
       # auction.
-      def initialize(players)
+      def initialize(players, bank)
         @active_players = players
+        @bank = bank
         @bids = []
       end
 
@@ -59,9 +69,12 @@ module Baron
       # the list of active players.
       #
       # @api private
-      # @return [Baron::Player] The player who passed
+      # @return [void]
       def pass
         @active_players.shift
+        Transaction.new(
+          high_bidder, nil, @bank, current_bid.amount
+        ) if winner?
       end
 
       # The player selects a certificate with their action
@@ -92,7 +105,7 @@ module Baron
       # @api public
       # @return [Boolean] true if the auction is over, false otherwise
       def winner?
-        @active_players.count.equal? 1
+        @active_players.count.equal?(1) && @bids.any?
       end
 
       # The most recent bid in the auction
