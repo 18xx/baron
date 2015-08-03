@@ -23,7 +23,7 @@ module Baron
       # @param [Baron::Game]
       def initialize(game)
         @game = game
-        new_auction
+        new_auction(game.players)
       end
 
       # The current operation in the game
@@ -34,20 +34,53 @@ module Baron
       # @api public
       # @return [Baron::Operation]
       def current_operation
-        new_auction if @current_operation.done?
+        new_auction(ordered_players) if @current_operation.done?
         @current_operation
       end
 
       private
 
+      # Returns the players for the game
+      #
+      # @api private
+      # @return [Array<Baron::Player>]
+      def players
+        game.players
+      end
+
       # Creates a new auction and assigns it to the current operation
       #
       # @api private
       # @return [Baron::Operation::WinnerChooseAuction]
-      def new_auction
+      def new_auction(players)
         @current_operation = Operation::WinnerChooseAuction.new(
-          game.players, game.bank
+          players, game.bank
         )
+      end
+
+      # Gets the players in order based upon the previous winner
+      #
+      # @api private
+      # @return [Array<Baron::Player>]
+      def ordered_players
+        num_players = players.count
+        nspi = new_starting_player_index
+
+        num_players.times.map do |offset|
+          players.fetch((offset + nspi) % num_players)
+        end
+      end
+
+      # The index in players of the new starting player
+      #
+      # This assumes that the array has been cycled, so with 3 players in the
+      # list an index of 3 may be returned to indicate the current first
+      # player starts again.
+      #
+      # @api private
+      # @return [Fixnum]
+      def new_starting_player_index
+        players.find_index(@current_operation.high_bidder) + 1
       end
     end
   end
