@@ -303,4 +303,39 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       it { should be_nil }
     end
   end
+
+  describe '#done?' do
+    subject { auction.done? }
+
+    context 'when the auction has finished' do
+      let(:certificate) do
+        instance_double Baron::Certificate, company: company
+      end
+
+      let(:company) do
+        instance_double Baron::Company::PrivateCompany, face_value: 100
+      end
+
+      let(:game) do
+        instance_double Baron::Game, initial_offering: nil
+      end
+
+      let(:action) do
+        Baron::Action::SelectCertificate.new game, player3, certificate
+      end
+
+      before do
+        auction.bid Baron::Action::Bid.new(player1, Baron::Money.new(5))
+        auction.pass
+        auction.pass
+        auction.select(action)
+      end
+
+      it { should be true }
+    end
+
+    context 'when the auction has not finished' do
+      it { should be false }
+    end
+  end
 end

@@ -155,6 +155,17 @@ module Baron
         end
       end
 
+      # Returns true if there are no more actions that can be performed
+      #
+      # @example
+      #   auction.done?
+      #
+      # @api public
+      # @return [Boolean] True if this auction is complete, false otherwise
+      def done?
+        available_actions.empty?
+      end
+
       private
 
       # Validate that is the specified player's turn

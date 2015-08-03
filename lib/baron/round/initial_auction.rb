@@ -23,6 +23,7 @@ module Baron
       # @param [Baron::Game]
       def initialize(game)
         @game = game
+        new_auction
       end
 
       # The current operation in the game
@@ -33,8 +34,18 @@ module Baron
       # @api public
       # @return [Baron::Operation]
       def current_operation
-        # FIXME: This is not fully implemented
-        @current_operation ||= Operation::WinnerChooseAuction.new(
+        new_auction if @current_operation.done?
+        @current_operation
+      end
+
+      private
+
+      # Creates a new auction and assigns it to the current operation
+      #
+      # @api private
+      # @return [Baron::Operation::WinnerChooseAuction]
+      def new_auction
+        @current_operation = Operation::WinnerChooseAuction.new(
           game.players, game.bank
         )
       end

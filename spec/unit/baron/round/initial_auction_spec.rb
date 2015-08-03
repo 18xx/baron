@@ -34,8 +34,28 @@ RSpec.describe Baron::Round::InitialAuction do
       expect(subject.bank).to eq bank
     end
 
-    it 'returns the same one when called successive times' do
-      expect(subject).to equal auction.current_operation
+    context 'when called successive times' do
+      before do
+        allow_any_instance_of(
+          Baron::Operation::WinnerChooseAuction
+        ).to receive(:done?).and_return(false, done)
+      end
+
+      context 'when the auction is not done' do
+        let(:done) { false }
+
+        it 'returns the same one' do
+          expect(subject).to equal auction.current_operation
+        end
+      end
+
+      context 'when the auction is done' do
+        let(:done) { true }
+
+        it 'returns a new auction' do
+          expect(subject).to_not equal auction.current_operation
+        end
+      end
     end
   end
 end
