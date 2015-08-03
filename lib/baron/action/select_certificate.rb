@@ -30,9 +30,9 @@ module Baron
         @certificate = certificate
         Transaction.new(
           player,
-          certificate,
+          [certificate],
           @game.initial_offering,
-          certificate.company.face_value
+          [certificate.company.face_value]
         )
       end
     end

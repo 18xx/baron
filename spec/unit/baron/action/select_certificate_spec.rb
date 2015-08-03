@@ -26,9 +26,9 @@ RSpec.describe Baron::Action::SelectCertificate do
     it 'creates a transaction for this process' do
       expect(Baron::Transaction).to receive(:new).with(
         player,
-        certificate,
+        [certificate],
         initial_offering,
-        Baron::Money.new(100)
+        [Baron::Money.new(100)]
       )
       subject
     end
