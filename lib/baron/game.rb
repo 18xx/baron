@@ -102,7 +102,7 @@ module Baron
     # @return [Baron::Bank]
     def init_bank
       @bank = Bank.new
-      Transaction.new(@bank, Money.new(BANK_SIZE), nil, nil)
+      Transaction.new(@bank, [Money.new(BANK_SIZE)], nil, nil)
     end
 
     # All certificates in the game
@@ -152,7 +152,7 @@ module Baron
     # @return [void]
     def init_starting_cash
       players.each do |player|
-        Transaction.new player, rules.starting_cash(players.count), bank, nil
+        Transaction.new player, [rules.starting_cash(players.count)], bank, nil
       end
     end
   end

@@ -76,6 +76,9 @@ module Baron
       @buyer_items = buyer_items
       @seller = seller
       @seller_items = seller_items
+
+      validate_items
+
       @buyer.add_transaction self
       @seller.add_transaction self if @seller
     end
@@ -204,13 +207,28 @@ module Baron
     #
     # @api private
     # @param [Baron::Shareholder] shareholder
-    # @return nil
+    # @return [void]
     def validate(shareholder)
       fail InvalidPartyError unless [buyer, seller].include?(shareholder)
     end
 
+    # Validate the items are an array of items, or nil
+    #
+    # @api private
+    # @param [Array<Object>] items
+    # @return [void]
+    def validate_items
+      [@buyer_items, @seller_items].each do |items|
+        fail InvalidItemsError unless !items || items.respond_to?(:each)
+      end
+    end
+
     # This party is not involved in the transaction
     class InvalidPartyError < StandardError
+    end
+
+    # Items must be an array, or nil
+    class InvalidItemsError < StandardError
     end
   end
 end

@@ -46,6 +46,40 @@ RSpec.describe Baron::Transaction do
     end
   end
 
+  describe 'validaton' do
+    context 'when buyer_items is nil' do
+      let(:buyer_items) { nil }
+
+      it 'does not raise an error' do
+        expect(subject.buyer_items).to be_nil
+      end
+    end
+
+    context 'when buyer_items is not an array' do
+      let(:buyer_items) { double }
+
+      it 'raises an invalid items error' do
+        expect { subject }.to raise_error(Baron::Transaction::InvalidItemsError)
+      end
+    end
+
+    context 'when seller_items is nil' do
+      let(:seller_items) { nil }
+
+      it 'does not raise an error' do
+        expect(subject.seller_items).to be_nil
+      end
+    end
+
+    context 'when seller_items is not an array' do
+      let(:seller_items) { double }
+
+      it 'raises an invalid items error' do
+        expect { subject }.to raise_error(Baron::Transaction::InvalidItemsError)
+      end
+    end
+  end
+
   describe '#buyer' do
     it 'returns the buyer' do
       expect(subject.buyer).to eq buyer
