@@ -11,6 +11,8 @@ module Baron
   # The names buyer and seller are not important to the transaction, but merely
   # a convenient metaphor as these actions usually involve cash.
   class Transaction
+    IS_CERTIFICATE = -> (item) { item.instance_of? Certificate }
+
     # One of the parties participating in the transacion, labelled as the buyer
     #
     # @example
@@ -119,9 +121,7 @@ module Baron
     # @param [Baron::Shareholder] shareholder
     # @return [Array<Baron::Certificate>]
     def incoming_certificates(shareholder)
-      incoming_items(shareholder).select do |item|
-        item.instance_of? Certificate
-      end
+      shareholder_effects(shareholder, :credit).select(&IS_CERTIFICATE)
     end
 
     # The certificates the shareholder loses in this transaction
@@ -130,38 +130,10 @@ module Baron
     # @param [Baron::Shareholder] shareholder
     # @return [Array<Baron::Certificate>]
     def outgoing_certificates(shareholder)
-      outgoing_items(shareholder).select do |item|
-        item.instance_of? Certificate
-      end
+      shareholder_effects(shareholder, :debit).select(&IS_CERTIFICATE)
     end
 
     private
-
-    # The incoming items for the shareholder specified
-    #
-    # @api private
-    # @param [Baron::Shareholder] shareholder
-    # @return [Array<Object>]
-    def incoming_items(shareholder)
-      if shareholder.equal?(buyer)
-        buyer_items
-      else
-        seller_items
-      end
-    end
-
-    # The outgoing items for the shareholder specified
-    #
-    # @api private
-    # @param [Baron::Shareholder] shareholder
-    # @return [Array<Object>]
-    def outgoing_items(shareholder)
-      if shareholder.equal?(buyer)
-        seller_items
-      else
-        buyer_items
-      end
-    end
 
     # Return the items that changed hands for the type and shareholder
     #
