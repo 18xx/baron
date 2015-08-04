@@ -11,6 +11,7 @@ module Baron
   # The names buyer and seller are not important to the transaction, but merely
   # a convenient metaphor as these actions usually involve cash.
   class Transaction
+    # A simple proc for determining if an item is a certificate
     IS_CERTIFICATE = -> (item) { item.instance_of? Certificate }
 
     # One of the parties participating in the transacion, labelled as the buyer
@@ -187,7 +188,6 @@ module Baron
     # Validate the items are an array of items, or nil
     #
     # @api private
-    # @param [Array<Object>] items
     # @return [void]
     def validate_items
       [@buyer_items, @seller_items].each do |items|

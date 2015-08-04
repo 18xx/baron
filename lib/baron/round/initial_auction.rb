@@ -20,7 +20,7 @@ module Baron
       #   Baron::InitialAuction.new(game)
       #
       # @api public
-      # @param [Baron::Game]
+      # @param [Baron::Game] game
       def initialize(game)
         @game = game
         new_auction(game.players)
