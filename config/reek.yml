@@ -1,8 +1,6 @@
 ---
+  FeatureEnvy:
+    exclude:
+      - 'Baron::InitialOffering#cost' # Logic belongs here
   NestedIterators:
     max_allowed_nesting: 2
-  UncommunicativeModuleName:
-    enabled: false
-  UtilityFunction:
-    # Temporarily Disabled
-    enabled: false

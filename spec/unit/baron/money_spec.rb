@@ -45,6 +45,14 @@ RSpec.describe Baron::Money do
     end
   end
 
+  describe 'multiplying' do
+    let(:value) { 2 }
+
+    it 'multiples the money and returns a new money' do
+      expect((subject * value).amount).to eq 30
+    end
+  end
+
   describe 'comparing' do
     context 'when subject is greater' do
       let(:other_money) { Baron::Money.new 10 }

@@ -19,7 +19,12 @@ module Baron
     # @param [Baron::Certificate] certificate
     # @return [Baron::Money]
     def cost(certificate)
-      certificate.company.face_value
+      company = certificate.company
+      if company.respond_to?(:face_value)
+        company.face_value
+      else
+        get_par_price(company) * certificate.num_shares
+      end
     end
 
     # Set the par price for a major company

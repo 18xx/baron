@@ -35,5 +35,24 @@ module Baron
       @company = company
       @portion = portion
     end
+
+    # Returns the number of shares that this certificate provides
+    #
+    # For a standard 10 share major company, this will be 2 shares for the
+    # directors certificate, and 1 share for all others.
+    #
+    # @example
+    #   Baron::Certificate(company, BigDecimal.new('0.20')).num_shares #=> 2
+    #
+    # @api public
+    # @return [Fixnum] The number of shares this represents.
+    def num_shares
+      case portion
+      when BigDecimal.new('0.2')
+        2
+      else
+        1
+      end
+    end
   end
 end

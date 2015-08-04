@@ -21,10 +21,30 @@ RSpec.describe Baron::InitialOffering do
     end
 
     context 'when the certificate is for a major company' do
+      before do
+        initial_offering.set_par_price company, Baron::Money.new(75)
+      end
+
+      let(:company) do
+        Baron::Company::MajorCompany.new(
+          'THB', 'Toronto, Hamilton & Buffalo'
+        )
+      end
+
       context 'when the certificate is a directors share' do
+        let(:portion) { BigDecimal.new('0.2') }
+
+        it 'returns the double the par price' do
+          should == Baron::Money.new(150)
+        end
       end
 
       context 'when the certificate is a standard share' do
+        let(:portion) { BigDecimal.new('0.1') }
+
+        it 'returns the par price' do
+          should == Baron::Money.new(75)
+        end
       end
     end
   end

@@ -52,6 +52,18 @@ module Baron
       Money.new(amount - other.amount)
     end
 
+    # Multiplies a money by an integer and returns a new money with the result
+    #
+    # @example
+    #   Baron::Money.new(10) * 2 #=> Baron::Money.new(20)
+    #
+    # @api public
+    # @param [Fixnum] other The number to multiply
+    # @return [Baron::Money]
+    def *(other)
+      Money.new(amount * other)
+    end
+
     # Compares the money amounts
     #
     # @example
