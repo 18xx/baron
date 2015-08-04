@@ -32,6 +32,26 @@ RSpec.describe Baron::Action::SelectCertificate do
       )
       subject
     end
+
+    context 'par price is not specified' do
+      it 'does not set the par price on the initial offering' do
+        expect(initial_offering).to_not receive(:set_par_price)
+        subject
+      end
+    end
+
+    context 'when setting a par price' do
+      let(:action) { described_class.new game, player, certificate, par_price }
+      let(:par_price) { Baron::Money.new(90) }
+
+      it 'sets the par price on the initial offering' do
+        expect(initial_offering).to receive(:set_par_price).with(
+          company,
+          par_price
+        )
+        subject
+      end
+    end
   end
 
   describe '#player' do

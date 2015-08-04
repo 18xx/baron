@@ -24,13 +24,32 @@ module Baron
       # @param [Baron::Player] player The player acting
       # @param [Baron::Certificate] certificate The certifiate the player has
       # chosen to purchase.
-      def initialize(game, player, certificate)
+      # @param [Baron::Money] par_price The par price for the major company
+      # that this person has selected.
+      def initialize(game, player, certificate, par_price = nil)
         super(player)
         @initial_offering = game.initial_offering
         @certificate = certificate
+        @initial_offering.set_par_price(
+          certificate.company,
+          par_price
+        ) if par_price
+        create_transaction
+      end
+
+      private
+
+      # Create a transaction to trasnfer the goods
+      #
+      # It will transfer the certificate from the initial offering to the
+      # player and the funds from the player to the initial offering.
+      #
+      # @api private
+      # @return [void]
+      def create_transaction
         Transaction.new(
-          player,
-          [certificate],
+          @player,
+          [@certificate],
           @initial_offering,
           [@initial_offering.cost(certificate)]
         )

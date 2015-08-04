@@ -21,5 +21,41 @@ module Baron
     def cost(certificate)
       certificate.company.face_value
     end
+
+    # Set the par price for a major company
+    #
+    # @example
+    #   initial_offering.get_par_price(company) #=> Baron::Money.new(100)
+    #
+    # @api public
+    # @param [Baron::Company] company
+    # @return [Baron::Money]
+    def get_par_price(company)
+      @par_prices ||= {}
+      @par_prices[company]
+    end
+
+    # Set the par price for a major company
+    #
+    # @example
+    #   initial_offering.set_par_price(company, Baron::Money.new(100))
+    #
+    # @api public
+    # @param [Baron::Company] company
+    # @param [Baron::Money] par_price
+    # @return [void]
+    def set_par_price(company, par_price)
+      fail(
+        ParPriceAlreadySet,
+        "Attempted to reset par price for #{company}"
+      ) if get_par_price(company)
+      @par_prices[company] = par_price
+    end
+
+    # The par price has alreay been set
+    #
+    # It can only be set once on a major company
+    class ParPriceAlreadySet < StandardError
+    end
   end
 end
