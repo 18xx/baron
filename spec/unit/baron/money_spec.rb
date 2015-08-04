@@ -1,5 +1,7 @@
 RSpec.describe Baron::Money do
-  subject { Baron::Money.new 15 }
+  subject { Baron::Money.new amount }
+
+  let(:amount) { 15 }
 
   describe 'initialization' do
     context 'when no parameter is specified' do
@@ -7,6 +9,13 @@ RSpec.describe Baron::Money do
 
       it 'leaves the amount as 0' do
         expect(subject.amount).to eq 0
+      end
+    end
+
+    context 'when amount is not a fixnum' do
+      let(:amount) { '15' }
+      it 'raises an error' do
+        expect { subject }.to raise_error(ArgumentError)
       end
     end
   end

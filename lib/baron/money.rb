@@ -25,6 +25,7 @@ module Baron
     # @api public
     # @param [Fixnum] amount
     def initialize(amount = 0)
+      fail ArgumentError unless amount.instance_of?(Fixnum)
       @amount = amount
     end
 
