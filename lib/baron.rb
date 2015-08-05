@@ -33,3 +33,4 @@ require 'baron/round/initial_auction'
 
 require 'baron/rules'
 require 'baron/transaction'
+require 'baron/unavailable_certificates_pool'

@@ -135,9 +135,11 @@ companies:
       tokens: 2
       base: 'E9'
 auction:
-  - 'BHC'
-  - 'YHC'
-  - 'CM&H'
-  - 'RP&SC'
-  - 'C&N'
-  - 'IOW'
+  private:
+    - 'BHC'
+    - 'YHC'
+    - 'CM&H'
+    - 'RP&SC'
+  major:
+    - 'C&N'
+    - 'IOW'

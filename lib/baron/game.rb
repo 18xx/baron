@@ -48,6 +48,15 @@ module Baron
     # @return [Baron::Rules]
     attr_reader :rules
 
+    # The unavailable certificates pool
+    #
+    # @example
+    #   game.unavailable_certificates_pool
+    #
+    # @api public
+    # @return [Baron::UnavailableCertificatesPool]
+    attr_reader :unavailable_certificates_pool
+
     # Construct the game
     #
     # @example
@@ -62,6 +71,7 @@ module Baron
       @rules = rules
       @players = players
       init_bank
+      init_certificates
       init_initial_offering
       init_starting_cash
     end
@@ -135,15 +145,23 @@ module Baron
       end
     end
 
-    # Create the initial offering and place the certificates there
+    # Create the unavailable certificate pool and place the certificates there
+    #
+    # @api private
+    # @return [void]
+    def init_certificates
+      @unavailable_certificates_pool = UnavailableCertificatesPool.new
+      certificates.each do |certificate|
+        Transaction.new @unavailable_certificates_pool, [certificate], nil, []
+      end
+    end
+
+    # Create the initial offering
     #
     # @api private
     # @return [void]
     def init_initial_offering
       @initial_offering = InitialOffering.new
-      certificates.each do |certificate|
-        Transaction.new @initial_offering, [certificate], nil, []
-      end
     end
 
     # Grant the players their initial starting capital

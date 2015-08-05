@@ -1,5 +1,5 @@
 RSpec.describe Baron::Game do
-  subject { described_class.new(rules, players) }
+  let(:game) { described_class.new(rules, players) }
   let(:rules) { Baron::Rules.new('1860') }
   let(:players) do
     [
@@ -7,6 +7,8 @@ RSpec.describe Baron::Game do
       Baron::Player.new('b')
     ]
   end
+
+  subject { game }
 
   describe '#bank' do
     it 'starts with a a large amount of money' do
@@ -16,20 +18,32 @@ RSpec.describe Baron::Game do
   end
 
   describe '#initial_offering' do
+    subject { game.initial_offering }
+
+    context 'when the game first starts' do
+      it 'has no certificates' do
+        expect(subject.certificates).to be_empty
+      end
+    end
+  end
+
+  describe '#unavailable_certificates_pool' do
+    subject { game.unavailable_certificates_pool }
+
     it 'starts with 77 certificates' do
       # 72 major company certs & 5 privates
-      expect(subject.initial_offering.certificates.count).to eq 77
+      expect(subject.certificates.count).to eq 77
     end
 
     it 'has certificates for the 13 companies' do
       expect(
-        subject.initial_offering.certificates.map(&:company).uniq.count
+        subject.certificates.map(&:company).uniq.count
       ).to eq 13
     end
 
     it 'has certificates for the 8 directors certificates' do
       expect(
-        subject.initial_offering.certificates.map(&:portion).count do |portion|
+        subject.certificates.map(&:portion).count do |portion|
           portion == 0.2
         end
       ).to eq 8
@@ -37,14 +51,14 @@ RSpec.describe Baron::Game do
 
     it 'has certificates for the 5 private companies' do
       expect(
-        subject.initial_offering.certificates.count do |certificate|
+        subject.certificates.count do |certificate|
           certificate.company.instance_of? Baron::Company::PrivateCompany
         end
       ).to eq 5
     end
 
     it 'has certificates for the 5 private companies' do
-      private_certificates = subject.initial_offering.certificates
+      private_certificates = subject.certificates
       private_certificates.select! do |certificate|
         certificate.company.instance_of? Baron::Company::PrivateCompany
       end
