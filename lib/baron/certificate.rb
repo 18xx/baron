@@ -36,6 +36,18 @@ module Baron
       @portion = portion
     end
 
+    # Returns whether this is a directors certificate
+    #
+    # @example
+    #   certificate.director? #=> true
+    #
+    # @api public
+    # @return [Boolean] True if this is a director's certificate, false
+    # otherwise
+    def director?
+      num_shares.equal? 2
+    end
+
     # Returns the number of shares that this certificate provides
     #
     # For a standard 10 share major company, this will be 2 shares for the
