@@ -1,15 +1,15 @@
 RSpec.describe Baron::Round::InitialAuction do
   let(:auction) { described_class.new game }
-  let(:bank) { double }
 
-  let(:player1) { instance_double Baron::Player, '1' }
-  let(:player2) { instance_double Baron::Player, '2' }
-  let(:player3) { instance_double Baron::Player, '3' }
+  let(:player1) { Baron::Player.new '1' }
+  let(:player2) { Baron::Player.new '2' }
+  let(:player3) { Baron::Player.new '3' }
   let(:players) do
     [player1, player2, player3]
   end
 
-  let(:game) { instance_double Baron::Game, bank: bank, players: players }
+  let(:game) { Baron::Game.new rules, players }
+  let(:rules) { Baron::Rules.new '1860' }
 
   describe '#game' do
     subject { auction.game }
@@ -31,7 +31,7 @@ RSpec.describe Baron::Round::InitialAuction do
     end
 
     it 'assigns the bank to the auction' do
-      expect(subject.bank).to eq bank
+      expect(subject.bank).to be_a Baron::Bank
     end
 
     context 'when called successive times' do
