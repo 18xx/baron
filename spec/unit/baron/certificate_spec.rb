@@ -19,8 +19,34 @@ RSpec.describe Baron::Certificate do
     end
   end
 
+  describe '#controlling?' do
+    subject { certificate.controlling? }
+
+    context 'when this is a 100% share' do
+      let(:portion) { BigDecimal.new '1' }
+
+      it { should be true }
+    end
+
+    context 'when this is a 20% share' do
+      let(:portion) { BigDecimal.new '0.2' }
+
+      it { should be true }
+    end
+
+    context 'when this is a 10% share' do
+      it { should be false }
+    end
+  end
+
   describe '#director?' do
     subject { certificate.director? }
+
+    context 'when this is a 100% share' do
+      let(:portion) { BigDecimal.new '1' }
+
+      it { should be false }
+    end
 
     context 'when this is a 20% share' do
       let(:portion) { BigDecimal.new '0.2' }

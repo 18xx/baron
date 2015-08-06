@@ -36,6 +36,20 @@ module Baron
       @portion = portion
     end
 
+    # Returns whether this is a controlling certificate
+    #
+    # A controlling certificate is a directors certificate of a major company,
+    # or a single certificate of a private company.
+    #
+    # @example
+    #   certificate.controlling? #=> true
+    #
+    # @api public
+    # @return [Boolean] True if this is a controlling certificate
+    def controlling?
+      portion.eql?(1) || director?
+    end
+
     # Returns whether this is a directors certificate
     #
     # @example
