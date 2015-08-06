@@ -23,7 +23,7 @@ module Baron
     # @api public
     # @return [Array<Baron::Company::PrivateCompany>]
     def private_companies
-      init_companies('private', PrivateCompanyConfig)
+      @private_companies ||= init_companies('private', PrivateCompanyConfig)
     end
 
     # The major companies in the rules
@@ -35,7 +35,22 @@ module Baron
     # @api public
     # @return [Array<Baron::Company::MajorCompany>]
     def major_companies
-      init_companies('major', MajorCompanyConfig)
+      @major_companies ||= init_companies('major', MajorCompanyConfig)
+    end
+
+    # The auctionable private companies
+    #
+    # @example
+    #   rules.auctionable_companies
+    #
+    # @api public
+    # @return [Array<Baron::Company>]
+    def auctionable_companies
+      @config.fetch('auction').map do |abbreviation|
+        (private_companies + major_companies).find do |company|
+          company.abbreviation.eql? abbreviation
+        end
+      end
     end
 
     # The configuration of the shares, as defined in the yaml file

@@ -109,4 +109,18 @@ RSpec.describe Baron::Rules do
       expect(subject).to eq Baron::Money.new(670)
     end
   end
+
+  describe '#auctionable_companies' do
+    subject { config.auctionable_companies }
+
+    it 'returns the 6 auctionable companies' do
+      expect(subject.count).to be 6
+    end
+
+    it 'returns the set of companies that can be auctioned' do
+      expect(subject.map(&:abbreviation)).to match_array(
+        %w(BHC YHC CM&H RP&SC IOW C&N)
+      )
+    end
+  end
 end
