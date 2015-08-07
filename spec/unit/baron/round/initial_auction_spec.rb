@@ -1,5 +1,5 @@
 RSpec.describe Baron::Round::InitialAuction do
-  let(:auction) { described_class.new game }
+  let(:auction_round) { described_class.new game }
 
   let(:player1) { Baron::Player.new '1' }
   let(:player2) { Baron::Player.new '2' }
@@ -12,7 +12,7 @@ RSpec.describe Baron::Round::InitialAuction do
   let(:rules) { Baron::Rules.new '1860' }
 
   describe 'initialization' do
-    subject { auction }
+    subject { auction_round }
 
     it 'makes the initial 4 private companies available' do
       expect { subject }.to change {
@@ -40,7 +40,7 @@ RSpec.describe Baron::Round::InitialAuction do
   end
 
   describe '#game' do
-    subject { auction.game }
+    subject { auction_round.game }
 
     it 'returns the game' do
       should equal game
@@ -48,17 +48,17 @@ RSpec.describe Baron::Round::InitialAuction do
   end
 
   describe '#current_operation' do
-    subject { auction.current_operation }
+    subject { auction_round.current_operation }
 
     it 'returns a new WinnerChooseAuction' do
       expect(subject).to be_a Baron::Operation::WinnerChooseAuction
     end
 
-    it 'assigns players to the auction' do
+    it 'assigns players to the auction round' do
       expect(subject.active_players).to eq players
     end
 
-    it 'assigns the bank to the auction' do
+    it 'assigns the bank to the auction round' do
       expect(subject.bank).to be_a Baron::Bank
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Baron::Round::InitialAuction do
         let(:done) { false }
 
         it 'returns the same one' do
-          expect(subject).to equal auction.current_operation
+          expect(subject).to equal auction_round.current_operation
         end
       end
 
@@ -84,18 +84,41 @@ RSpec.describe Baron::Round::InitialAuction do
         let(:done) { true }
 
         it 'returns a new auction' do
-          expect(subject).to_not equal auction.current_operation
+          expect(subject).to_not equal auction_round.current_operation
         end
 
         it 'has the player after the previous winner going first' do
           subject
-          expect(auction.current_operation.active_players).to eq [
+          expect(auction_round.current_operation.active_players).to eq [
             player3,
             player1,
             player2
           ]
         end
       end
+    end
+  end
+
+  describe '#over?' do
+    subject { auction_round.over? }
+
+    context 'when there are still certificates available' do
+      it { should be false }
+    end
+
+    context 'when all auctions have finished' do
+      before do
+        auction_round
+        # Have player 1 buy all the certificates
+        Baron::Transaction.new(
+          player1,
+          game.initial_offering.certificates,
+          game.initial_offering,
+          []
+        )
+      end
+
+      it { should be true }
     end
   end
 end

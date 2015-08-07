@@ -30,13 +30,27 @@ module Baron
       # The current operation in the game
       #
       # @example
-      #   game.current_operation
+      #   round.current_operation
       #
       # @api public
       # @return [Baron::Operation]
       def current_operation
         new_auction(ordered_players) if @current_operation.done?
         @current_operation
+      end
+
+      # Returns whether the round is over
+      #
+      # This will return true if there are no certificates remaining to be
+      # auctioned, and false otherwise.
+      #
+      # @example
+      #   round.over?
+      #
+      # @api public
+      # @return [Boolean] True if the round is over, false otherwise
+      def over?
+        game.initial_offering.certificates.empty?
       end
 
       private
