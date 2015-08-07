@@ -32,19 +32,19 @@ RSpec.describe Baron::UnavailableCertificatesPool do
       end
 
       [major_company_a, major_company_b].each do |company|
-        certificates << Baron::Certificate.new(
-          company, BigDecimal.new('0.2')
-        )
         8.times do
           certificates << Baron::Certificate.new(
             company, BigDecimal.new('0.1')
           )
         end
+        certificates << Baron::Certificate.new(
+          company, BigDecimal.new('0.2')
+        )
       end
 
       Baron::Transaction.new(
         pool,
-        certificates.shuffle,
+        certificates,
         nil,
         []
       )
