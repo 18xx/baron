@@ -11,6 +11,34 @@ RSpec.describe Baron::Round::InitialAuction do
   let(:game) { Baron::Game.new rules, players }
   let(:rules) { Baron::Rules.new '1860' }
 
+  describe 'initialization' do
+    subject { auction }
+
+    it 'makes the initial 4 private companies available' do
+      expect { subject }.to change {
+        game.initial_offering.certificates.select do |cert|
+          cert.company.is_a? Baron::Company::PrivateCompany
+        end.count
+      }.from(0).to(4)
+    end
+
+    it 'makes the initial 2 major companies directors shares' do
+      expect { subject }.to change {
+        game.initial_offering.certificates.select do |cert|
+          cert.company.is_a? Baron::Company::MajorCompany
+        end.count
+      }.from(0).to(2)
+    end
+
+    it 'makes the initial 2 major companies directors shares' do
+      subject
+      certs = game.initial_offering.certificates.select do |cert|
+        cert.company.is_a? Baron::Company::MajorCompany
+      end
+      expect(certs.all?(&:director?)).to be true
+    end
+  end
+
   describe '#game' do
     subject { auction.game }
 

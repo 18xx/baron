@@ -23,6 +23,7 @@ module Baron
       # @param [Baron::Game] game
       def initialize(game)
         @game = game
+        make_auctionable_companies_available
         new_auction(game.players)
       end
 
@@ -81,6 +82,29 @@ module Baron
       # @return [Fixnum]
       def new_starting_player_index
         players.find_index(@current_operation.high_bidder) + 1
+      end
+
+      private
+
+      # The companies which are available to be auctioned
+      #
+      # @api private
+      # @return [Array<Baron::Company>]
+      def auctionable_companies
+        game.rules.auctionable_companies
+      end
+
+      # Transfer auctionable companies to the initial offering
+      #
+      # @api private
+      # @return [void]
+      def make_auctionable_companies_available
+        auctionable_companies.each do |company|
+          game.unavailable_certificates_pool.make_available(
+            company,
+            game.initial_offering
+          )
+        end
       end
     end
   end
