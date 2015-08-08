@@ -88,6 +88,35 @@ RSpec.describe Baron::Game do
     end
   end
 
+  describe '#current_round' do
+    subject { game.current_round }
+
+    context 'at the start of the game' do
+      it 'is an initial auction round' do
+        expect(subject).to be_a Baron::Round::InitialAuction
+      end
+
+      it 'assigns this game to the round' do
+        expect(subject.game).to be game
+      end
+    end
+
+    context 'after the auction round has ended' do
+      before do
+        round = game.current_round
+        allow(round).to receive(:over?) { true }
+      end
+
+      it 'is a stock round' do
+        expect(subject).to be_a Baron::Round::StockRound
+      end
+
+      it 'assigns this game to the round' do
+        expect(subject.game).to be game
+      end
+    end
+  end
+
   describe '#current_operation' do
     # TODO: Make this work for more stuff
     it 'returns a winner choose auction' do

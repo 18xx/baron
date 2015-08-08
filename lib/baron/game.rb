@@ -87,8 +87,9 @@ module Baron
     # @api public
     # @return [Baron::Round]
     def current_round
-      # FIXME: This is not fully implemented
       @current_round ||= Round::InitialAuction.new(self)
+      @current_round = Round::StockRound.new(self) if @current_round.over?
+      @current_round
     end
 
     # The current operation in the game

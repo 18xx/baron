@@ -4,16 +4,7 @@ module Baron
     #
     # This is the phase of the game in which private companies are generally
     # distributed, sometimes also containing directorships of companies.
-    class InitialAuction
-      # The game which this initial auction is a part of
-      #
-      # @example
-      #   round.game
-      #
-      # @api public
-      # @return [Baron::Game]
-      attr_reader :game
-
+    class InitialAuction < self
       # Create the initial auction round
       #
       # @example

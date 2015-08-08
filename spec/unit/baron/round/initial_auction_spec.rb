@@ -43,7 +43,7 @@ RSpec.describe Baron::Round::InitialAuction do
     subject { auction_round.game }
 
     it 'returns the game' do
-      should equal game
+      should be game
     end
   end
 

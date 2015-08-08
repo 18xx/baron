@@ -29,7 +29,9 @@ require 'baron/operation/wrong_turn'
 
 require 'baron/player'
 
+require 'baron/round'
 require 'baron/round/initial_auction'
+require 'baron/round/stock_round'
 
 require 'baron/rules'
 require 'baron/transaction'
