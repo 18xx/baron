@@ -21,6 +21,7 @@ module Baron
         @game = game
         @unavailable_certificates_pool = game.unavailable_certificates_pool
         make_directorships_available
+        make_shares_available
       end
 
       private
@@ -38,6 +39,19 @@ module Baron
             certificate,
             @game.initial_offering
           )
+        end
+      end
+
+      # Transfers any shares for companies with directors to the offering
+      #
+      # @api private
+      # @return [void]
+      def make_shares_available
+        @unavailable_certificates_pool.certificates.each do |cert|
+          @unavailable_certificates_pool.make_certificate_available(
+            cert,
+            @game.initial_offering
+          ) if @game.director(cert.company)
         end
       end
     end

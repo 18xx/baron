@@ -18,6 +18,27 @@ RSpec.describe Baron::Round::StockRound do
       expect { subject }.to change { game.initial_offering.certificates.count }
         .from(0).to(8)
     end
+
+    context 'when a directors certificate has been sold' do
+      let(:certificate) do
+        game.unavailable_certificates_pool.certificates.find(&:director?)
+      end
+
+      before do
+        Baron::Transaction.new(
+          player1,
+          [certificate],
+          game.unavailable_certificates_pool,
+          []
+        )
+      end
+
+      it 'makes directorships and non-directors certificates available ' do
+        expect { subject }.to change {
+          game.initial_offering.certificates.count
+        }.from(0).to(15)
+      end
+    end
   end
 
   describe '#game' do
