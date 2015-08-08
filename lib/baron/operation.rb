@@ -7,6 +7,6 @@ module Baron
   # - An auction of one private company
   # - A players share action turn composed of buy and sell actions
   # - A single company's operation turn during an operating round
-  module Operation
+  class Operation
   end
 end

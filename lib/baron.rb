@@ -24,6 +24,8 @@ require 'baron/initial_offering'
 require 'baron/game'
 require 'baron/money'
 
+require 'baron/operation'
+require 'baron/operation/stock_turn'
 require 'baron/operation/winner_choose_auction'
 require 'baron/operation/wrong_turn'
 

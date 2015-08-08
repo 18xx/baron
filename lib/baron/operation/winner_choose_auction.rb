@@ -1,5 +1,5 @@
 module Baron
-  module Operation
+  class Operation
     # This is an auction where the players bid, and the winner then chooses
     # which thing to purchase after winning.
     class WinnerChooseAuction
