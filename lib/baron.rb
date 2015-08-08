@@ -11,6 +11,7 @@ require 'baron/ownable'
 
 require 'baron/action'
 require 'baron/action/bid'
+require 'baron/action/buy_certificate'
 require 'baron/action/illegal_bid_amount'
 require 'baron/action/pass'
 require 'baron/action/select_certificate'
