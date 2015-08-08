@@ -9,16 +9,5 @@ module Baron
     # @api public
     # @return [Baron::Game]
     attr_reader :game
-
-    # Create the initial auction round
-    #
-    # @example
-    #   Baron::InitialAuction.new(game)
-    #
-    # @api public
-    # @param [Baron::Game] game
-    def initialize(game)
-      @game = game
-    end
   end
 end

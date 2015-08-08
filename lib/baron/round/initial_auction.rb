@@ -104,7 +104,7 @@ module Baron
       # @return [void]
       def make_auctionable_companies_available
         auctionable_companies.each do |company|
-          game.unavailable_certificates_pool.make_available(
+          game.unavailable_certificates_pool.make_company_available(
             company,
             game.initial_offering
           )

@@ -11,6 +11,15 @@ RSpec.describe Baron::Round::StockRound do
   let(:game) { Baron::Game.new rules, players }
   let(:rules) { Baron::Rules.new '1860' }
 
+  describe 'initialization' do
+    subject { stock_round }
+
+    it 'makes directorships available' do
+      expect { subject }.to change { game.initial_offering.certificates.count }
+        .from(0).to(8)
+    end
+  end
+
   describe '#game' do
     subject { stock_round.game }
 

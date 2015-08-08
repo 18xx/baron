@@ -12,16 +12,34 @@ module Baron
     # comapny certificate to the pool.
     #
     # @example
-    #   unavailable_certificates_pool.make_available company, initial_offering
+    #   unavailable_certificates_pool.make_company_available(
+    #     company, initial_offering
+    #   )
     #
     # @api public
     # @param [Baron::Company] company
     # @param [Baron::InitialOffering] initial_offering
     # @return [void]
-    def make_available(company, initial_offering)
+    def make_company_available(company, initial_offering)
+      make_certificate_available(
+        find_controlling_certificate(company),
+        initial_offering
+      )
+    end
+
+    # Makes a specific certificate available
+    #
+    # @example
+    #   unavailable_certificates_pool.make_certificate_available
+    #
+    # @api public
+    # @param [Baron::Company] company
+    # @param [Baron::InitialOffering] initial_offering
+    # @return [void]
+    def make_certificate_available(certificate, initial_offering)
       Transaction.new(
         initial_offering,
-        [find_controlling_certificate(company)],
+        [certificate],
         self,
         []
       )
