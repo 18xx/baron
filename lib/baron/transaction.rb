@@ -81,6 +81,7 @@ module Baron
       @seller_items = seller_items
 
       validate_items
+      validate_transferrable
 
       @buyer.add_transaction self
       @seller.add_transaction self if @seller
@@ -185,17 +186,23 @@ module Baron
       fail InvalidPartyError unless [buyer, seller].include?(shareholder)
     end
 
-    # Validate the items are an array of items, or nil
+    # Validate the items are an array of items
     #
     # @api private
     # @return [void]
     def validate_items
       [@buyer_items, @seller_items].each do |items|
-        next unless items
         fail InvalidItemsError unless items.respond_to?(:each)
-        items.each do |item|
-          fail NonTransferrableError unless item.is_a?(Transferrable)
-        end
+      end
+    end
+
+    # Validate the items in this transaction are all transferrable
+    #
+    # @api private
+    # @return [void]
+    def validate_transferrable
+      (@buyer_items + @seller_items).each do |item|
+        fail NonTransferrableError unless item.is_a?(Transferrable)
       end
     end
 

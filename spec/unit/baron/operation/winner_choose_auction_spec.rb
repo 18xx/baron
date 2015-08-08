@@ -132,7 +132,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
       it 'transfers the bid from the winning player to the bank' do
         expect(Baron::Transaction).to receive(:new).with(
-          player1, nil, bank, [Baron::Money.new(5)]
+          player1, [], bank, [Baron::Money.new(5)]
         )
         subject.pass
       end

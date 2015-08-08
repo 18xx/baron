@@ -73,7 +73,7 @@ module Baron
       def pass
         @active_players.shift
         Transaction.new(
-          high_bidder, nil, @bank, [current_bid.amount]
+          high_bidder, [], @bank, [current_bid.amount]
         ) if winner?
       end
 
