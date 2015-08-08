@@ -82,9 +82,8 @@ module Baron
 
       validate_items
       validate_transferrable
-
-      @buyer.add_transaction self
-      @seller.add_transaction self if @seller
+      notify_parties
+      notify_item_ownership
     end
 
     # The items which the shareholder transferred away
@@ -206,6 +205,28 @@ module Baron
       end
     end
 
+    # Notifies the parties that the transaction has taken place
+    #
+    # @api private
+    # @return [void]
+    def notify_parties
+      @buyer.add_transaction self
+      @seller.add_transaction self if @seller
+    end
+
+    # Notifies the items that they are now owned by someone
+    #
+    # @api private
+    # @return [void]
+    def notify_item_ownership
+      [[@buyer, @buyer_items], [@seller, @seller_items]].each do |set|
+        shareholder, items = set
+        items.each do |item|
+          item.owner = shareholder if item.respond_to?(:owner=)
+        end
+      end
+    end
+
     # This party is not involved in the transaction
     class InvalidPartyError < StandardError
     end
@@ -216,6 +237,10 @@ module Baron
 
     # Items must be tranferrable to be involved in a transaction
     class NonTransferrableError < StandardError
+    end
+
+    # Items must be tranferrable to be involved in a transaction
+    class NotOwnerError < StandardError
     end
   end
 end
