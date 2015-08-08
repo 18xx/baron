@@ -35,6 +35,19 @@ module Baron
       end
     end
 
+    # Return the companies that this shareholder is a director of
+    #
+    # @example
+    #   shareholder.directorships
+    #
+    # @api public
+    # @return [Array<Baron::Company>] The companies that this shareholder is
+    # the director of. If the player is not a director of any companies it will
+    # be an empty array.
+    def directorships
+      certificates.select(&:director?).map(&:company)
+    end
+
     # Adds a transaction to this shareholder
     #
     # @example

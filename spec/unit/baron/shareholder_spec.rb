@@ -93,4 +93,29 @@ RSpec.describe Baron::Shareholder do
       end
     end
   end
+
+  describe '#directorships' do
+    subject { a.directorships }
+
+    context 'when the shareholder is not a director of a company' do
+      subject { b.directorships }
+      it { should be_empty }
+    end
+
+    context 'when the shareholder holds the directors share' do
+      let(:a_certificate) do
+        Baron::Certificate.new company, BigDecimal.new('0.2')
+      end
+
+      it 'includes that company in the list of directorships' do
+        should include company
+      end
+    end
+
+    context 'when the shareholder only holds a non-directors share' do
+      it 'does not includes that company in the list of directorships' do
+        should be_empty
+      end
+    end
+  end
 end

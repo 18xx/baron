@@ -1,10 +1,12 @@
 RSpec.describe Baron::Game do
   let(:game) { described_class.new(rules, players) }
   let(:rules) { Baron::Rules.new('1860') }
+  let(:player_a) { Baron::Player.new('a') }
+  let(:player_b) { Baron::Player.new('b') }
   let(:players) do
     [
-      Baron::Player.new('a'),
-      Baron::Player.new('b')
+      player_a,
+      player_b
     ]
   end
 
@@ -141,6 +143,31 @@ RSpec.describe Baron::Game do
 
     it 'assigns the bank to the round' do
       expect(subject.current_operation.bank).to equal subject.bank
+    end
+  end
+
+  describe '#director' do
+    subject { game.director(company) }
+    let(:company) { double }
+    let(:directors_certificate) do
+      Baron::Certificate.new company, BigDecimal.new('0.2')
+    end
+
+    context 'when a company has no director' do
+      it { should be nil }
+    end
+
+    context 'when player a is the director' do
+      before do
+        Baron::Transaction.new(
+          player_a,
+          [directors_certificate],
+          nil,
+          []
+        )
+      end
+
+      it { should be player_a }
     end
   end
 end

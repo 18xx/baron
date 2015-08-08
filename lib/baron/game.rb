@@ -105,6 +105,22 @@ module Baron
       current_round.current_operation
     end
 
+    # Get the director of a company
+    #
+    # @example
+    #   game.director(company) #=> the player who is a director
+    #
+    # @api public
+    # @param [Baron::Company]
+    # @return [Baron::Player] The player who holds the directors certificate,
+    # nil if no player holds it
+    def director(company)
+      players.each do |player|
+        return player if player.directorships.include?(company)
+      end
+      nil
+    end
+
     private
 
     # Initialize the bank and grant it the starting money
