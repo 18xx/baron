@@ -69,7 +69,7 @@ module Baron
     # game with priority deal should be first in the array.
     def initialize(rules, players)
       @rules = rules
-      @players = players
+      @players = players.freeze
       init_bank
       init_certificates
       init_initial_offering

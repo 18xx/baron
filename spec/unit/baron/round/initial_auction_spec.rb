@@ -69,8 +69,10 @@ RSpec.describe Baron::Round::InitialAuction do
         ).to receive(:done?).and_return(false, done)
         allow_any_instance_of(
           Baron::Operation::WinnerChooseAuction
-        ).to receive(:high_bidder).and_return(player2)
+        ).to receive(:high_bidder).and_return(winner)
       end
+
+      let(:winner) { player2 }
 
       context 'when the auction is not done' do
         let(:done) { false }
@@ -87,13 +89,42 @@ RSpec.describe Baron::Round::InitialAuction do
           expect(subject).to_not equal auction_round.current_operation
         end
 
-        it 'has the player after the previous winner going first' do
-          subject
-          expect(auction_round.current_operation.active_players).to eq [
-            player3,
-            player1,
-            player2
-          ]
+        describe 'the player after the previous winner goes first' do
+          context 'when player 1 wins' do
+            let(:winner) { player1 }
+            it 'assigns player 2 to go first' do
+              subject
+              expect(auction_round.current_operation.active_players).to eq [
+                player2,
+                player3,
+                player1
+              ]
+            end
+          end
+
+          context 'when player 2 wins' do
+            let(:winner) { player2 }
+            it 'assigns player 3 to go first' do
+              subject
+              expect(auction_round.current_operation.active_players).to eq [
+                player3,
+                player1,
+                player2
+              ]
+            end
+          end
+
+          context 'when player 3 wins' do
+            let(:winner) { player3 }
+            it 'assigns player 1 to go first' do
+              subject
+              expect(auction_round.current_operation.active_players).to eq [
+                player1,
+                player2,
+                player3
+              ]
+            end
+          end
         end
       end
     end

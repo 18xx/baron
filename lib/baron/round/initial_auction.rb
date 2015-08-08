@@ -69,12 +69,11 @@ module Baron
       # @api private
       # @return [Array<Baron::Player>]
       def ordered_players
-        num_players = players.count
-        nspi = new_starting_player_index
-
-        num_players.times.map do |offset|
-          players.fetch((offset + nspi) % num_players)
+        arr = players.dup
+        new_starting_player_index.times do
+          arr.push arr.shift
         end
+        arr
       end
 
       # The index in players of the new starting player

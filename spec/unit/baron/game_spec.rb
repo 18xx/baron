@@ -75,13 +75,19 @@ RSpec.describe Baron::Game do
   end
 
   describe '#players' do
+    subject { game.players }
+
     it 'returns the players in this game' do
-      expect(subject.players).to eq(players)
+      expect(subject).to eq(players)
+    end
+
+    it 'freezes players' do
+      should be_frozen
     end
 
     it 'gives the players their starting capital' do
       expect(
-        subject.players.all? do |player|
+        subject.all? do |player|
           player.balance == Baron::Money.new(1000)
         end
       ).to be true
