@@ -16,11 +16,16 @@ RSpec.describe Baron::Shareholder do
   let(:a_debits_2) { [Baron::Money.new(25)] }
   let(:b) { MyShareholder.new }
 
-  let!(:transactions) do
+  let(:transactions) do
     [
       Baron::Transaction.new(a, a_credits, b, a_debits),
       Baron::Transaction.new(a, a_credits_2, b, a_debits_2)
     ]
+  end
+
+  before do
+    a_certificate.owner = b
+    transactions
   end
 
   describe '#balance' do
@@ -31,12 +36,8 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when there are no debits' do
-      let!(:transactions) do
-        [
-          Baron::Transaction.new(a, a_credits, nil, []),
-          Baron::Transaction.new(a, a_credits_2, nil, [])
-        ]
-      end
+      let(:a_debits) { [] }
+      let(:a_debits_2) { [] }
 
       it 'is the sum of all credits' do
         should == 110
@@ -49,12 +50,12 @@ RSpec.describe Baron::Shareholder do
     subject { a.certificates }
 
     context 'when the shareholder has nothing' do
-      let!(:transactions) { nil }
+      let(:transactions) { nil }
       it { should be_empty }
     end
 
     context 'when the shareholder has acquired something' do
-      let!(:transactions) do
+      let(:transactions) do
         [
           Baron::Transaction.new(a, [certificate], nil, [])
         ]
@@ -66,7 +67,7 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when the shareholder has sold certificates' do
-      let!(:transactions) do
+      let(:transactions) do
         [
           Baron::Transaction.new(a, [certificate], nil, []),
           Baron::Transaction.new(a, [], nil, [certificate])
@@ -79,7 +80,7 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when the shareholder, buys, sells, and buys the same cert' do
-      let!(:transactions) do
+      let(:transactions) do
         [
           Baron::Transaction.new(a, [certificate], nil, []),
           Baron::Transaction.new(a, [], nil, [certificate]),

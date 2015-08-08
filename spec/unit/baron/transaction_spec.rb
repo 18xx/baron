@@ -92,26 +92,38 @@ RSpec.describe Baron::Transaction do
       end
     end
 
-    describe 'seller_items' do
-      context 'when seller_items is not an array' do
-        let(:seller_items) { double }
+    context 'when seller_items is not an array' do
+      let(:seller_items) { double }
 
-        it 'raises an invalid items error' do
-          expect { subject }.to raise_error(
-            Baron::Transaction::InvalidItemsError
-          )
-        end
+      it 'raises an invalid items error' do
+        expect { subject }.to raise_error(
+          Baron::Transaction::InvalidItemsError
+        )
       end
+    end
 
-      context 'when seller_items contains a non-transferrable item' do
-        let(:seller_items) { [''] }
+    context 'when seller_items contains a non-transferrable item' do
+      let(:seller_items) { [''] }
 
-        it 'raises an non tranferrable error' do
-          expect { subject }.to raise_error(
-            Baron::Transaction::NonTransferrableError
-          )
-        end
+      it 'raises an non tranferrable error' do
+        expect { subject }.to raise_error(
+          Baron::Transaction::NonTransferrableError
+        )
       end
+    end
+
+    it 'validates buyer_item ownership' do
+      buyer_items.each do |item|
+        expect(item).to receive(:validate_owner).with(seller)
+      end
+      subject
+    end
+
+    it 'validates seller_item_ownership' do
+      seller_items.each do |item|
+        expect(item).to receive(:validate_owner).with(buyer)
+      end
+      subject
     end
   end
 

@@ -27,4 +27,27 @@ RSpec.describe Baron::Ownable do
       end
     end
   end
+
+  describe '#validate_owner' do
+    subject { dummy.validate_owner shareholder }
+    let(:shareholder) { double Baron::Shareholder, to_s: 'One' }
+    before { dummy.owner = owner }
+
+    context 'when the owner is the same as the shareholder' do
+      let(:owner) { shareholder }
+      it 'does not throw an error' do
+        expect { subject }.to_not raise_error
+      end
+    end
+
+    context 'when the owner is different than the shareholder' do
+      let(:owner) { double Baron::Shareholder, to_s: 'Two' }
+      it 'raises a NotOwnerError' do
+        expect { subject }.to raise_error(
+          Baron::Ownable::NotOwnerError,
+          'One attempted to sell item owned by Two'
+        )
+      end
+    end
+  end
 end

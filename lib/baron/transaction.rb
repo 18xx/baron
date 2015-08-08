@@ -82,6 +82,7 @@ module Baron
 
       validate_items
       validate_transferrable
+      validate_ownership
       notify_parties
       notify_item_ownership
     end
@@ -205,6 +206,15 @@ module Baron
       end
     end
 
+    # Validate the items being transferred to the buyer are owned by the seller
+    #
+    # @api private
+    # @return [void]
+    def validate_ownership
+      buyer_items.each { |item| item.validate_owner seller }
+      seller_items.each { |item| item.validate_owner buyer }
+    end
+
     # Notifies the parties that the transaction has taken place
     #
     # @api private
@@ -237,10 +247,6 @@ module Baron
 
     # Items must be tranferrable to be involved in a transaction
     class NonTransferrableError < StandardError
-    end
-
-    # Items must be tranferrable to be involved in a transaction
-    class NotOwnerError < StandardError
     end
   end
 end

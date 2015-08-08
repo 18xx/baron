@@ -22,6 +22,10 @@ RSpec.describe Baron::Action::SelectCertificate do
 
   let(:player) { instance_double Baron::Player, add_transaction: nil }
 
+  before do
+    certificate.owner = initial_offering
+  end
+
   subject { action }
 
   describe 'initialization' do

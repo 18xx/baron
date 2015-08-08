@@ -22,5 +22,21 @@ module Baron
     def owner
       defined?(@owners) && @owners.last
     end
+
+    # Validate that the shareholder specified is the owner of this object
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [void]
+    def validate_owner(shareholder)
+      fail(
+        NotOwnerError,
+        "#{shareholder} attempted to sell item owned by #{owner}"
+      ) unless owner.equal?(shareholder)
+    end
+
+    # Items must be tranferrable to be involved in a transaction
+    class NotOwnerError < StandardError
+    end
   end
 end

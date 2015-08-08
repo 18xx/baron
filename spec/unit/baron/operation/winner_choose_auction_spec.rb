@@ -32,6 +32,14 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     )
   end
 
+  let(:certificate) do
+    Baron::Certificate.new company, BigDecimal.new('0.1')
+  end
+
+  before do
+    certificate.owner = initial_offering
+  end
+
   describe '#active_players' do
     it 'copies players' do
       expect(subject.active_players).to eq players
@@ -252,10 +260,6 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       end
 
       context 'when they have selected their certificate' do
-        let(:certificate) do
-          Baron::Certificate.new company, BigDecimal.new('0.1')
-        end
-
         let(:game) do
           instance_double Baron::Game, initial_offering: initial_offering
         end
@@ -282,10 +286,6 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
       Baron::Action::SelectCertificate.new game, player3, certificate
     end
 
-    let(:certificate) do
-      Baron::Certificate.new company, BigDecimal.new('0.1')
-    end
-
     let(:game) do
       instance_double Baron::Game, initial_offering: initial_offering
     end
@@ -309,10 +309,6 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     subject { auction.done? }
 
     context 'when the auction has finished' do
-      let(:certificate) do
-        Baron::Certificate.new company, BigDecimal.new('0.1')
-      end
-
       let(:game) do
         instance_double Baron::Game, initial_offering: initial_offering
       end
