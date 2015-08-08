@@ -191,7 +191,11 @@ module Baron
     # @return [void]
     def validate_items
       [@buyer_items, @seller_items].each do |items|
-        fail InvalidItemsError unless !items || items.respond_to?(:each)
+        next unless items
+        fail InvalidItemsError unless items.respond_to?(:each)
+        items.each do |item|
+          fail NonTransferrableError unless item.is_a?(Transferrable)
+        end
       end
     end
 
@@ -201,6 +205,10 @@ module Baron
 
     # Items must be an array, or nil
     class InvalidItemsError < StandardError
+    end
+
+    # Items must be tranferrable to be involved in a transaction
+    class NonTransferrableError < StandardError
     end
   end
 end

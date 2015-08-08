@@ -1,7 +1,9 @@
 RSpec.describe Baron::Action::SelectCertificate do
   let(:action) { described_class.new game, player, certificate }
 
-  let(:certificate) { instance_double(Baron::Certificate, company: company) }
+  let(:certificate) do
+    Baron::Certificate.new company, BigDecimal.new('0.1')
+  end
 
   let(:company) do
     instance_double(

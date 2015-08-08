@@ -7,6 +7,7 @@ module Baron
   # they own.
   class Money
     include Comparable
+    include Transferrable
 
     # The amount of money
     #

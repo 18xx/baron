@@ -25,6 +25,13 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
   let(:initial_offering) { Baron::InitialOffering.new }
 
+  let(:company) do
+    instance_double(
+      Baron::Company::PrivateCompany,
+      face_value: Baron::Money.new(100)
+    )
+  end
+
   describe '#active_players' do
     it 'copies players' do
       expect(subject.active_players).to eq players
@@ -246,11 +253,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
       context 'when they have selected their certificate' do
         let(:certificate) do
-          instance_double Baron::Certificate, company: company
-        end
-
-        let(:company) do
-          instance_double Baron::Company::PrivateCompany, face_value: 100
+          Baron::Certificate.new company, BigDecimal.new('0.1')
         end
 
         let(:game) do
@@ -280,11 +283,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
     end
 
     let(:certificate) do
-      instance_double Baron::Certificate, company: company
-    end
-
-    let(:company) do
-      instance_double Baron::Company::PrivateCompany, face_value: 100
+      Baron::Certificate.new company, BigDecimal.new('0.1')
     end
 
     let(:game) do
@@ -311,11 +310,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
     context 'when the auction has finished' do
       let(:certificate) do
-        instance_double Baron::Certificate, company: company
-      end
-
-      let(:company) do
-        instance_double Baron::Company::PrivateCompany, face_value: 100
+        Baron::Certificate.new company, BigDecimal.new('0.1')
       end
 
       let(:game) do

@@ -4,8 +4,13 @@ RSpec.describe Baron::Shareholder do
     include ::Baron::Shareholder
   end
 
+  let(:a_certificate) do
+    Baron::Certificate.new company, BigDecimal.new('0.1')
+  end
+  let(:company) { instance_double Baron::Company }
+
   let(:a) { MyShareholder.new }
-  let(:a_credits) { [Baron::Money.new(10), double(Baron::Certificate)] }
+  let(:a_credits) { [Baron::Money.new(10), a_certificate] }
   let(:a_debits) { [Baron::Money.new(50)] }
   let(:a_credits_2) { [Baron::Money.new(100)] }
   let(:a_debits_2) { [Baron::Money.new(25)] }
@@ -40,10 +45,11 @@ RSpec.describe Baron::Shareholder do
   end
 
   describe '#certificates' do
-    let(:certificate) { Baron::Certificate.new double, double }
+    let(:certificate) { Baron::Certificate.new company, BigDecimal.new('0.1') }
     subject { a.certificates }
 
     context 'when the shareholder has nothing' do
+      let!(:transactions) { nil }
       it { should be_empty }
     end
 

@@ -5,6 +5,8 @@ module Baron
   # Players are generally limited on the number of certificates that they can
   # own at any given time.
   class Certificate
+    include Ownable
+
     # The company which this certificate is for
     #
     # @example

@@ -4,13 +4,13 @@ RSpec.describe Baron::Transaction do
   let(:buyer_items) do
     [
       buyer_certificate,
-      double
+      Baron::Money.new(10)
     ]
   end
   let(:seller_items) do
     [
       seller_certificate,
-      double
+      Baron::Money.new(20)
     ]
   end
 
@@ -59,23 +59,51 @@ RSpec.describe Baron::Transaction do
       let(:buyer_items) { double }
 
       it 'raises an invalid items error' do
-        expect { subject }.to raise_error(Baron::Transaction::InvalidItemsError)
+        expect { subject }.to raise_error(
+          Baron::Transaction::InvalidItemsError
+        )
       end
     end
 
-    context 'when seller_items is nil' do
-      let(:seller_items) { nil }
+    context 'when buyer_items contains a non-transferrable item' do
+      let(:buyer_items) { [''] }
 
-      it 'does not raise an error' do
-        expect(subject.seller_items).to be_nil
+      it 'raises an non tranferrable error' do
+        expect { subject }.to raise_error(
+          Baron::Transaction::NonTransferrableError
+        )
       end
     end
 
-    context 'when seller_items is not an array' do
-      let(:seller_items) { double }
+    describe 'seller_items' do
+      let(:buyer_items) { nil }
 
-      it 'raises an invalid items error' do
-        expect { subject }.to raise_error(Baron::Transaction::InvalidItemsError)
+      context 'when seller_items is nil' do
+        let(:seller_items) { nil }
+
+        it 'does not raise an error' do
+          expect(subject.seller_items).to be_nil
+        end
+      end
+
+      context 'when seller_items is not an array' do
+        let(:seller_items) { double }
+
+        it 'raises an invalid items error' do
+          expect { subject }.to raise_error(
+            Baron::Transaction::InvalidItemsError
+          )
+        end
+      end
+
+      context 'when seller_items contains a non-transferrable item' do
+        let(:seller_items) { [''] }
+
+        it 'raises an non tranferrable error' do
+          expect { subject }.to raise_error(
+            Baron::Transaction::NonTransferrableError
+          )
+        end
       end
     end
   end

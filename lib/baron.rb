@@ -6,6 +6,8 @@ module Baron
 end
 
 require 'baron/shareholder'
+require 'baron/transferrable'
+require 'baron/ownable'
 
 require 'baron/action'
 require 'baron/action/bid'
@@ -37,4 +39,5 @@ require 'baron/round/stock_round'
 
 require 'baron/rules'
 require 'baron/transaction'
+require 'baron/transferrable'
 require 'baron/unavailable_certificates_pool'
