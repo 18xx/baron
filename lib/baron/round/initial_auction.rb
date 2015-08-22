@@ -18,16 +18,16 @@ module Baron
         new_auction(game.players)
       end
 
-      # The current operation in the game
+      # The current turn in the game
       #
       # @example
-      #   round.current_operation
+      #   round.current_turn
       #
       # @api public
-      # @return [Baron::Operation]
-      def current_operation
-        new_auction(ordered_players) if @current_operation.done?
-        @current_operation
+      # @return [Baron::Turn]
+      def current_turn
+        new_auction(ordered_players) if @current_turn.done?
+        @current_turn
       end
 
       # Returns whether the round is over
@@ -54,12 +54,12 @@ module Baron
         game.players
       end
 
-      # Creates a new auction and assigns it to the current operation
+      # Creates a new auction and assigns it to the current turn
       #
       # @api private
-      # @return [Baron::Operation::WinnerChooseAuction]
+      # @return [Baron::Turn::WinnerChooseAuction]
       def new_auction(players)
-        @current_operation = Operation::WinnerChooseAuction.new(
+        @current_turn = Turn::WinnerChooseAuction.new(
           players, game.bank
         )
       end
@@ -85,7 +85,7 @@ module Baron
       # @api private
       # @return [Fixnum]
       def new_starting_player_index
-        players.find_index(@current_operation.high_bidder) + 1
+        players.find_index(@current_turn.high_bidder) + 1
       end
 
       private

@@ -1,4 +1,4 @@
-RSpec.describe Baron::Operation::WinnerChooseAuction do
+RSpec.describe Baron::Turn::WinnerChooseAuction do
   let(:player1) do
     instance_double Baron::Player, to_s: 'Bart', add_transaction: nil
   end
@@ -113,7 +113,7 @@ RSpec.describe Baron::Operation::WinnerChooseAuction do
 
       it 'raises a wrong turn error' do
         expect { subject.bid bid }.to raise_error(
-          Baron::Operation::WrongTurn,
+          Baron::Turn::WrongTurn,
           "Lisa bid, but it is Bart's turn"
         )
       end

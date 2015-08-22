@@ -15,7 +15,7 @@ module Baron
 
       # The recurring revenue earned every operating round
       #
-      # This revenue is paid during the private operation phase of the turn.
+      # This revenue is paid during the private turn phase of the turn.
       #
       # @example
       #   private_company.revenue #=> $10

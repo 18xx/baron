@@ -1,5 +1,5 @@
 module Baron
-  class Operation
+  class Turn
     # A stock turn is a single players turn to sell and buy certificates
     #
     # In most games, a player may sell as many certificats as they would like
@@ -27,7 +27,7 @@ module Baron
       # Create the stock turn
       #
       # @example
-      #   Baron::Operation::StockTurn.new(player, round)
+      #   Baron::Turn::StockTurn.new(player, round)
       #
       # @api public
       # @param [Baron::Player] player The player taking the turn

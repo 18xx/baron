@@ -1,4 +1,4 @@
-RSpec.describe Baron::Operation::StockTurn do
+RSpec.describe Baron::Turn::StockTurn do
   let(:turn) { described_class.new player, round }
 
   let(:player) { instance_double Baron::Player }

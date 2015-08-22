@@ -47,11 +47,11 @@ RSpec.describe Baron::Round::InitialAuction do
     end
   end
 
-  describe '#current_operation' do
-    subject { auction_round.current_operation }
+  describe '#current_turn' do
+    subject { auction_round.current_turn }
 
     it 'returns a new WinnerChooseAuction' do
-      expect(subject).to be_a Baron::Operation::WinnerChooseAuction
+      expect(subject).to be_a Baron::Turn::WinnerChooseAuction
     end
 
     it 'assigns players to the auction round' do
@@ -65,10 +65,10 @@ RSpec.describe Baron::Round::InitialAuction do
     context 'when called successive times' do
       before do
         allow_any_instance_of(
-          Baron::Operation::WinnerChooseAuction
+          Baron::Turn::WinnerChooseAuction
         ).to receive(:done?).and_return(false, done)
         allow_any_instance_of(
-          Baron::Operation::WinnerChooseAuction
+          Baron::Turn::WinnerChooseAuction
         ).to receive(:high_bidder).and_return(winner)
       end
 
@@ -78,7 +78,7 @@ RSpec.describe Baron::Round::InitialAuction do
         let(:done) { false }
 
         it 'returns the same one' do
-          expect(subject).to equal auction_round.current_operation
+          expect(subject).to equal auction_round.current_turn
         end
       end
 
@@ -86,7 +86,7 @@ RSpec.describe Baron::Round::InitialAuction do
         let(:done) { true }
 
         it 'returns a new auction' do
-          expect(subject).to_not equal auction_round.current_operation
+          expect(subject).to_not equal auction_round.current_turn
         end
 
         describe 'the player after the previous winner goes first' do
@@ -94,7 +94,7 @@ RSpec.describe Baron::Round::InitialAuction do
             let(:winner) { player1 }
             it 'assigns player 2 to go first' do
               subject
-              expect(auction_round.current_operation.active_players).to eq [
+              expect(auction_round.current_turn.active_players).to eq [
                 player2,
                 player3,
                 player1
@@ -106,7 +106,7 @@ RSpec.describe Baron::Round::InitialAuction do
             let(:winner) { player2 }
             it 'assigns player 3 to go first' do
               subject
-              expect(auction_round.current_operation.active_players).to eq [
+              expect(auction_round.current_turn.active_players).to eq [
                 player3,
                 player1,
                 player2
@@ -118,7 +118,7 @@ RSpec.describe Baron::Round::InitialAuction do
             let(:winner) { player3 }
             it 'assigns player 1 to go first' do
               subject
-              expect(auction_round.current_operation.active_players).to eq [
+              expect(auction_round.current_turn.active_players).to eq [
                 player1,
                 player2,
                 player3

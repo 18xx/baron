@@ -1,5 +1,5 @@
 module Baron
-  class Operation
+  class Turn
     # This is an auction where the players bid, and the winner then chooses
     # which thing to purchase after winning.
     class WinnerChooseAuction
@@ -37,7 +37,7 @@ module Baron
       # Creates an instance of this auction
       #
       # @example
-      #   Baron::Operation::WinnerChooseAuction(player_set)
+      #   Baron::Turn::WinnerChooseAuction(player_set)
       #
       # @api public
       # @param [Array<Baron::Player>] players All players participating in this
@@ -116,7 +116,7 @@ module Baron
       #   auction.current_bid
       #
       # @api public
-      # @return [Baron::Operation::Bid] Returns the most recent bid, nil if
+      # @return [Baron::Turn::Bid] Returns the most recent bid, nil if
       # there are no bids.
       def current_bid
         @bids.last

@@ -27,11 +27,6 @@ require 'baron/initial_offering'
 require 'baron/game'
 require 'baron/money'
 
-require 'baron/operation'
-require 'baron/operation/stock_turn'
-require 'baron/operation/winner_choose_auction'
-require 'baron/operation/wrong_turn'
-
 require 'baron/player'
 
 require 'baron/round'
@@ -41,4 +36,10 @@ require 'baron/round/stock_round'
 require 'baron/rules'
 require 'baron/transaction'
 require 'baron/transferrable'
+
+require 'baron/turn'
+require 'baron/turn/stock_turn'
+require 'baron/turn/winner_choose_auction'
+require 'baron/turn/wrong_turn'
+
 require 'baron/unavailable_certificates_pool'
