@@ -19,12 +19,45 @@ module Baron
       # @param [Baron::Game] game
       def initialize(game)
         @game = game
+        @players = game.players.dup
         @unavailable_certificates_pool = game.unavailable_certificates_pool
         make_directorships_available
         make_shares_available
       end
 
+      # The current player whose turn it is
+      #
+      # @example
+      #   round.current_player
+      #
+      # @api public
+      # @return [Baron::Player]
+      def current_player
+        current_turn.player
+      end
+
+      # The current stock turn of a player taking their actions
+      #
+      # @example
+      #   round.current_turn
+      #
+      # @api public
+      # @return [Baron::Turn::StockTurn]
+      def current_turn
+        @current_turn = Turn::StockTurn.new(next_player, self) if
+          !defined?(@current_turn) || @current_turn.done?
+        @current_turn
+      end
+
       private
+
+      # The next player to take a turn
+      #
+      # @api private
+      # @return [Baron::Player]
+      def next_player
+        @players.push(@players.shift).last
+      end
 
       # Transfer directorships to the initial offering
       #

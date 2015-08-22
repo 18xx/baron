@@ -14,8 +14,17 @@ RSpec.describe Baron::Turn::StockTurn do
 
   describe '#round' do
     subject { turn.round }
+
     it 'returns the round' do
       should be round
+    end
+  end
+
+  describe '#done?' do
+    subject { turn.done? }
+
+    it 'is false' do
+      should be false
     end
   end
 end

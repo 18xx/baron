@@ -48,4 +48,53 @@ RSpec.describe Baron::Round::StockRound do
       should be game
     end
   end
+
+  describe '#current_player' do
+    subject { stock_round.current_player }
+
+    it 'returns the player whose turn it currently is' do
+      should be player1
+    end
+  end
+
+  describe '#current_turn' do
+    subject { stock_round.current_turn }
+
+    context 'when the turn has not been initialized' do
+      it 'returns a new stock turn' do
+        expect(subject).to be_a Baron::Turn::StockTurn
+      end
+
+      it 'is for the first player' do
+        expect(subject.player).to be player1
+      end
+
+      it 'is for this stock round' do
+        expect(subject.round).to be stock_round
+      end
+    end
+
+    context 'when the the turn is called consecutively' do
+      context 'when the turn is done' do
+        before do
+          subject
+          allow(subject).to receive(:done?).and_return(true)
+        end
+
+        it 'returns a new turn' do
+          expect(subject).to_not be stock_round.current_turn
+        end
+
+        it 'is for the next player' do
+          expect(stock_round.current_turn.player).to be player2
+        end
+      end
+
+      context 'when the turn is not done' do
+        it 'returns the same turn' do
+          expect(subject).to be stock_round.current_turn
+        end
+      end
+    end
+  end
 end

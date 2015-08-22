@@ -36,6 +36,20 @@ module Baron
         @player = player
         @round = round
       end
+
+      # Is this stock turn over?
+      #
+      # The persons stock turn is over if they have passed, or if they have
+      # done their purchase for the round.
+      #
+      # @example
+      #   turn.done?
+      #
+      # @api public
+      # @return [Boolean] Returns true if this turn is done, false otherwise
+      def done?
+        false
+      end
     end
   end
 end
