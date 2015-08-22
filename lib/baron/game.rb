@@ -105,6 +105,17 @@ module Baron
       current_round.current_operation
     end
 
+    # The player whose turn it is to currently act
+    #
+    # @example
+    #   game.current_player
+    #
+    # @api public
+    # @return [Baron::Player]
+    def current_player
+      current_operation.current_player
+    end
+
     # Get the director of a company
     #
     # @example

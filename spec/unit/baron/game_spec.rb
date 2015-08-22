@@ -146,6 +146,12 @@ RSpec.describe Baron::Game do
     end
   end
 
+  describe '#current_player' do
+    it 'returns the first player' do
+      expect(subject.current_player).to eq players.first
+    end
+  end
+
   describe '#director' do
     subject { game.director(company) }
     let(:company) { double }
