@@ -72,4 +72,12 @@ RSpec.describe Baron::Certificate do
       it { should == 1 }
     end
   end
+
+  describe '#inspect' do
+    subject { certificate.inspect }
+
+    it 'returns a string representation of the object' do
+      should == "#<Baron::Certificiate:#{certificate.object_id} LNWR @ 0.1>"
+    end
+  end
 end

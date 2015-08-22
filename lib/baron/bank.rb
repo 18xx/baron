@@ -4,5 +4,13 @@ module Baron
   # trains, and more.
   class Bank
     include Shareholder
+
+    # Return a string representation of the bank
+    #
+    # @api private
+    # @return [String]
+    def inspect
+      "#<Baron::Bank:#{object_id}>"
+    end
   end
 end

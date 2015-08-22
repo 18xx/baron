@@ -44,5 +44,13 @@ module Baron
     def to_s
       name
     end
+
+    # Return a string representation of the player
+    #
+    # @api private
+    # @return [String]
+    def inspect
+      "#<Baron::Player:#{object_id} #{self}>"
+    end
   end
 end

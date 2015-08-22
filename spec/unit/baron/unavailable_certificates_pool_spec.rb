@@ -85,4 +85,12 @@ RSpec.describe Baron::UnavailableCertificatesPool do
       end
     end
   end
+
+  describe '#inspect' do
+    subject { pool.inspect }
+
+    it 'returns a string representation of the object' do
+      should == "#<Baron::UnavailableCertificatesPool:#{pool.object_id}>"
+    end
+  end
 end

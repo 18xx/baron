@@ -45,6 +45,14 @@ module Baron
       )
     end
 
+    # Return a string representation of the pool
+    #
+    # @api private
+    # @return [String]
+    def inspect
+      "#<Baron::UnavailableCertificatesPool:#{object_id}>"
+    end
+
     private
 
     # Finds the controlling certificate for a company

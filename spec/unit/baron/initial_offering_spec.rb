@@ -76,4 +76,13 @@ RSpec.describe Baron::InitialOffering do
       end
     end
   end
+
+  describe '#inspect' do
+    subject { initial_offering.inspect }
+    it 'returns a string representation of the object' do
+      expect(subject).to eq(
+        "#<Baron::InitialOffering:#{initial_offering.object_id}>"
+      )
+    end
+  end
 end

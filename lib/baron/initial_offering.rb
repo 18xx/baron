@@ -57,6 +57,14 @@ module Baron
       @par_prices[company] = par_price
     end
 
+    # Return a string representation of the initial offering
+    #
+    # @api private
+    # @return [String]
+    def inspect
+      "#<Baron::InitialOffering:#{object_id}>"
+    end
+
     # The par price has alreay been set
     #
     # It can only be set once on a major company

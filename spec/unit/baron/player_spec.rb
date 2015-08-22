@@ -28,4 +28,12 @@ RSpec.describe Baron::Player do
       expect(subject.to_s).to eq 'Namine'
     end
   end
+
+  describe '#inspect' do
+    it 'returns a string representation of the object' do
+      expect(subject.inspect).to eq(
+        "#<Baron::Player:#{subject.object_id} Namine>"
+      )
+    end
+  end
 end

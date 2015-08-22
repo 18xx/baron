@@ -82,5 +82,13 @@ module Baron
         1
       end
     end
+
+    # Return a string representation of the player
+    #
+    # @api private
+    # @return [String]
+    def inspect
+      "#<Baron::Certificiate:#{object_id} #{company} @ #{portion.to_f}>"
+    end
   end
 end
