@@ -38,7 +38,7 @@ module Baron
         @done = false
       end
 
-      # The current player buys the certifiate from a source
+      # The player buys the certifiate from a source
       #
       # The player will buy the certificate at the appropriate price determined
       # by the par price or market price for that certificate
@@ -54,6 +54,20 @@ module Baron
       def buy_certificate(source, certificate)
         @done = true
         Action::BuyCertificate.new player, source, certificate
+      end
+
+      # The player passes
+      #
+      # The player will be done, and they can not take any more actions on this
+      # turn
+      #
+      # @example
+      #   turn.pass
+      #
+      # @api public
+      # @return [void]
+      def pass
+        @done = true
       end
 
       # Is this stock turn over?

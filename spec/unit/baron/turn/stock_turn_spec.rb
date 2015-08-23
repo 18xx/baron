@@ -48,6 +48,21 @@ RSpec.describe Baron::Turn::StockTurn do
       )
       subject
     end
+
+    it 'makes the turn done' do
+      allow(Baron::Action::BuyCertificate).to receive(:new)
+      subject
+      expect(turn).to be_done
+    end
+  end
+
+  describe '#pass' do
+    subject { turn.pass }
+
+    it 'makes the turn done' do
+      subject
+      expect(turn).to be_done
+    end
   end
 
   describe '#available_actions' do
