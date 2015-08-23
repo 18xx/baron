@@ -99,14 +99,42 @@ RSpec.describe Baron::Round::StockRound do
   end
 
   describe '#over?' do
+    let(:certificate) { instance_double Baron::Certificate, company: company }
+    let(:company) do
+      instance_double Baron::Company::MajorCompany, floated?: true
+    end
+
     subject { stock_round.over? }
 
     context 'when all players have passed consecutively' do
-      it 'should be true'
+      before do
+        num_passes.times { stock_round.current_turn.pass }
+      end
+
+      context 'when not all players have had a turn' do
+        let(:num_passes) { 2 }
+        it { should be false }
+      end
+
+      context 'when all players have had a turn' do
+        let(:num_passes) { 3 }
+        it { should be true }
+      end
     end
 
     context 'when all players have not passed consecutively' do
+      before do
+        allow(Baron::Action::BuyCertificate).to receive(:new)
+        2.times { stock_round.current_turn.pass }
+        stock_round.current_turn.buy_certificate nil, certificate
+        2.times { stock_round.current_turn.pass }
+      end
       it { should be false }
+
+      context 'when all players have passed in a row' do
+        before { stock_round.current_turn.pass }
+        it { should be true }
+      end
     end
   end
 end

@@ -114,6 +114,11 @@ RSpec.describe Baron::Turn::StockTurn do
       subject
       expect(turn).to be_done
     end
+
+    it 'makes the turn passed' do
+      subject
+      expect(turn).to be_passed
+    end
   end
 
   describe '#available_actions' do
@@ -129,8 +134,8 @@ RSpec.describe Baron::Turn::StockTurn do
     end
   end
 
-  describe '#pass?' do
-    subject { turn.pass? }
+  describe '#passed?' do
+    subject { turn.passed? }
 
     context 'when this action was a pass' do
       before { turn.pass }

@@ -57,7 +57,9 @@ module Baron
       # @api public
       # @return [Boolean]
       def over?
-        false
+        num_players = @players.count
+        @turns.count >= num_players &&
+          @turns.last(num_players).all?(&:passed?)
       end
 
       private
