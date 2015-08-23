@@ -35,6 +35,25 @@ module Baron
       def initialize(player, round)
         @player = player
         @round = round
+        @done = false
+      end
+
+      # The current player buys the certifiate from a source
+      #
+      # The player will buy the certificate at the appropriate price determined
+      # by the par price or market price for that certificate
+      #
+      # @example
+      #   turn.buy_certificate(source, certificate)
+      #
+      # @api public
+      # @param [Baron::Shareholder] source The place the player is buying the
+      # certificate from
+      # @param [Baron::Certificate] certificate
+      # @return [void]
+      def buy_certificate(source, certificate)
+        @done = true
+        Action::BuyCertificate.new player, source, certificate
       end
 
       # Is this stock turn over?
@@ -48,7 +67,7 @@ module Baron
       # @api public
       # @return [Boolean] Returns true if this turn is done, false otherwise
       def done?
-        false
+        @done
       end
 
       # Returns a list of actions that the player can take

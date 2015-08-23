@@ -23,8 +23,30 @@ RSpec.describe Baron::Turn::StockTurn do
   describe '#done?' do
     subject { turn.done? }
 
-    it 'is false' do
-      should be false
+    context 'when the user has not bought a certificate' do
+      it { should be false }
+    end
+
+    context 'when the user has bought a certificate' do
+      before do
+        allow(Baron::Action::BuyCertificate).to receive(:new)
+        turn.buy_certificate nil, nil
+      end
+
+      it { should be true }
+    end
+  end
+
+  describe '#buy_certificate' do
+    let(:source) { double }
+    let(:certificate) { double }
+    subject { turn.buy_certificate source, certificate }
+
+    it 'creates a buy certificate action' do
+      expect(Baron::Action::BuyCertificate).to receive(:new).with(
+        player, source, certificate
+      )
+      subject
     end
   end
 
