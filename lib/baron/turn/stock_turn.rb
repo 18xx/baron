@@ -54,6 +54,7 @@ module Baron
       def buy_certificate(source, certificate)
         @done = true
         Action::BuyCertificate.new player, source, certificate
+        check_for_float certificate.company
       end
 
       # The player passes
@@ -93,6 +94,48 @@ module Baron
       # @return [Array<Baron::Action>]
       def available_actions
         [Action::BuyCertificate, Action::Pass]
+      end
+
+      private
+
+      # The bank for this game
+      #
+      # @api private
+      # @return [Baron::Bank]
+      def bank
+        @round.game.bank
+      end
+
+      # The initial offering
+      #
+      # @api private
+      # @return [Baron::InitialOffering]
+      def initial_offering
+        @round.game.initial_offering
+      end
+
+      # Floats the specified company
+      #
+      # @api private
+      # @return [void]
+      def float(company)
+        Transaction.new(
+          company,
+          [initial_offering.get_par_price(company) * 10],
+          bank,
+          []
+        )
+      end
+
+      # Check to see if the company has floated
+      #
+      # @api private
+      # @param [Baron::Company] company
+      # @return [void]
+      def check_for_float(company)
+        float(company) unless
+          company.floated? ||
+          (initial_offering.percentage_owned(company) > BigDecimal.new('0.5'))
       end
     end
   end
