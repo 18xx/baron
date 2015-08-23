@@ -94,6 +94,35 @@ RSpec.describe Baron::Shareholder do
     end
   end
 
+  describe '#certificates_for' do
+    let(:certificate) { Baron::Certificate.new company, BigDecimal.new('0.1') }
+    let(:requested_company) { company }
+    subject { a.certificates_for requested_company }
+
+    context 'when the shareholder has nothing' do
+      let(:transactions) { nil }
+      it { should be_empty }
+    end
+
+    context 'when the shareholder has certificates' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, [certificate], nil, [])
+        ]
+      end
+
+      context 'when the requested company matches a certificate' do
+        it { should match_array [certificate] }
+      end
+
+      context 'when the shareholder has none of the requested company certs' do
+        let(:requested_company) { double }
+
+        it { should be_empty }
+      end
+    end
+  end
+
   describe '#directorships' do
     subject { a.directorships }
 

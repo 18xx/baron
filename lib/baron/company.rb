@@ -2,6 +2,8 @@ module Baron
   # A company represents one of the sets of railroad companies which exist
   # in the game, including Private, Minor, and Major railroad companies
   class Company
+    include Shareholder
+
     # The short abbreviation for the company
     #
     # @example

@@ -35,6 +35,21 @@ module Baron
       end
     end
 
+    # Returns all of the certificates for the matching company
+    #
+    # @example
+    #   sharholder.certificates_for(company)
+    #
+    # @api public
+    # @return [Array<Baron::Certificate>] The certificates for the matching
+    # company. If the sharholder has no certificates, then an empty array
+    # will be returned
+    def certificates_for(company)
+      certificates.select do |cert|
+        cert.company.equal? company
+      end
+    end
+
     # Return the companies that this shareholder is a director of
     #
     # @example
