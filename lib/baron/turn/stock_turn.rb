@@ -50,6 +50,17 @@ module Baron
       def done?
         false
       end
+
+      # Returns a list of actions that the player can take
+      #
+      # @example
+      #   turn.available_actions
+      #
+      # @api public
+      # @return [Array<Baron::Action>]
+      def available_actions
+        [Action::BuyCertificate, Action::Pass]
+      end
     end
   end
 end

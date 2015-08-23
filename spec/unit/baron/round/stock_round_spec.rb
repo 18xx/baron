@@ -97,4 +97,16 @@ RSpec.describe Baron::Round::StockRound do
       end
     end
   end
+
+  describe '#over?' do
+    subject { stock_round.over? }
+
+    context 'when all players have passed consecutively' do
+      it 'should be true'
+    end
+
+    context 'when all players have not passed consecutively' do
+      it { should be false }
+    end
+  end
 end

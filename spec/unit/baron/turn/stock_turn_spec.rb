@@ -27,4 +27,17 @@ RSpec.describe Baron::Turn::StockTurn do
       should be false
     end
   end
+
+  describe '#available_actions' do
+    subject { turn.available_actions }
+
+    context 'when the player has not taken an action' do
+      it 'allows the player to buy, or pass' do
+        should match_array([
+          Baron::Action::BuyCertificate,
+          Baron::Action::Pass
+        ])
+      end
+    end
+  end
 end

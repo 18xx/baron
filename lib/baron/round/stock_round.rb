@@ -49,6 +49,17 @@ module Baron
         @current_turn
       end
 
+      # Is the current round over?
+      #
+      # @example
+      #   round.over?
+      #
+      # @api public
+      # @return [Boolean]
+      def over?
+        false
+      end
+
       private
 
       # The next player to take a turn
