@@ -185,4 +185,27 @@ RSpec.describe Baron::Shareholder do
       end
     end
   end
+
+  describe '#private_certificates' do
+    subject { a.private_certificates }
+
+    context 'when the shareholder has no private certificates' do
+      it { should be_empty }
+    end
+
+    context 'when the shareholder has private certificates' do
+      let(:company) do
+        Baron::Company::PrivateCompany.new(
+          'LNWR',
+          nil,
+          face_value: Baron::Money.new(100),
+          revenue: Baron::Money.new(10)
+        )
+      end
+
+      it 'returns the private certificates' do
+        should match_array([a_certificate])
+      end
+    end
+  end
 end

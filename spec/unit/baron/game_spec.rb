@@ -122,6 +122,21 @@ RSpec.describe Baron::Game do
       it 'assigns this game to the round' do
         expect(subject.game).to be game
       end
+
+      context 'after the stock round has ended' do
+        before do
+          round = game.current_round
+          allow(round).to receive(:over?) { true }
+        end
+
+        it 'is a operating round' do
+          expect(subject).to be_a Baron::Round::OperatingRound
+        end
+
+        it 'assigns this game to the round' do
+          expect(subject.game).to be game
+        end
+      end
     end
   end
 

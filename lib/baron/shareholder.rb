@@ -75,6 +75,20 @@ module Baron
       certificates.select(&:director?).map(&:company)
     end
 
+    # Return the private companies that this shareholder currently owns
+    #
+    # @example
+    #   shareholder.private_companies
+    #
+    # @api public
+    # @return [Array<Baron::Company::PrivateCompany>] The private companies
+    # that this shareholder currently owns
+    def private_certificates
+      certificates.select do |cert|
+        cert.company.instance_of? Company::PrivateCompany
+      end
+    end
+
     # Adds a transaction to this shareholder
     #
     # @example

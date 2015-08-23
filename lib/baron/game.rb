@@ -88,7 +88,7 @@ module Baron
     # @return [Baron::Round]
     def current_round
       @current_round ||= Round::InitialAuction.new(self)
-      @current_round = Round::StockRound.new(self) if @current_round.over?
+      @current_round = next_round.new(self) if @current_round.over?
       @current_round
     end
 
@@ -199,6 +199,20 @@ module Baron
     def init_starting_cash
       players.each do |player|
         Transaction.new player, [rules.starting_cash(players.count)], bank, []
+      end
+    end
+
+    # Returns the next round to be played in the game
+    #
+    # The game will normally cycle between stock rounds and operating rounds
+    #
+    # @api private
+    # @return [Baron::Round]
+    def next_round
+      if @current_round.instance_of?(Round::StockRound)
+        Round::OperatingRound
+      else
+        Round::StockRound
       end
     end
   end

@@ -31,6 +31,7 @@ require 'baron/player'
 
 require 'baron/round'
 require 'baron/round/initial_auction'
+require 'baron/round/operating_round'
 require 'baron/round/stock_round'
 
 require 'baron/rules'
