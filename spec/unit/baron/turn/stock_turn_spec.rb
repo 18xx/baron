@@ -128,4 +128,17 @@ RSpec.describe Baron::Turn::StockTurn do
       end
     end
   end
+
+  describe '#pass?' do
+    subject { turn.pass? }
+
+    context 'when this action was a pass' do
+      before { turn.pass }
+      it { should be true }
+    end
+
+    context 'when the action was not a pass' do
+      it { should be false }
+    end
+  end
 end

@@ -21,6 +21,7 @@ module Baron
         @game = game
         @players = game.players.dup
         @unavailable_certificates_pool = game.unavailable_certificates_pool
+        @turns = []
         make_directorships_available
         make_shares_available
       end
@@ -44,9 +45,8 @@ module Baron
       # @api public
       # @return [Baron::Turn::StockTurn]
       def current_turn
-        @current_turn = Turn::StockTurn.new(next_player, self) if
-          !defined?(@current_turn) || @current_turn.done?
-        @current_turn
+        @turns << Turn::StockTurn.new(next_player, self) if @turns.all?(&:done?)
+        @turns.last
       end
 
       # Is the current round over?

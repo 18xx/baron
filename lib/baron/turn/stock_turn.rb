@@ -36,6 +36,7 @@ module Baron
         @player = player
         @round = round
         @done = false
+        @pass = false
       end
 
       # The player buys the certifiate from a source
@@ -68,6 +69,7 @@ module Baron
       # @api public
       # @return [void]
       def pass
+        @pass = true
         @done = true
       end
 
@@ -83,6 +85,19 @@ module Baron
       # @return [Boolean] Returns true if this turn is done, false otherwise
       def done?
         @done
+      end
+
+      # Was this action a pass?
+      #
+      # A pass is defined as taking no buy, or sell actions
+      #
+      # @example
+      #   turn.pass?
+      #
+      # @api public
+      # @return [Boolean] True if this was a pass, false otherwise
+      def pass?
+        @pass
       end
 
       # Returns a list of actions that the player can take
