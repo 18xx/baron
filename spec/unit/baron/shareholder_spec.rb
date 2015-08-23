@@ -123,6 +123,44 @@ RSpec.describe Baron::Shareholder do
     end
   end
 
+  describe '#percengage_owned' do
+    let(:certificates) do
+      [
+        Baron::Certificate.new(double, BigDecimal.new('0.1')),
+        Baron::Certificate.new(company, BigDecimal.new('0.1')),
+        Baron::Certificate.new(company, BigDecimal.new('0.1'))
+      ]
+    end
+
+    let(:requested_company) { company }
+    subject { a.percentage_owned requested_company }
+
+    context 'when the shareholder has nothing' do
+      let(:transactions) { nil }
+      it { should be_zero }
+    end
+
+    context 'when the shareholder has certificates' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, certificates, nil, [])
+        ]
+      end
+
+      context 'when the requested company matches a certificate' do
+        it 'returns the sum of the portions' do
+          should eq BigDecimal.new('0.2')
+        end
+      end
+
+      context 'when the shareholder has none of the requested company certs' do
+        let(:requested_company) { double }
+
+        it { should be_zero }
+      end
+    end
+  end
+
   describe '#directorships' do
     subject { a.directorships }
 

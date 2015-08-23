@@ -50,6 +50,18 @@ module Baron
       end
     end
 
+    # Returns the percentage of the company by this sharedholder
+    #
+    # @example
+    #   shareholder.percentage_owned(company)
+    #
+    # @api public
+    # @return [BigDecimal] The percantage of this company owned by the
+    # shareholder. If this shareholder owns no shares, then 0 is returned.
+    def percentage_owned(company)
+      certificates_for(company).map(&:portion).inject(:+) || 0
+    end
+
     # Return the companies that this shareholder is a director of
     #
     # @example
