@@ -12,12 +12,10 @@ module Baron
       # @param [Baron::Player] player The player making the purchase
       # @param [Baron::Shareholder] source The source of the certificiate
       # @param [Baron::Certificate] certificate The certificate being purchased
-      # @param [Baron::Money] price The price being paid
-      def initialize(player, source, certificate, price)
+      def initialize(player, source, certificate)
         @player = player
         @source = source
         @certificate = certificate
-        @price = price
         create_transaction
       end
 
@@ -32,7 +30,7 @@ module Baron
           @player,
           [@certificate],
           @source,
-          [@price]
+          [@source.cost(@certificate)]
         )
       end
     end

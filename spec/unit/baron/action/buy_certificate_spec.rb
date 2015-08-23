@@ -1,11 +1,14 @@
 RSpec.describe Baron::Action::BuyCertificate do
   let(:player) { Baron::Player.new 'a' }
-  let(:source) { Baron::Bank.new }
+  let(:source) { Baron::InitialOffering.new }
   let(:certificate) { Baron::Certificate.new company, BigDecimal.new('0.1') }
   let(:company) { instance_double Baron::Company }
-  let(:price) { Baron::Money.new 90 }
 
-  let(:action) { described_class.new player, source, certificate, price }
+  let(:action) { described_class.new player, source, certificate }
+
+  before do
+    source.set_par_price(company, Baron::Money.new(90))
+  end
 
   describe 'initialization' do
     before do
