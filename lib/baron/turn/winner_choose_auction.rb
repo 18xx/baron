@@ -89,11 +89,11 @@ module Baron
       # Determine the current player
       #
       # @example
-      #   auction.current_player
+      #   auction.player
       #
       # @api public
       # @return [Baron::Player] The player whose turn it is
-      def current_player
+      def player
         @active_players.first
       end
 
@@ -174,11 +174,11 @@ module Baron
       # player.
       #
       # @api private
-      # @param [Baron::Player] player
+      # @param [Baron::Player] bid_player
       # @return nil
-      def validate_turn(player)
-        fail WrongTurn, "#{player} bid, but it is " \
-          "#{current_player}'s turn" unless player.equal?(current_player)
+      def validate_turn(bid_player)
+        fail WrongTurn, "#{bid_player} bid, but it is " \
+          "#{player}'s turn" unless player.equal?(bid_player)
       end
 
       # Validate that this bid is legal

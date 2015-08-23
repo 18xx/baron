@@ -61,7 +61,7 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
 
       it 'moves the active player to the next player' do
         subject.bid bid
-        expect(subject.current_player).to eq(player2)
+        expect(subject.player).to eq(player2)
       end
 
       it 'keeps the bidding player active' do
@@ -147,10 +147,10 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
     end
   end
 
-  describe '#current_player' do
+  describe '#player' do
     context 'when no one has acted' do
       it 'is the first player' do
-        expect(subject.current_player).to eq player1
+        expect(subject.player).to eq player1
       end
     end
 
@@ -158,7 +158,7 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
       it 'is the next player in order' do
         subject.bid Baron::Action::Bid.new(player1, 5)
         subject.pass
-        expect(subject.current_player).to eq player3
+        expect(subject.player).to eq player3
       end
     end
   end

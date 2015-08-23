@@ -113,7 +113,7 @@ module Baron
     # @api public
     # @return [Baron::Player]
     def current_player
-      current_turn.current_player
+      current_turn.player
     end
 
     # Get the director of a company
