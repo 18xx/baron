@@ -15,6 +15,26 @@ module Baron
       # @param [Baron::Game] game
       def initialize(game)
         @game = game
+        pay_privates
+      end
+
+      private
+
+      # Pay out all private companies
+      #
+      # @api private
+      # @return [void]
+      def pay_privates
+        @game.players.each do |player|
+          player.private_certificates.each do |private_cert|
+            Transaction.new(
+              player,
+              [private_cert.company.revenue],
+              @game.bank,
+              []
+            )
+          end
+        end
       end
     end
   end
