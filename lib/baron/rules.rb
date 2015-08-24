@@ -81,6 +81,17 @@ module Baron
       Money.new @config.fetch('starting_money').fetch(num_players)
     end
 
+    # The stock market values for the game
+    #
+    # @example
+    #   rules.market_values
+    #
+    # @api public
+    # @return [Array<Fixnum>]
+    def market_values
+      @config.fetch('stock_market').fetch('values')
+    end
+
     private
 
     # Create the companies that are defined for this game in the config

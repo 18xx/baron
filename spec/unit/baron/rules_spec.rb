@@ -123,4 +123,17 @@ RSpec.describe Baron::Rules do
       )
     end
   end
+
+  describe '#market_values' do
+    subject { config.market_values }
+
+    it 'returns an array of numbers representing the market' do
+      expect(subject).to match_array([
+        0, 7, 14, 20, 26, 31, 36, 40, 44, 47, 50, 52, 54, 56, 58, 60, 62, 65,
+        68, 71, 74, 78, 82, 86, 90, 95, 100, 105, 110, 116, 122, 128, 134, 142,
+        150, 158, 166, 174, 182, 191, 200, 210, 220, 230, 240, 250, 260, 270,
+        280, 290, 300, 310, 320, 330, 340
+      ])
+    end
+  end
 end
