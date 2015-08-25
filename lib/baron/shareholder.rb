@@ -25,13 +25,9 @@ module Baron
     # @return [Array<Baron::Certificate>] All certificates this shareholder has
     def certificates
       transactions.each_with_object([]) do |transaction, certs|
-        transaction.incoming_certificates(self).each do |certificate|
-          certs << certificate
-        end
-
-        transaction.outgoing_certificates(self).each do |certificate|
-          certs.delete certificate
-        end
+        certs.push(*transaction.incoming_certificates(self))
+        outgoing = transaction.outgoing_certificates(self)
+        certs.reject! { |cert| outgoing.include? cert }
       end
     end
 
