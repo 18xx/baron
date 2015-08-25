@@ -141,12 +141,9 @@ RSpec.describe Baron::Round::InitialAuction do
       before do
         auction_round
         # Have player 1 buy all the certificates
-        Baron::Transaction.new(
-          player1,
-          game.initial_offering.certificates,
-          game.initial_offering,
-          []
-        )
+        game.initial_offering.certificates.each do |cert|
+          game.initial_offering.give player1, cert
+        end
       end
 
       it { should be true }

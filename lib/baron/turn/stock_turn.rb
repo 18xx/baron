@@ -134,12 +134,7 @@ module Baron
       # @api private
       # @return [void]
       def float(company)
-        Transaction.new(
-          company,
-          [initial_offering.get_par_price(company) * 10],
-          bank,
-          []
-        )
+        bank.give company, initial_offering.get_par_price(company) * 10
       end
 
       # Check to see if the company has floated

@@ -25,12 +25,7 @@ RSpec.describe Baron::Round::StockRound do
       end
 
       before do
-        Baron::Transaction.new(
-          player1,
-          [certificate],
-          game.unavailable_certificates_pool,
-          []
-        )
+        game.unavailable_certificates_pool.give player1, certificate
       end
 
       it 'makes directorships and non-directors certificates available ' do

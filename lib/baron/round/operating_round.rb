@@ -27,12 +27,7 @@ module Baron
       def pay_privates
         @game.players.each do |player|
           player.private_certificates.each do |private_cert|
-            Transaction.new(
-              player,
-              [private_cert.company.revenue],
-              @game.bank,
-              []
-            )
+            @game.bank.give player, private_cert.company.revenue
           end
         end
       end

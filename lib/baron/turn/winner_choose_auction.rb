@@ -72,9 +72,7 @@ module Baron
       # @return [void]
       def pass
         @active_players.shift
-        Transaction.new(
-          high_bidder, [], @bank, [current_bid.amount]
-        ) if winner?
+        high_bidder.give(@bank, current_bid.amount) if winner?
       end
 
       # The player selects a certificate with their action

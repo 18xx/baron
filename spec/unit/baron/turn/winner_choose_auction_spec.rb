@@ -1,17 +1,17 @@
 RSpec.describe Baron::Turn::WinnerChooseAuction do
   let(:player1) do
-    instance_double Baron::Player, to_s: 'Bart', add_transaction: nil
+    Baron::Player.new('Bart')
   end
 
   let(:player2) do
-    instance_double Baron::Player, to_s: 'Lisa', add_transaction: nil
+    Baron::Player.new('Lisa')
   end
 
   let(:player3) do
-    instance_double Baron::Player, to_s: 'Maggie', add_transaction: nil
+    Baron::Player.new('Maggie')
   end
 
-  let(:bank) { instance_double Baron::Bank, add_transaction: nil }
+  let(:bank) { Baron::Bank.new }
 
   let(:players) { [player1, player2, player3] }
 
@@ -138,11 +138,12 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
         subject.pass
       end
 
-      it 'transfers the bid from the winning player to the bank' do
-        expect(Baron::Transaction).to receive(:new).with(
-          player1, [], bank, [Baron::Money.new(5)]
-        )
-        subject.pass
+      it 'transfers the bid from winning player' do
+        expect { subject.pass }.to change { player1.balance.amount }.by(-5)
+      end
+
+      it 'transfers the bid to the bank' do
+        expect { subject.pass }.to change { bank.balance.amount }.by(5)
       end
     end
   end
