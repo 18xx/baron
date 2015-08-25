@@ -23,7 +23,8 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
   let(:bid_player) { player1 }
   let(:bid_amount) { Baron::Money.new 10 }
 
-  let(:initial_offering) { Baron::InitialOffering.new }
+  let(:initial_offering) { Baron::InitialOffering.new market }
+  let(:market) { double }
 
   let(:company) do
     instance_double(

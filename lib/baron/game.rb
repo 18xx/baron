@@ -30,6 +30,15 @@ module Baron
     # @return [Baron::InitialOffering]
     attr_reader :initial_offering
 
+    # The market
+    #
+    # @example
+    #   game.market
+    #
+    # @api public
+    # @return [Baron::Market]
+    attr_reader :market
+
     # The players involved in this game
     #
     # @example
@@ -72,6 +81,7 @@ module Baron
       @players = players.freeze
       init_bank
       init_certificates
+      init_market
       init_initial_offering
       init_starting_cash
     end
@@ -184,12 +194,20 @@ module Baron
       end
     end
 
+    # Create the market
+    #
+    # @api private
+    # @return [void]
+    def init_market
+      @market = Market.new rules
+    end
+
     # Create the initial offering
     #
     # @api private
     # @return [void]
     def init_initial_offering
-      @initial_offering = InitialOffering.new
+      @initial_offering = InitialOffering.new(market)
     end
 
     # Grant the players their initial starting capital

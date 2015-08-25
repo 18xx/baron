@@ -17,8 +17,9 @@ RSpec.describe Baron::Action::SelectCertificate do
   end
 
   let(:initial_offering) do
-    Baron::InitialOffering.new
+    Baron::InitialOffering.new market
   end
+  let(:market) { double }
 
   let(:player) { instance_double Baron::Player, add_transaction: nil }
 

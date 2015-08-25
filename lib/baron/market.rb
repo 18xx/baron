@@ -5,6 +5,15 @@ module Baron
   # The price will generally increase for paying dividends, decrease for not
   # paying a dividend, and decrease for sales of shares in the company.
   class Market
+    # The rules of this game
+    #
+    # @example
+    #   market.rules
+    #
+    # @api public
+    # @return [Baron::Rules]
+    attr_reader :rules
+
     # Initialize the market
     #
     # @example

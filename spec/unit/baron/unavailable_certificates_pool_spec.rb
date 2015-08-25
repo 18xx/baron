@@ -20,7 +20,8 @@ RSpec.describe Baron::UnavailableCertificatesPool do
     )
   end
 
-  let(:initial_offering) { Baron::InitialOffering.new }
+  let(:initial_offering) { Baron::InitialOffering.new market }
+  let(:market) { double }
 
   before do
     certificates = []
