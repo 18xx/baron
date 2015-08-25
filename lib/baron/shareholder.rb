@@ -100,6 +100,19 @@ module Baron
       transactions.push transaction
     end
 
+    # Give the shareholder the transferrable item at no cost
+    #
+    # @example
+    #   bank.give(shareholder, Baron::Money.new(10))
+    #
+    # @api public
+    # @param [Baron::Shareholder] shareholder The recipient of the transfer
+    # @param [Baron::Transferrable] transferrable The thing to transfer
+    # @return [Baron::Transaction] The transaction transferring things
+    def give(shareholder, transferrable)
+      Transaction.new shareholder, [transferrable], self, []
+    end
+
     private
 
     # The total amount that was given in credits or debits

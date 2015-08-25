@@ -37,12 +37,7 @@ module Baron
     # @param [Baron::InitialOffering] initial_offering
     # @return [void]
     def make_certificate_available(certificate, initial_offering)
-      Transaction.new(
-        initial_offering,
-        [certificate],
-        self,
-        []
-      )
+      give initial_offering, certificate
     end
 
     # Return a string representation of the pool

@@ -208,4 +208,16 @@ RSpec.describe Baron::Shareholder do
       end
     end
   end
+
+  describe '#give' do
+    subject { a.give(b, Baron::Money.new(10)) }
+
+    it 'gives the item to the specified shareholder' do
+      expect { subject }.to change { b.balance.amount }.by(10)
+    end
+
+    it 'deducts the amount from this shareholder' do
+      expect { subject }.to change { a.balance.amount }.by(-10)
+    end
+  end
 end

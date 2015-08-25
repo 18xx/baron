@@ -198,7 +198,7 @@ module Baron
     # @return [void]
     def init_starting_cash
       players.each do |player|
-        Transaction.new player, [rules.starting_cash(players.count)], bank, []
+        bank.give player, starting_cash
       end
     end
 
@@ -214,6 +214,14 @@ module Baron
       else
         Round::StockRound
       end
+    end
+
+    # The amount of money that players start the game with
+    #
+    # @api private
+    # @return [Baron::Money]
+    def starting_cash
+      rules.starting_cash(players.count)
     end
   end
 end
