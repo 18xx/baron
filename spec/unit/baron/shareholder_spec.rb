@@ -56,9 +56,7 @@ RSpec.describe Baron::Shareholder do
 
     context 'when the shareholder has acquired something' do
       let(:transactions) do
-        [
-          Baron::Transaction.new(a, [certificate], nil, [])
-        ]
+        a.grant certificate
       end
 
       it 'includes those certificates' do
@@ -106,9 +104,7 @@ RSpec.describe Baron::Shareholder do
 
     context 'when the shareholder has certificates' do
       let(:transactions) do
-        [
-          Baron::Transaction.new(a, [certificate], nil, [])
-        ]
+        a.grant certificate
       end
 
       context 'when the requested company matches a certificate' do
@@ -218,6 +214,14 @@ RSpec.describe Baron::Shareholder do
 
     it 'deducts the amount from this shareholder' do
       expect { subject }.to change { a.balance.amount }.by(-10)
+    end
+  end
+
+  describe '#grant' do
+    subject { a.grant(Baron::Money.new(10)) }
+
+    it 'gives the item to the specified shareholder' do
+      expect { subject }.to change { a.balance.amount }.by(10)
     end
   end
 end

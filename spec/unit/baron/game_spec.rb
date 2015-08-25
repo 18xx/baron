@@ -180,12 +180,7 @@ RSpec.describe Baron::Game do
 
     context 'when player a is the director' do
       before do
-        Baron::Transaction.new(
-          player_a,
-          [directors_certificate],
-          nil,
-          []
-        )
+        player_a.grant directors_certificate
       end
 
       it { should be player_a }

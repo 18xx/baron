@@ -113,6 +113,23 @@ module Baron
       Transaction.new shareholder, [transferrable], self, []
     end
 
+    # Get the transferrable item from no recipient
+    #
+    # This should not generally be used in the course of the normal game,
+    # as money will move between the bank, and players. However, to set the
+    # game up, the bank money needs to come from somewhere. Therefore, we
+    # can grant something to come from no source.
+    #
+    # @example
+    #   bank.grant(Baron::Money.new(12_000))
+    #
+    # @api public
+    # @param [Baron::Transferrable] transferrable The thing to transfer
+    # @return [Baron::Transaction] The transaction transferring things
+    def grant(transferrable)
+      Transaction.new self, [transferrable], nil, []
+    end
+
     private
 
     # The total amount that was given in credits or debits

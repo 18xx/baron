@@ -12,7 +12,7 @@ RSpec.describe Baron::Action::BuyCertificate do
 
   describe 'initialization' do
     before do
-      Baron::Transaction.new(source, [certificate], nil, [])
+      source.grant certificate
     end
 
     subject { action }

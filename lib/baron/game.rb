@@ -140,7 +140,7 @@ module Baron
     # @return [Baron::Bank]
     def init_bank
       @bank = Bank.new
-      Transaction.new(@bank, [Money.new(BANK_SIZE)], nil, [])
+      @bank.grant Money.new(BANK_SIZE)
     end
 
     # All certificates in the game
@@ -180,7 +180,7 @@ module Baron
     def init_certificates
       @unavailable_certificates_pool = UnavailableCertificatesPool.new
       certificates.each do |certificate|
-        Transaction.new @unavailable_certificates_pool, [certificate], nil, []
+        @unavailable_certificates_pool.grant certificate
       end
     end
 

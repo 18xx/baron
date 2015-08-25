@@ -28,12 +28,7 @@ RSpec.describe Baron::Round::OperatingRound do
     end
 
     before do
-      Baron::Transaction.new(
-        player1,
-        [certificate],
-        nil,
-        []
-      )
+      player1.grant certificate
     end
 
     it 'pays out private companies' do

@@ -41,12 +41,9 @@ RSpec.describe Baron::UnavailableCertificatesPool do
       )
     end
 
-    Baron::Transaction.new(
-      pool,
-      certificates,
-      nil,
-      []
-    )
+    certificates.each do |cert|
+      pool.grant cert
+    end
   end
 
   describe '#make_certificate_available' do

@@ -32,12 +32,7 @@ RSpec.describe Baron::Company::MajorCompany do
 
     context 'when the company has a transaction' do
       before do
-        Baron::Transaction.new(
-          company,
-          [Baron::Money.new(1000)],
-          nil,
-          []
-        )
+        company.grant Baron::Money.new(1000)
       end
       it { should be true }
     end
