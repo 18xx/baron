@@ -20,5 +20,15 @@ module Baron
     def initialize(player)
       @player = player
     end
+
+    # Returns a symbol representation of this action
+    #
+    # This is used to determine how to delegate the methods within the turn
+    #
+    # @api private
+    # @return [Symbol]
+    def symbol
+      self.class.name.split('::').last.downcase.to_sym
+    end
   end
 end

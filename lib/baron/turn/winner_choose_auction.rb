@@ -2,7 +2,7 @@ module Baron
   class Turn
     # This is an auction where the players bid, and the winner then chooses
     # which thing to purchase after winning.
-    class WinnerChooseAuction
+    class WinnerChooseAuction < self
       # Returns the players which are sill in the auction
       #
       # The first player returned in the player whose turn it currently is.
@@ -46,42 +46,6 @@ module Baron
         @active_players = players.dup
         @bank = bank
         @bids = []
-      end
-
-      # The player bids the amount in this auction
-      #
-      # By bidding, the player remains in the auction, and can win if all
-      # others players pass.
-      #
-      # @api private
-      # @param [Baron::Action:Bid] action The bid being made.
-      # @return [Array<Baron::Action::Bid>] All bids on this auction
-      def bid(action)
-        validate_turn(action.player)
-        validate_bid(action)
-        @active_players.push @active_players.shift
-        @bids << action
-      end
-
-      # The player passes on this auction
-      #
-      # The player can not bid again in this auction and will be removed from
-      # the list of active players.
-      #
-      # @api private
-      # @return [void]
-      def pass
-        @active_players.shift
-        high_bidder.give(@bank, current_bid.amount) if winner?
-      end
-
-      # The player selects a certificate with their action
-      #
-      # @api private
-      # @param [Baron::Action::SelectCertificate] action
-      # @return [Baron::Certificate] The certificate selected
-      def select(action)
-        @certificate = action.certificate
       end
 
       # Determine the current player
@@ -166,17 +130,40 @@ module Baron
 
       private
 
-      # Validate that is the specified player's turn
+      # The player bids the amount in this auction
       #
-      # It will throw an WrongTurn if the player specified is not the current
-      # player.
+      # By bidding, the player remains in the auction, and can win if all
+      # others players pass.
       #
       # @api private
-      # @param [Baron::Player] bid_player
-      # @return nil
-      def validate_turn(bid_player)
-        fail WrongTurn, "#{bid_player} bid, but it is " \
-          "#{player}'s turn" unless player.equal?(bid_player)
+      # @param [Baron::Action:Bid] action The bid being made.
+      # @return [Array<Baron::Action::Bid>] All bids on this auction
+      def bid(action)
+        validate_bid(action)
+        @active_players.push @active_players.shift
+        @bids << action
+      end
+
+      # The player passes on this auction
+      #
+      # The player can not bid again in this auction and will be removed from
+      # the list of active players.
+      #
+      # @api private
+      # @param [Baron::Action:Pass] _ The bid being made.
+      # @return [void]
+      def pass(_)
+        @active_players.shift
+        high_bidder.give(@bank, current_bid.amount) if winner?
+      end
+
+      # The player selects a certificate with their action
+      #
+      # @api private
+      # @param [Baron::Action::SelectCertificate] action
+      # @return [Baron::Certificate] The certificate selected
+      def selectcertificate(action)
+        @certificate = action.certificate
       end
 
       # Validate that this bid is legal
