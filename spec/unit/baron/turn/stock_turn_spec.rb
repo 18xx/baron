@@ -9,6 +9,9 @@ RSpec.describe Baron::Turn::StockTurn do
   let(:ipo) { instance_double Baron::InitialOffering }
   let(:bank) { Baron::Bank.new }
 
+  let(:certificate) { instance_double Baron::Certificate, company: company }
+  let(:company) { instance_double Baron::Company }
+
   describe '#player' do
     subject { turn.player }
 
@@ -39,16 +42,24 @@ RSpec.describe Baron::Turn::StockTurn do
     end
 
     context 'when the user has bought a certificate' do
+      let(:action) do
+        instance_double(
+          Baron::Action::BuyCertificate,
+          create_transaction: nil,
+          player: player,
+          symbol: :buycertificate,
+          certificate: certificate
+        )
+      end
       before do
-        allow(Baron::Action::BuyCertificate).to receive(:new)
-        turn.buy_certificate nil, certificate
+        turn.perform action
       end
 
       it { should be true }
     end
   end
 
-  describe '#buy_certificate' do
+  describe 'buy certificate' do
     let(:source) { double }
     let(:floated) { true }
     let(:company) do
@@ -57,11 +68,18 @@ RSpec.describe Baron::Turn::StockTurn do
     let(:certificate) do
       instance_double Baron::Certificate, company: company
     end
-    subject { turn.buy_certificate source, certificate }
+    let(:action) do
+      Baron::Action::BuyCertificate.new(
+        player,
+        source,
+        certificate
+      )
+    end
+    subject { turn.perform action }
     let(:percent_in_ipo) { BigDecimal.new('0.8') }
 
     before do
-      allow(Baron::Action::BuyCertificate).to receive(:new)
+      allow(action).to receive(:create_transaction)
       allow(ipo).to receive(:percentage_owned).with(company).and_return(
         percent_in_ipo
       )
@@ -70,16 +88,14 @@ RSpec.describe Baron::Turn::StockTurn do
       )
     end
 
-    it 'creates a buy certificate action' do
-      expect(Baron::Action::BuyCertificate).to receive(:new).with(
-        player, source, certificate
-      )
-      subject
-    end
-
     it 'makes the turn done' do
       subject
       expect(turn).to be_done
+    end
+
+    it 'creates the transaction' do
+      expect(action).to receive(:create_transaction).once
+      subject
     end
 
     context 'when the certificate does not cause the company to float' do
@@ -107,8 +123,8 @@ RSpec.describe Baron::Turn::StockTurn do
     end
   end
 
-  describe '#pass' do
-    subject { turn.pass }
+  describe 'pass' do
+    subject { turn.perform Baron::Action::Pass.new(player) }
 
     it 'makes the turn done' do
       subject
@@ -138,7 +154,7 @@ RSpec.describe Baron::Turn::StockTurn do
     subject { turn.passed? }
 
     context 'when this action was a pass' do
-      before { turn.pass }
+      before { turn.perform Baron::Action::Pass.new(player) }
       it { should be true }
     end
 

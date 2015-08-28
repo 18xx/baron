@@ -39,40 +39,6 @@ module Baron
         @passed = false
       end
 
-      # The player buys the certifiate from a source
-      #
-      # The player will buy the certificate at the appropriate price determined
-      # by the par price or market price for that certificate
-      #
-      # @example
-      #   turn.buy_certificate(source, certificate)
-      #
-      # @api public
-      # @param [Baron::Shareholder] source The place the player is buying the
-      # certificate from
-      # @param [Baron::Certificate] certificate
-      # @return [void]
-      def buy_certificate(source, certificate)
-        @done = true
-        Action::BuyCertificate.new player, source, certificate
-        check_for_float certificate.company
-      end
-
-      # The player passes
-      #
-      # The player will be done, and they can not take any more actions on this
-      # turn
-      #
-      # @example
-      #   turn.pass
-      #
-      # @api public
-      # @return [void]
-      def pass
-        @passed = true
-        @done = true
-      end
-
       # Is this stock turn over?
       #
       # The persons stock turn is over if they have passed, or if they have
@@ -146,6 +112,33 @@ module Baron
         float(company) unless
           company.floated? ||
           (initial_offering.percentage_owned(company) > BigDecimal.new('0.5'))
+      end
+
+      # The player buys the certifiate from a source
+      #
+      # The player will buy the certificate at the appropriate price determined
+      # by the par price or market price for that certificate
+      #
+      # @api private
+      # @param [Baron::Action::BuyCertificate] action
+      # @return [void]
+      def buycertificate(action)
+        @done = true
+        action.create_transaction
+        check_for_float action.certificate.company
+      end
+
+      # The player passes
+      #
+      # The player will be done, and they can not take any more actions on this
+      # turn
+      #
+      # @api private
+      # @param [Baron::Action::Pass] _
+      # @return [void]
+      def pass(_)
+        @passed = true
+        @done = true
       end
     end
   end

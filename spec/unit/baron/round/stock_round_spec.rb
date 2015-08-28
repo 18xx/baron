@@ -103,31 +103,46 @@ RSpec.describe Baron::Round::StockRound do
 
     context 'when all players have passed consecutively' do
       before do
-        num_passes.times { stock_round.current_turn.pass }
+        passers.each do |player|
+          stock_round.current_turn.perform(Baron::Action::Pass.new(player))
+        end
       end
 
       context 'when not all players have had a turn' do
-        let(:num_passes) { 2 }
+        let(:passers) { [player1, player2] }
         it { should be false }
       end
 
       context 'when all players have had a turn' do
-        let(:num_passes) { 3 }
+        let(:passers) { players }
         it { should be true }
       end
     end
 
     context 'when all players have not passed consecutively' do
+      let(:buy_action) do
+        Baron::Action::BuyCertificate.new(
+          player3,
+          nil,
+          certificate
+        )
+      end
       before do
-        allow(Baron::Action::BuyCertificate).to receive(:new)
-        2.times { stock_round.current_turn.pass }
-        stock_round.current_turn.buy_certificate nil, certificate
-        2.times { stock_round.current_turn.pass }
+        allow(buy_action).to receive(:create_transaction)
+        [player1, player2].each do |player|
+          stock_round.current_turn.perform Baron::Action::Pass.new(player)
+        end
+        stock_round.current_turn.perform buy_action
+        [player1, player2].each do |player|
+          stock_round.current_turn.perform Baron::Action::Pass.new(player)
+        end
       end
       it { should be false }
 
       context 'when all players have passed in a row' do
-        before { stock_round.current_turn.pass }
+        before do
+          stock_round.current_turn.perform Baron::Action::Pass.new(player3)
+        end
         it { should be true }
       end
     end

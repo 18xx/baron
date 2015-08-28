@@ -11,12 +11,12 @@ RSpec.describe Baron::Action::BuyCertificate do
     source.set_par_price(company, Baron::Money.new(90))
   end
 
-  describe 'initialization' do
+  describe '#create_transaction' do
     before do
       source.grant certificate
     end
 
-    subject { action }
+    subject { action.create_transaction }
 
     it 'transfers the certificate to the player' do
       expect { subject }.to change { player.certificates.count }.by(1)

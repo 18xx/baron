@@ -3,6 +3,15 @@ module Baron
     # Buy certificate allows a player to purchase a certificate from a
     # shareholder. Usually the initial offering or the bank pool.
     class BuyCertificate < self
+      # The certificate being purchased
+      #
+      # @example
+      #   action.certificate
+      #
+      # @api public
+      # @return [Baron::Certificate]
+      attr_reader :certificate
+
       # Create a buy certificate action
       #
       # @example
@@ -16,10 +25,7 @@ module Baron
         @player = player
         @source = source
         @certificate = certificate
-        create_transaction
       end
-
-      private
 
       # Create a transaction to transfer the certificate for money
       #
