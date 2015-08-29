@@ -89,4 +89,32 @@ RSpec.describe Baron::Round::OperatingRound do
       it { should be_nil }
     end
   end
+
+  describe '#over?' do
+    let(:market) { instance_double Baron::Market, operating_order: order }
+    before do
+      allow(game).to receive(:market).and_return(market)
+      allow(game).to receive(:director)
+    end
+    let(:company1) { instance_double Baron::Company, 'c1' }
+    let(:company2) { instance_double Baron::Company, 'c2' }
+    let(:order) { [company1, company2] }
+
+    subject { round.over? }
+
+    context 'when there are companies still operating' do
+      it { should be false }
+    end
+
+    context 'when all companies have taken turns' do
+      before do
+        2.times do
+          turn = round.current_turn
+          allow(turn).to receive(:done?).and_return true
+        end
+      end
+
+      it { should be true }
+    end
+  end
 end

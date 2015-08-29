@@ -9,5 +9,16 @@ module Baron
     # @api public
     # @return [Baron::Game]
     attr_reader :game
+
+    # Is the current round over?
+    #
+    # @example
+    #   round.over?
+    #
+    # @api public
+    # @return [Boolean]
+    def over?
+      fail NotImplementedError
+    end
   end
 end

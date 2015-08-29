@@ -31,6 +31,19 @@ module Baron
         @current_turn
       end
 
+      # Is the current round over?
+      #
+      # The operating round ends when all companies have taken turns
+      #
+      # @example
+      #   round.over?
+      #
+      # @api public
+      # @return [Boolean] True if the round is over, false otherwise
+      def over?
+        !current_turn
+      end
+
       private
 
       # Pay out all private companies
