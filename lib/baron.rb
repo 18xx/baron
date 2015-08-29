@@ -40,6 +40,7 @@ require 'baron/transaction'
 require 'baron/transferrable'
 
 require 'baron/turn'
+require 'baron/turn/operating_turn'
 require 'baron/turn/stock_turn'
 require 'baron/turn/winner_choose_auction'
 require 'baron/turn/wrong_turn'
