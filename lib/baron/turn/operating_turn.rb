@@ -1,6 +1,6 @@
 module Baron
   class Turn
-    # An operating turn is taken by the director on behalf of a company
+    # An operating turn is taken by the player on behalf of a company
     #
     # Each company will generally get one turn during each operating round
     # during which they may:
@@ -19,14 +19,16 @@ module Baron
       # @return [Baron::Company]
       attr_reader :company
 
-      # The director in charge of this operation
+      # The player in charge of this operation
+      #
+      # This will be the director of the company
       #
       # @example
-      #   turn.director
+      #   turn.player
       #
       # @api public
       # @return [Baron::Player]
-      attr_reader :director
+      attr_reader :player
 
       # Initialize the operating turn
       #
@@ -34,10 +36,26 @@ module Baron
       #   Baron::Turn::OperatingTurn.new(company)
       #
       # @api public
+      # @param [Baron::Player] player
       # @param [Baron::Company] company
-      def initialize(director, company)
+      def initialize(player, company)
         @company = company
-        @director = director
+        @player = player
+      end
+
+      # Is this operating turn over?
+      #
+      # The company operating turn is over when they have no more legal
+      # actions to perform, or if they have declared that they are done
+      # through a done action.
+      #
+      # @example
+      #   turn.done?
+      #
+      # @api public
+      # @return [Boolean] Returns true if this turn is done, false otherwise
+      def done?
+        false
       end
     end
   end

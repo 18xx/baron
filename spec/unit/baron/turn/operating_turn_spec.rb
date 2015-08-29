@@ -1,7 +1,7 @@
 RSpec.describe Baron::Turn::OperatingTurn do
-  let(:turn) { described_class.new director, company }
+  let(:turn) { described_class.new player, company }
   let(:company) { instance_double Baron::Company }
-  let(:director) { instance_double Baron::Player }
+  let(:player) { instance_double Baron::Player }
 
   describe '#company' do
     subject { turn.company }
@@ -10,10 +10,15 @@ RSpec.describe Baron::Turn::OperatingTurn do
     end
   end
 
-  describe '#director' do
-    subject { turn.director }
-    it 'returns the director of the company' do
-      should be director
+  describe '#player' do
+    subject { turn.player }
+    it 'returns the player of the company' do
+      should be player
     end
+  end
+
+  describe '#done?' do
+    subject { turn.done? }
+    it { should be false }
   end
 end

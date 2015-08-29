@@ -39,4 +39,54 @@ RSpec.describe Baron::Round::OperatingRound do
       expect { round }.to change { game.bank.balance.amount }.by(-25)
     end
   end
+
+  describe '#current_turn' do
+    let(:market) { instance_double Baron::Market, operating_order: order }
+    before do
+      allow(game).to receive(:market).and_return(market)
+    end
+    let(:company1) { instance_double Baron::Company, 'c1' }
+    let(:company2) { instance_double Baron::Company, 'c2' }
+    let(:order) { [company1, company2] }
+
+    subject { round.current_turn }
+
+    context 'when no one has taken a turn' do
+      let(:director) { double }
+      before do
+        expect(game).to receive(:director).with(company1).and_return(director)
+        expect(game).to receive(:director).with(company2).and_return(double)
+      end
+
+      it 'returns the first turn' do
+        expect(subject.company).to be company1
+      end
+
+      it 'sets the director' do
+        expect(subject.player).to be director
+      end
+    end
+
+    context 'when the turn completes' do
+      before do
+        turn = round.current_turn
+        allow(turn).to receive(:done?).and_return true
+      end
+
+      it 'returns the next turn' do
+        expect(subject.company).to be company2
+      end
+    end
+
+    context 'when everyone has taken a turn' do
+      before do
+        2.times do
+          turn = round.current_turn
+          allow(turn).to receive(:done?).and_return true
+        end
+      end
+
+      it { should be_nil }
+    end
+  end
 end

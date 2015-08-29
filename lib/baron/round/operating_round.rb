@@ -16,6 +16,19 @@ module Baron
       def initialize(game)
         @game = game
         pay_privates
+        set_turn_order
+      end
+
+      # The current stock turn of a player taking their actions
+      #
+      # @example
+      #   round.current_turn
+      #
+      # @api public
+      # @return [Baron::Turn::StockTurn]
+      def current_turn
+        @current_turn = @turn_order.shift if @current_turn.done?
+        @current_turn
       end
 
       private
@@ -30,6 +43,26 @@ module Baron
             @game.bank.give player, private_cert.company.revenue
           end
         end
+      end
+
+      # The operating order for the companies this round
+      #
+      # @api private
+      # @return [Array<Baron::Company>] A sorted array with the companies that
+      # will operate in the order that they will operate
+      def operating_order
+        @game.market.operating_order
+      end
+
+      # Sets up the turn order for the round
+      #
+      # @api private
+      # @return [void]
+      def set_turn_order
+        @turn_order = operating_order.map do |company|
+          Turn::OperatingTurn.new @game.director(company), company
+        end
+        @current_turn = @turn_order.shift
       end
     end
   end
