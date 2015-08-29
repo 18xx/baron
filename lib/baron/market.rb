@@ -52,9 +52,25 @@ module Baron
     #
     # @api public
     # @param [Baron::Company] company
-    # @return Baron::Money
+    # @return [Baron::Money]
     def price(company)
       Money.new @current_prices.fetch(company)
+    end
+
+    # Gets the operating order of the companies
+    #
+    # The operating order is determined by price, with the tiebreaker being
+    # the company that entered that space on the market first.
+    #
+    # @example
+    #   market.operating_order
+    #
+    # @api public
+    # @return [Array<Baron::Company>]
+    def operating_order
+      @current_prices.keys.sort_by do |company|
+        -@current_prices.fetch(company)
+      end
     end
 
     # The price used is not a valid starting price on the market

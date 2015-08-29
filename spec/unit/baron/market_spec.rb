@@ -22,4 +22,43 @@ RSpec.describe Baron::Market do
       end
     end
   end
+
+  describe '#operating_order' do
+    let(:cheap_company) { instance_double Baron::Company }
+    let(:expensive_company) { instance_double Baron::Company }
+    let(:mid_priced_company) { instance_double Baron::Company }
+
+    before do
+      market.add_company cheap_company, Baron::Money.new(68)
+      market.add_company expensive_company, Baron::Money.new(100)
+      market.add_company mid_priced_company, Baron::Money.new(82)
+    end
+
+    subject { market.operating_order }
+
+    it 'operates the companies from most expensive to least expensive' do
+      expect(subject).to eq([
+        expensive_company,
+        mid_priced_company,
+        cheap_company
+      ])
+    end
+
+    context 'when two companies are tied' do
+      let(:other_cheap_company) { instance_double Baron::Company }
+
+      before do
+        market.add_company other_cheap_company, Baron::Money.new(68)
+      end
+
+      it 'operates them in the order that they were added as a tiebreak' do
+        expect(subject).to eq([
+          expensive_company,
+          mid_priced_company,
+          cheap_company,
+          other_cheap_company
+        ])
+      end
+    end
+  end
 end
