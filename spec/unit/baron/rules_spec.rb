@@ -1,9 +1,9 @@
 RSpec.describe Baron::Rules do
-  let(:config_file) { '1860' }
-  let(:config) { described_class.new config_file }
+  let(:rules_file) { '1860' }
+  let(:rules) { described_class.new rules_file }
 
   describe '#private_companies' do
-    subject { config.private_companies }
+    subject { rules.private_companies }
 
     it 'loads all the private companies' do
       expect(subject.count).to eq 5
@@ -53,7 +53,7 @@ RSpec.describe Baron::Rules do
   end
 
   describe '#major_companies' do
-    subject { config.major_companies }
+    subject { rules.major_companies }
 
     it 'loads all the major companies' do
       expect(subject.count).to eq 8
@@ -93,7 +93,7 @@ RSpec.describe Baron::Rules do
   end
 
   describe '#companies' do
-    subject { config.companies }
+    subject { rules.companies }
 
     it 'returns their abbreviations' do
       expect(subject.map(&:abbreviation)).to match_array(%w(
@@ -115,7 +115,7 @@ RSpec.describe Baron::Rules do
   end
 
   describe '#share_configuration' do
-    subject { config.share_configuration }
+    subject { rules.share_configuration }
 
     it 'returns the configuration for this company' do
       expect(subject).to match_array([
@@ -125,7 +125,7 @@ RSpec.describe Baron::Rules do
   end
 
   describe '#starting_cash' do
-    subject { config.starting_cash 3 }
+    subject { rules.starting_cash 3 }
 
     it 'returns the money for the number of players' do
       expect(subject).to eq Baron::Money.new(670)
@@ -133,7 +133,7 @@ RSpec.describe Baron::Rules do
   end
 
   describe '#auctionable_companies' do
-    subject { config.auctionable_companies }
+    subject { rules.auctionable_companies }
 
     it 'returns the 6 auctionable companies' do
       expect(subject.count).to be 6
@@ -147,7 +147,7 @@ RSpec.describe Baron::Rules do
   end
 
   describe '#market_values' do
-    subject { config.market_values }
+    subject { rules.market_values }
 
     it 'returns an array of numbers representing the market' do
       expect(subject).to match_array([
@@ -156,6 +156,34 @@ RSpec.describe Baron::Rules do
         150, 158, 166, 174, 182, 191, 200, 210, 220, 230, 240, 250, 260, 270,
         280, 290, 300, 310, 320, 330, 340
       ])
+    end
+  end
+
+  describe '#trains' do
+    subject { rules.trains }
+
+    describe 'types' do
+      let(:types) { subject.map(&:type).uniq }
+      it 'has 8 types of trains' do
+        expect(types.count).to be 8
+      end
+
+      it 'has the face value for each train' do
+        expect(types.map { |type| type.face_value.amount }).to contain_exactly(
+          250,
+          300,
+          350,
+          400,
+          500,
+          600,
+          700,
+          800
+        )
+      end
+    end
+
+    it 'has 34 trains in total' do
+      expect(subject.count).to be 34
     end
   end
 end

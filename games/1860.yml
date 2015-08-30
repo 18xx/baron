@@ -141,3 +141,40 @@ auction:
   - 'RP&SC'
   - 'IOW'
   - 'C&N'
+trains:
+  -
+    type: '2+1'
+    face_value: 250
+    rusted_by: '4+2'
+    count: 5
+  -
+    type: '3+2'
+    face_value: 300
+    rusted_by: '6+3'
+    count: 4
+  -
+    type: '4+2'
+    face_value: 350
+    rusted_by: '7+4'
+    count: 3
+  -
+    type: '5+3'
+    face_value: 400
+    rusted_by: '8+4'
+    count: 2
+  -
+    type: '6+3'
+    face_value: 500
+    count: 2
+  -
+    type: '7+4'
+    face_value: 600
+    count: 1
+  -
+    type: '8+4'
+    face_value: 700
+    count: 1
+  -
+    type: '9+5'
+    face_value: 800
+    count: 16

@@ -38,6 +38,17 @@ module Baron
       @major_companies ||= init_companies('major', MajorCompanyConfig)
     end
 
+    # All of the trains used in the game
+    #
+    # @example
+    #   rules.trains
+    #
+    # @api public
+    # @return [Array<Baron::Train>]
+    def trains
+      @trains ||= init_trains
+    end
+
     # Return all companies
     #
     # This returns all private and major companies
@@ -114,6 +125,46 @@ module Baron
     def init_companies(type, klass)
       @config.fetch('companies').fetch(type).map do |config|
         klass.new(config).company
+      end
+    end
+
+    # Create the trains for this game
+    #
+    # @api private
+    # @return [Array<Baron::Trains>]
+    def init_trains
+      init_train_types
+      @config.fetch('trains').flat_map do |train_type|
+        train_type.fetch('count').times.map do
+          create_train(train_type)
+        end
+      end
+    end
+
+    # Create a train based on the config file format
+    #
+    # @api private
+    # @return [Baron::Train]
+    def create_train(train_type)
+      Train.new(
+        @train_types.find do |type|
+          type.to_s.eql? "#{train_type.fetch('type')}T"
+        end
+      )
+    end
+
+    # Create the train types used in this game
+    #
+    # @api private
+    # @return [Array<Baron::TrainType>]
+    def init_train_types
+      @train_types ||= @config.fetch('trains').map do |train|
+        major_allowance, minor_allowance = train.fetch('type').split('+')
+        TrainType.new(
+          major_allowance,
+          Money.new(train.fetch('face_value')),
+          minor_station_allowance: minor_allowance
+        )
       end
     end
 
