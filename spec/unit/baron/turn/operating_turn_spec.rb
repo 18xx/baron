@@ -26,7 +26,10 @@ RSpec.describe Baron::Turn::OperatingTurn do
     subject { turn.available_actions }
 
     it 'allows them to place a tile' do
-      should contain_exactly(Baron::Action::PlaceTile)
+      should contain_exactly(
+        Baron::Action::PlaceTile,
+        Baron::Action::PlaceToken
+      )
     end
   end
 

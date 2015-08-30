@@ -287,6 +287,12 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
   end
 
   describe '#select' do
+    before do
+      auction.perform Baron::Action::Bid.new(player1, Baron::Money.new(5))
+      auction.perform Baron::Action::Pass.new(player2)
+      auction.perform Baron::Action::Pass.new(player3)
+    end
+
     let(:select_action) do
       Baron::Action::SelectCertificate.new game, player1, certificate
     end

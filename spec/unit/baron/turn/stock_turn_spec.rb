@@ -43,15 +43,16 @@ RSpec.describe Baron::Turn::StockTurn do
 
     context 'when the user has bought a certificate' do
       let(:action) do
-        instance_double(
-          Baron::Action::BuyCertificate,
-          create_transaction: nil,
-          player: player,
-          symbol: :buycertificate,
-          certificate: certificate
+        Baron::Action::BuyCertificate.new(
+          player,
+          nil,
+          certificate
         )
       end
+
       before do
+        allow(action).to receive(:create_transaction)
+        allow(action).to receive(:symbol).and_return(:buycertificate)
         turn.perform action
       end
 

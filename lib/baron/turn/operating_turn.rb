@@ -52,7 +52,8 @@ module Baron
       # @return [Array<Baron::Action>]
       def available_actions
         [
-          Action::PlaceTile
+          Action::PlaceTile,
+          Action::PlaceToken
         ]
       end
 
