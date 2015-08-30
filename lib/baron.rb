@@ -16,6 +16,7 @@ require 'baron/action/buy_certificate'
 require 'baron/action/illegal_bid_amount'
 require 'baron/action/pass'
 require 'baron/action/place_tile'
+require 'baron/action/place_token'
 require 'baron/action/select_certificate'
 
 require 'baron/bank'

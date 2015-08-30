@@ -7,26 +7,8 @@ module Baron
     # of an existing tile to another tile.
     #
     # TODO: Implement map interaction
-    # TODO: Make tile, hex, and orentation objects
-    class PlaceTile < CompanyAction
-      # The turn that this action is a part of
-      #
-      # @example
-      #   action.turn
-      #
-      # @api public
-      # @return [Baron::Turn]
-      attr_reader :turn
-
-      # The tile being placed
-      #
-      # @example
-      #   action.tile
-      #
-      # @api public
-      # @return [String]
-      attr_reader :tile
-
+    # TODO: Make hex, an objects
+    class PlaceToken < CompanyAction
       # The hex the tile is being placed
       #
       # @example
@@ -36,15 +18,6 @@ module Baron
       # @return [String]
       attr_reader :hex
 
-      # The orientation that the tile is being placed in
-      #
-      # @example
-      #   action.orientation
-      #
-      # @api public
-      # @return [String]
-      attr_reader :orientation
-
       # Create the place tile action
       #
       # @example
@@ -52,14 +25,10 @@ module Baron
       #
       # @api public
       # @param [Baron::Turn] turn The turn this action is a part of
-      # @param [String] tile Tile number
       # @param [String] hex Hex location
-      # @param [String] orientaiton The orientation number
-      def initialize(turn, tile, hex, orientation)
+      def initialize(turn, hex)
         super(turn)
-        @tile = tile
         @hex = hex
-        @orientation = orientation
       end
     end
   end

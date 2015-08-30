@@ -1,17 +1,8 @@
-RSpec.describe Baron::Action::PlaceTile do
+RSpec.describe Baron::Action::PlaceToken do
   let(:turn) { instance_double Baron::Turn, player: player }
-  let(:tile) { double }
   let(:hex) { double }
-  let(:orientation) { double }
   let(:player) { instance_double Baron::Player, 'player' }
-  let(:action) do
-    described_class.new(
-      turn,
-      tile,
-      hex,
-      orientation
-    )
-  end
+  let(:action) { described_class.new turn, hex }
 
   describe '#player' do
     subject { action.player }
@@ -27,24 +18,10 @@ RSpec.describe Baron::Action::PlaceTile do
     end
   end
 
-  describe '#tile' do
-    subject { action.tile }
-    it 'returns the tile for this action' do
-      should be tile
-    end
-  end
-
   describe '#hex' do
     subject { action.hex }
     it 'returns the hex for this action' do
       should be hex
-    end
-  end
-
-  describe '#orientation' do
-    subject { action.orientation }
-    it 'returns the orientation' do
-      should be orientation
     end
   end
 end
