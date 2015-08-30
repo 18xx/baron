@@ -33,7 +33,7 @@ module Baron
     #   unavailable_certificates_pool.make_certificate_available
     #
     # @api public
-    # @param [Baron::Company] company
+    # @param [Baron::Certificate] certificate
     # @param [Baron::InitialOffering] initial_offering
     # @return [void]
     def make_certificate_available(certificate, initial_offering)

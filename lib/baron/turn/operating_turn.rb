@@ -78,7 +78,7 @@ module Baron
       # Place a tile on the board
       #
       # @api private
-      # @param [Baron::Action::PlaceTile] action
+      # @param [Baron::Action::PlaceTile] _
       # @return [void]
       def placetile(_)
         # TODO: Implement placetile
@@ -87,7 +87,7 @@ module Baron
       # Place a token on the board
       #
       # @api private
-      # @param [Baron::Action::PlaceTile] action
+      # @param [Baron::Action::PlaceTile] _
       # @return [void]
       def placetoken(_)
         # TODO: Implement placetile
@@ -96,7 +96,7 @@ module Baron
       # Run trains this companies operating turn
       #
       # @api private
-      # @param [Baron::Action::RunTrains] action
+      # @param [Baron::Action::RunTrains] _
       # @return [void]
       def runtrains(_)
         # TODO: Implement run trains

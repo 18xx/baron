@@ -132,7 +132,7 @@ module Baron
     #   game.director(company) #=> the player who is a director
     #
     # @api public
-    # @param [Baron::Company]
+    # @param [Baron::Company] company
     # @return [Baron::Player] The player who holds the directors certificate,
     # nil if no player holds it
     def director(company)

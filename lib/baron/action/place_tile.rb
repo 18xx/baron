@@ -54,7 +54,7 @@ module Baron
       # @param [Baron::Turn] turn The turn this action is a part of
       # @param [String] tile Tile number
       # @param [String] hex Hex location
-      # @param [String] orientaiton The orientation number
+      # @param [String] orientation The orientation number
       def initialize(turn, tile, hex, orientation)
         super(turn)
         @tile = tile

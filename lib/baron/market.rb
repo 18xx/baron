@@ -20,7 +20,7 @@ module Baron
     #   Baron::Market.new rules
     #
     # @api public
-    # @param [Baron::Rules]
+    # @param [Baron::Rules] rules
     def initialize(rules)
       @rules = rules
       @current_prices = {}
