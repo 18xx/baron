@@ -13,6 +13,9 @@ module Baron
   class Transaction
     # A simple proc for determining if an item is a certificate
     IS_CERTIFICATE = -> (item) { item.instance_of? Certificate }
+    #
+    # A simple proc for determining if an item is a train
+    IS_TRAIN = -> (item) { item.instance_of? Train }
 
     # One of the parties participating in the transacion, labelled as the buyer
     #
@@ -123,7 +126,7 @@ module Baron
     # @param [Baron::Shareholder] shareholder
     # @return [Array<Baron::Certificate>]
     def incoming_certificates(shareholder)
-      shareholder_effects(shareholder, :credit).select(&IS_CERTIFICATE)
+      credits(shareholder).select(&IS_CERTIFICATE)
     end
 
     # The certificates the shareholder loses in this transaction
@@ -132,7 +135,25 @@ module Baron
     # @param [Baron::Shareholder] shareholder
     # @return [Array<Baron::Certificate>]
     def outgoing_certificates(shareholder)
-      shareholder_effects(shareholder, :debit).select(&IS_CERTIFICATE)
+      debits(shareholder).select(&IS_CERTIFICATE)
+    end
+
+    # The trains the shareholder receieves in this transaction
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [Array<Baron::Train>]
+    def incoming_trains(shareholder)
+      credits(shareholder).select(&IS_TRAIN)
+    end
+
+    # The trains the shareholder loses in this transaction
+    #
+    # @api private
+    # @param [Baron::Shareholder] shareholder
+    # @return [Array<Baron::Train>]
+    def outgoing_trains(shareholder)
+      debits(shareholder).select(&IS_TRAIN)
     end
 
     private

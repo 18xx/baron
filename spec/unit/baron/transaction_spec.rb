@@ -220,4 +220,50 @@ RSpec.describe Baron::Transaction do
       end
     end
   end
+
+  describe '#incoming_trains' do
+    let(:buyer_certificate) { Baron::Train.new(double) }
+    let(:seller_certificate) { Baron::Train.new(double) }
+
+    subject { transaction.incoming_trains shareholder }
+
+    context 'with the buyer' do
+      let(:shareholder) { buyer }
+
+      it 'returns the buyer trains' do
+        expect(subject).to match_array([buyer_certificate])
+      end
+    end
+
+    context 'with the seller' do
+      let(:shareholder) { seller }
+
+      it 'returns the seller trains' do
+        expect(subject).to match_array([seller_certificate])
+      end
+    end
+  end
+
+  describe '#outgoing_trains' do
+    let(:buyer_certificate) { Baron::Train.new(double) }
+    let(:seller_certificate) { Baron::Train.new(double) }
+
+    subject { transaction.outgoing_trains shareholder }
+
+    context 'with the buyer' do
+      let(:shareholder) { buyer }
+
+      it 'returns the seller trains' do
+        expect(subject).to match_array([seller_certificate])
+      end
+    end
+
+    context 'with the seller' do
+      let(:shareholder) { seller }
+
+      it 'returns the buyer trains' do
+        expect(subject).to match_array([buyer_certificate])
+      end
+    end
+  end
 end

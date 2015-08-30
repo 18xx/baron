@@ -24,11 +24,18 @@ module Baron
     # @api public
     # @return [Array<Baron::Certificate>] All certificates this shareholder has
     def certificates
-      transactions.each_with_object([]) do |transaction, certs|
-        certs.push(*transaction.incoming_certificates(self))
-        outgoing = transaction.outgoing_certificates(self)
-        certs.reject! { |cert| outgoing.include? cert }
-      end
+      currently_owned(:certificates)
+    end
+
+    # The trains this shareholder currently has
+    #
+    # @example
+    #   shareholder.trains
+    #
+    # @api public
+    # @return [Array<Baron::Train>] All trains this shareholder has
+    def trains
+      currently_owned(:trains)
     end
 
     # Returns all of the certificates for the matching company
@@ -131,6 +138,20 @@ module Baron
     end
 
     private
+
+    # The type of items to purchase
+    #
+    # @api private
+    # @param [Symbol] type A symbol accepted by trains incoming/outgoing such
+    # as :certificates or :trains
+    # @return [Array<Baron::Train>] All trains this shareholder has
+    def currently_owned(type)
+      transactions.each_with_object([]) do |transaction, certs|
+        certs.push(*transaction.public_send("incoming_#{type}".to_sym, self))
+        outgoing = transaction.public_send("outgoing_#{type}".to_sym, self)
+        certs.reject! { |cert| outgoing.include? cert }
+      end
+    end
 
     # The total amount that was given in credits or debits
     #

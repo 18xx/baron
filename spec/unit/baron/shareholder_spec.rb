@@ -92,6 +92,39 @@ RSpec.describe Baron::Shareholder do
     end
   end
 
+  describe '#trains' do
+    let(:train) { Baron::Train.new double }
+    subject { a.trains }
+
+    context 'when the shareholder has nothing' do
+      let(:transactions) { nil }
+      it { should be_empty }
+    end
+
+    context 'when the shareholder has acquired something' do
+      let(:transactions) do
+        a.grant train
+      end
+
+      it 'includes those trains' do
+        expect(subject).to include train
+      end
+    end
+
+    context 'when the shareholder has sold trains' do
+      let(:transactions) do
+        [
+          Baron::Transaction.new(a, [train], nil, []),
+          Baron::Transaction.new(a, [], nil, [train])
+        ]
+      end
+
+      it 'does not include trains they have sold' do
+        should be_empty
+      end
+    end
+  end
+
   describe '#certificates_for' do
     let(:certificate) { Baron::Certificate.new company, BigDecimal.new('0.1') }
     let(:requested_company) { company }
