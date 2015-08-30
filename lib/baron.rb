@@ -40,6 +40,7 @@ require 'baron/round/operating_round'
 require 'baron/round/stock_round'
 
 require 'baron/rules'
+require 'baron/train'
 require 'baron/train_type'
 require 'baron/transaction'
 require 'baron/transferrable'
