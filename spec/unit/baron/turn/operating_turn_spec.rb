@@ -50,4 +50,16 @@ RSpec.describe Baron::Turn::OperatingTurn do
       expect { subject }.to_not raise_error
     end
   end
+
+  describe 'place token' do
+    let(:hex) { double }
+    let(:player) { instance_double Baron::Player, 'player' }
+    let(:action) { Baron::Action::PlaceToken.new(turn, hex) }
+
+    subject { turn.perform action }
+
+    it 'is a no-op' do
+      expect { subject }.to_not raise_error
+    end
+  end
 end

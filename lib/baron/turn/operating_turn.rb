@@ -81,6 +81,15 @@ module Baron
       def placetile(_)
         # TODO: Implement placetile
       end
+
+      # Place a token on the board
+      #
+      # @api private
+      # @param [Baron::Action::PlaceTile] action
+      # @return [void]
+      def placetoken(_)
+        # TODO: Implement placetile
+      end
     end
   end
 end
