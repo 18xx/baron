@@ -53,7 +53,8 @@ module Baron
       def available_actions
         [
           Action::PlaceTile,
-          Action::PlaceToken
+          Action::PlaceToken,
+          Action::RunTrains
         ]
       end
 
@@ -90,6 +91,15 @@ module Baron
       # @return [void]
       def placetoken(_)
         # TODO: Implement placetile
+      end
+
+      # Run trains this companies operating turn
+      #
+      # @api private
+      # @param [Baron::Action::RunTrains] action
+      # @return [void]
+      def runtrains(_)
+        # TODO: Implement run trains
       end
     end
   end

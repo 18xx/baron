@@ -28,7 +28,8 @@ RSpec.describe Baron::Turn::OperatingTurn do
     it 'allows them to place a tile' do
       should contain_exactly(
         Baron::Action::PlaceTile,
-        Baron::Action::PlaceToken
+        Baron::Action::PlaceToken,
+        Baron::Action::RunTrains
       )
     end
   end
