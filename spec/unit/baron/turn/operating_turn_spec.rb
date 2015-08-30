@@ -66,4 +66,18 @@ RSpec.describe Baron::Turn::OperatingTurn do
       expect { subject }.to_not raise_error
     end
   end
+
+  describe 'run trains' do
+    let(:action) do
+      Baron::Action::RunTrains.new(turn, amount, corporate_bonus)
+    end
+    let(:amount) { double }
+    let(:corporate_bonus) { double }
+
+    subject { turn.perform action }
+
+    it 'is a no-op' do
+      expect { subject }.to_not raise_error
+    end
+  end
 end
