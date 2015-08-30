@@ -24,7 +24,7 @@ module Baron
     # @api public
     # @return [Array<Baron::Certificate>] All certificates this shareholder has
     def certificates
-      currently_owned(:certificates)
+      currently_owned(Transaction::IS_CERTIFICATE)
     end
 
     # The trains this shareholder currently has
@@ -35,7 +35,7 @@ module Baron
     # @api public
     # @return [Array<Baron::Train>] All trains this shareholder has
     def trains
-      currently_owned(:trains)
+      currently_owned(Transaction::IS_TRAIN)
     end
 
     # Returns all of the certificates for the matching company
@@ -147,9 +147,12 @@ module Baron
     # @return [Array<Baron::Train>] All trains this shareholder has
     def currently_owned(type)
       transactions.each_with_object([]) do |transaction, certs|
-        certs.push(*transaction.public_send("incoming_#{type}".to_sym, self))
-        outgoing = transaction.public_send("outgoing_#{type}".to_sym, self)
-        certs.reject! { |cert| outgoing.include? cert }
+        certs.push(*transaction.incoming(self, type))
+        certs.reject! do |cert|
+          transaction.outgoing(self, nil).any? do |outgoing_cert|
+            outgoing_cert.equal?(cert)
+          end
+        end
       end
     end
 

@@ -55,12 +55,12 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when the shareholder has acquired something' do
-      let(:transactions) do
+      before do
         a.grant certificate
       end
 
       it 'includes those certificates' do
-        expect(subject).to include certificate
+        should contain_exactly a_certificate, certificate
       end
     end
 
@@ -102,25 +102,23 @@ RSpec.describe Baron::Shareholder do
     end
 
     context 'when the shareholder has acquired something' do
-      let(:transactions) do
-        a.grant train
-      end
+      before { a.grant train }
 
       it 'includes those trains' do
-        expect(subject).to include train
+        should contain_exactly train
       end
     end
 
     context 'when the shareholder has sold trains' do
-      let(:transactions) do
-        [
-          Baron::Transaction.new(a, [train], nil, []),
-          Baron::Transaction.new(a, [], nil, [train])
-        ]
+      let(:other_train) { Baron::Train.new double }
+      before do
+        a.grant train
+        a.grant other_train
+        Baron::Transaction.new(a, [], nil, [train])
       end
 
       it 'does not include trains they have sold' do
-        should be_empty
+        should contain_exactly other_train
       end
     end
   end

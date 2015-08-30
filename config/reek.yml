@@ -4,3 +4,5 @@
       - 'Baron::InitialOffering#cost' # Logic belongs here
   NestedIterators:
     max_allowed_nesting: 2
+    exclude:
+      - 'Baron::Shareholder#currently_owned' # Dealing with a ruby 2.2 warnings

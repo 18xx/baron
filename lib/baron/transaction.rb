@@ -120,40 +120,24 @@ module Baron
       shareholder_effects(shareholder, :credit)
     end
 
-    # The certificates the shareholder receieves in this transaction
+    # The items the shareholder receieves in this transaction
     #
     # @api private
     # @param [Baron::Shareholder] shareholder
+    # @param [Proc] filter A selector such as IS_CERTIFICATE or IS_TRAIN
     # @return [Array<Baron::Certificate>]
-    def incoming_certificates(shareholder)
-      credits(shareholder).select(&IS_CERTIFICATE)
+    def incoming(shareholder, filter)
+      credits(shareholder).select(&filter)
     end
 
-    # The certificates the shareholder loses in this transaction
+    # The items the shareholder loses in this transaction
     #
     # @api private
     # @param [Baron::Shareholder] shareholder
+    # @param [Proc] filter A selector such as IS_CERTIFICATE or IS_TRAIN
     # @return [Array<Baron::Certificate>]
-    def outgoing_certificates(shareholder)
-      debits(shareholder).select(&IS_CERTIFICATE)
-    end
-
-    # The trains the shareholder receieves in this transaction
-    #
-    # @api private
-    # @param [Baron::Shareholder] shareholder
-    # @return [Array<Baron::Train>]
-    def incoming_trains(shareholder)
-      credits(shareholder).select(&IS_TRAIN)
-    end
-
-    # The trains the shareholder loses in this transaction
-    #
-    # @api private
-    # @param [Baron::Shareholder] shareholder
-    # @return [Array<Baron::Train>]
-    def outgoing_trains(shareholder)
-      debits(shareholder).select(&IS_TRAIN)
+    def outgoing(shareholder, filter)
+      debits(shareholder).select(&filter)
     end
 
     private
