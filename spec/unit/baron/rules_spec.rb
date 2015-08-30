@@ -92,6 +92,28 @@ RSpec.describe Baron::Rules do
     end
   end
 
+  describe '#companies' do
+    subject { config.companies }
+
+    it 'returns their abbreviations' do
+      expect(subject.map(&:abbreviation)).to match_array(%w(
+        BHC
+        YHC
+        CM&H
+        RP&SC
+        FFC
+        BHI&R
+        C&N
+        FYN
+        IOW
+        IWNJ
+        NGStL
+        S&C
+        VYSC
+      ))
+    end
+  end
+
   describe '#share_configuration' do
     subject { config.share_configuration }
 

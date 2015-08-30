@@ -38,6 +38,19 @@ module Baron
       @major_companies ||= init_companies('major', MajorCompanyConfig)
     end
 
+    # Return all companies
+    #
+    # This returns all private and major companies
+    #
+    # @example
+    #   rules.companies
+    #
+    # @api public
+    # @return [Array<Baron::Company>]
+    def companies
+      private_companies + major_companies
+    end
+
     # The auctionable private companies
     #
     # @example
@@ -47,7 +60,7 @@ module Baron
     # @return [Array<Baron::Company>]
     def auctionable_companies
       @config.fetch('auction').map do |abbreviation|
-        (private_companies + major_companies).find do |company|
+        companies.find do |company|
           company.abbreviation.eql? abbreviation
         end
       end
