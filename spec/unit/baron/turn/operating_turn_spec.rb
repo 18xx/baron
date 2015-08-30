@@ -21,4 +21,33 @@ RSpec.describe Baron::Turn::OperatingTurn do
     subject { turn.done? }
     it { should be false }
   end
+
+  describe '#avaiable_actions' do
+    subject { turn.available_actions }
+
+    it 'allows them to place a tile' do
+      should contain_exactly(Baron::Action::PlaceTile)
+    end
+  end
+
+  describe 'place tile' do
+    let(:tile) { double }
+    let(:hex) { double }
+    let(:orientation) { double }
+    let(:player) { instance_double Baron::Player, 'player' }
+    let(:action) do
+      Baron::Action::PlaceTile.new(
+        turn,
+        tile,
+        hex,
+        orientation
+      )
+    end
+
+    subject { turn.perform action }
+
+    it 'is a no-op' do
+      expect { subject }.to_not raise_error
+    end
+  end
 end

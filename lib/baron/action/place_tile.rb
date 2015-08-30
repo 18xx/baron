@@ -56,6 +56,7 @@ module Baron
       # @param [String] hex Hex location
       # @param [String] orientaiton The orientation number
       def initialize(turn, tile, hex, orientation)
+        @player = turn.player
         @turn = turn
         @tile = tile
         @hex = hex

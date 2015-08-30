@@ -1,8 +1,9 @@
 RSpec.describe Baron::Action::PlaceTile do
-  let(:turn) { double }
+  let(:turn) { instance_double Baron::Turn, player: player }
   let(:tile) { double }
   let(:hex) { double }
   let(:orientation) { double }
+  let(:player) { instance_double Baron::Player, 'player' }
   let(:action) do
     Baron::Action::PlaceTile.new(
       turn,
@@ -10,6 +11,13 @@ RSpec.describe Baron::Action::PlaceTile do
       hex,
       orientation
     )
+  end
+
+  describe '#player' do
+    subject { action.player }
+    it 'returns the player for the turn' do
+      should be player
+    end
   end
 
   describe '#turn' do

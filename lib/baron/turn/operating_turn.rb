@@ -43,6 +43,19 @@ module Baron
         @player = player
       end
 
+      # A list of actions that the player can take on behalf of the company
+      #
+      # @example
+      #   turn.available_actions
+      #
+      # @api public
+      # @return [Array<Baron::Action>]
+      def available_actions
+        [
+          Action::PlaceTile
+        ]
+      end
+
       # Is this operating turn over?
       #
       # The company operating turn is over when they have no more legal
@@ -56,6 +69,17 @@ module Baron
       # @return [Boolean] Returns true if this turn is done, false otherwise
       def done?
         false
+      end
+
+      private
+
+      # Place a tile on the board
+      #
+      # @api private
+      # @param [Baron::Action::PlaceTile] action
+      # @return [void]
+      def placetile(_)
+        # TODO: Implement placetile
       end
     end
   end
