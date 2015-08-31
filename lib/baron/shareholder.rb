@@ -131,10 +131,12 @@ module Baron
     #   bank.grant(Baron::Money.new(12_000))
     #
     # @api public
-    # @param [Baron::Transferrable] transferrable The thing to transfer
+    # @param [Baron::Transferrable] transferrable The thing to transfer. This
+    # can also take in an array of Transferrable objects
     # @return [Baron::Transaction] The transaction transferring things
     def grant(transferrable)
-      Transaction.new self, [transferrable], nil, []
+      transferrable = [transferrable] unless transferrable.respond_to?(:each)
+      Transaction.new self, transferrable, nil, []
     end
 
     private

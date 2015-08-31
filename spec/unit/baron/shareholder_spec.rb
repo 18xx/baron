@@ -249,10 +249,20 @@ RSpec.describe Baron::Shareholder do
   end
 
   describe '#grant' do
-    subject { a.grant(Baron::Money.new(10)) }
+    context 'when the parameter is not an array' do
+      subject { a.grant(Baron::Money.new(10)) }
 
-    it 'gives the item to the specified shareholder' do
-      expect { subject }.to change { a.balance.amount }.by(10)
+      it 'gives the item to the specified shareholder' do
+        expect { subject }.to change { a.balance.amount }.by(10)
+      end
+    end
+
+    context 'when the parameter is an array' do
+      subject { a.grant([Baron::Money.new(10), Baron::Money.new(20)]) }
+
+      it 'gives the item to the specified shareholder' do
+        expect { subject }.to change { a.balance.amount }.by(30)
+      end
     end
   end
 end

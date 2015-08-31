@@ -189,9 +189,7 @@ module Baron
     # @return [void]
     def init_certificates
       @unavailable_certificates_pool = UnavailableCertificatesPool.new
-      certificates.each do |certificate|
-        @unavailable_certificates_pool.grant certificate
-      end
+      @unavailable_certificates_pool.grant certificates
     end
 
     # Create the market
