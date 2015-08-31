@@ -1,4 +1,8 @@
 RSpec.describe Baron::Action::BuyTrain do
+  let(:turn) do
+    instance_double Baron::Turn::OperatingTurn, player: player, company: company
+  end
+  let(:player) { Baron::Player.new('a') }
   let(:company) { Baron::Company.new 'CPR', 'Canadian Pacific' }
   let(:source) { Baron::InitialOffering.new market }
   let(:market) { double }
@@ -6,7 +10,7 @@ RSpec.describe Baron::Action::BuyTrain do
   let(:train_type) { Baron::TrainType.new(3, Baron::Money.new(300)) }
 
   let(:action) do
-    described_class.new company, source, train, train.type.face_value
+    described_class.new turn, source, train, train.type.face_value
   end
 
   describe '#train' do

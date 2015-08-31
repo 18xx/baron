@@ -2,7 +2,7 @@ module Baron
   class Action
     # BuyTrain allows a company to purchase a train from either the
     # initial offering, bank pool, or another company
-    class BuyTrain < self
+    class BuyTrain < CompanyAction
       # The train being purchased
       #
       # @example
@@ -18,13 +18,13 @@ module Baron
       #   Baron::Action::BuyTrain.new(company, source, train, amount)
       #
       # @api public
-      # @param [Baron::Company] company The company making the purchase
+      # @param [Baron::Turn] turn The company making the purchase
       # @param [Baron::Shareholder] source The source of the train
       # @param [Baron::Train] certificate The certificate being purchased
       # @param [Baron::Money] amount The amount that the train is being
       # purchased for. If not specified, it will be bought at face value
-      def initialize(company, source, train, amount)
-        @company = company
+      def initialize(turn, source, train, amount)
+        super(turn)
         @source = source
         @train = train
         @amount = amount
@@ -36,7 +36,7 @@ module Baron
       # @return [Baron::Transaction] The transaction created
       def create_transaction
         Transaction.new(
-          @company,
+          @turn.company,
           [@train],
           @source,
           [@amount]
