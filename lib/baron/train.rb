@@ -24,5 +24,17 @@ module Baron
     def initialize(type)
       @type = type
     end
+
+    # The face value cost of this train
+    #
+    # @example
+    #   train.face_value
+    #
+    # @see Baron::TrainType#face_value
+    # @api public
+    # @return [Baron::Money]
+    def face_value
+      type.face_value
+    end
   end
 end
