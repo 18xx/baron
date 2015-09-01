@@ -117,7 +117,7 @@ module Baron
     # @param [Baron::Transferrable] transferrable The thing to transfer
     # @return [Baron::Transaction] The transaction transferring things
     def give(shareholder, transferrable)
-      Transaction.new shareholder, [transferrable], self, []
+      Transaction.new shareholder, Array(transferrable), self, []
     end
 
     # Get the transferrable item from no recipient
@@ -135,8 +135,7 @@ module Baron
     # can also take in an array of Transferrable objects
     # @return [Baron::Transaction] The transaction transferring things
     def grant(transferrable)
-      transferrable = [transferrable] unless transferrable.respond_to?(:each)
-      Transaction.new self, transferrable, nil, []
+      Transaction.new self, Array(transferrable), nil, []
     end
 
     private

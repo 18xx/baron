@@ -246,6 +246,18 @@ RSpec.describe Baron::Shareholder do
     it 'deducts the amount from this shareholder' do
       expect { subject }.to change { a.balance.amount }.by(-10)
     end
+
+    context 'when given an array' do
+      subject { a.give(b, [Baron::Money.new(10), Baron::Money.new(20)]) }
+
+      it 'gives the total to the specified shareholder' do
+        expect { subject }.to change { b.balance.amount }.by(30)
+      end
+
+      it 'deducts the total from this shareholder' do
+        expect { subject }.to change { a.balance.amount }.by(-30)
+      end
+    end
   end
 
   describe '#grant' do
