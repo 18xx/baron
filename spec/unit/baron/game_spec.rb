@@ -202,4 +202,14 @@ RSpec.describe Baron::Game do
       it { should be player_a }
     end
   end
+
+  describe 'trains' do
+    it 'puts the current set of trains in the initial offering' do
+      expect(subject.initial_offering.trains.count).to be 5
+    end
+
+    it 'puts the rest of the trains in the unavailable certificates pool' do
+      expect(subject.unavailable_certificates_pool.trains.count).to be 29
+    end
+  end
 end

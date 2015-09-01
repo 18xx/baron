@@ -40,6 +40,17 @@ module Baron
       give initial_offering, certificate
     end
 
+    # The next set of trains to be available
+    #
+    # @example
+    #   pool.next_trains
+    #
+    # @api public
+    # @return [Array<Baron::Train>] The next trains to be available
+    def next_trains
+      trains.select { |train| train.type.equal? next_train_type }
+    end
+
     # Return a string representation of the pool
     #
     # @api private
@@ -62,6 +73,17 @@ module Baron
       certificates.select(&:controlling?).find do |cert|
         cert.company.equal? company
       end
+    end
+
+    # The next train type to become available
+    #
+    # Train types become available in sets throughout the game, this is the
+    # next type which will become available
+    #
+    # @api private
+    # @return [Baron::TrainType]
+    def next_train_type
+      trains.min_by { |train| train.type.major_station_allowance }.type
     end
   end
 end

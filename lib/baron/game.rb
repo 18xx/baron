@@ -84,6 +84,7 @@ module Baron
       init_market
       init_initial_offering
       init_starting_cash
+      init_trains
     end
 
     # The current round in the game
@@ -216,6 +217,29 @@ module Baron
       players.each do |player|
         bank.give player, starting_cash
       end
+    end
+
+    # Place trains in the initial offering and unavailable certificates pool
+    #
+    # @api private
+    # @return [void]
+    def init_trains
+      unavailable_certificates_pool.grant rules.trains
+      add_next_level_of_trains
+    end
+
+    # Place the next level of trains in the initial offering
+    #
+    # This will generally be triggered when the current set of trains has
+    # sold out.
+    #
+    # @api private
+    # @return [void]
+    def add_next_level_of_trains
+      unavailable_certificates_pool.give(
+        initial_offering,
+        unavailable_certificates_pool.next_trains
+      )
     end
 
     # Returns the next round to be played in the game

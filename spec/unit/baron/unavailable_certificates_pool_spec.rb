@@ -84,6 +84,24 @@ RSpec.describe Baron::UnavailableCertificatesPool do
     end
   end
 
+  describe '#next_trains' do
+    subject { pool.next_trains }
+    let(:two_train) { Baron::TrainType.new(2, nil) }
+    let(:three_train) { Baron::TrainType.new(3, nil) }
+
+    before do
+      2.times { pool.grant Baron::Train.new(three_train) }
+      5.times { pool.grant Baron::Train.new(two_train) }
+      2.times { pool.grant Baron::Train.new(three_train) }
+    end
+
+    it 'returns the next trains to be available' do
+      expect(subject.map(&:type).map(&:major_station_allowance)).to eq(
+        [2, 2, 2, 2, 2]
+      )
+    end
+  end
+
   describe '#inspect' do
     subject { pool.inspect }
 
