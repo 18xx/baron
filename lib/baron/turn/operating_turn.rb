@@ -73,8 +73,6 @@ module Baron
         false
       end
 
-      private
-
       # Place a tile on the board
       #
       # @api private

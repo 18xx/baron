@@ -14,8 +14,6 @@ RSpec.describe Baron::Turn do
       [@available_action]
     end
 
-    private
-
     def pass(action)
       @called = action
     end

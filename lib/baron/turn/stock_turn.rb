@@ -77,6 +77,33 @@ module Baron
         [Action::BuyCertificate, Action::Pass]
       end
 
+      # The player buys the certifiate from a source
+      #
+      # The player will buy the certificate at the appropriate price determined
+      # by the par price or market price for that certificate
+      #
+      # @api private
+      # @param [Baron::Action::BuyCertificate] action
+      # @return [void]
+      def buycertificate(action)
+        @done = true
+        action.create_transaction
+        check_for_float action.certificate.company
+      end
+
+      # The player passes
+      #
+      # The player will be done, and they can not take any more actions on this
+      # turn
+      #
+      # @api private
+      # @param [Baron::Action::Pass] _
+      # @return [void]
+      def pass(_)
+        @passed = true
+        @done = true
+      end
+
       private
 
       # The bank for this game
@@ -112,33 +139,6 @@ module Baron
         float(company) unless
           company.floated? ||
           (initial_offering.percentage_owned(company) > BigDecimal.new('0.5'))
-      end
-
-      # The player buys the certifiate from a source
-      #
-      # The player will buy the certificate at the appropriate price determined
-      # by the par price or market price for that certificate
-      #
-      # @api private
-      # @param [Baron::Action::BuyCertificate] action
-      # @return [void]
-      def buycertificate(action)
-        @done = true
-        action.create_transaction
-        check_for_float action.certificate.company
-      end
-
-      # The player passes
-      #
-      # The player will be done, and they can not take any more actions on this
-      # turn
-      #
-      # @api private
-      # @param [Baron::Action::Pass] _
-      # @return [void]
-      def pass(_)
-        @passed = true
-        @done = true
       end
     end
   end

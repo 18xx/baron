@@ -128,8 +128,6 @@ module Baron
         available_actions.empty?
       end
 
-      private
-
       # The player bids the amount in this auction
       #
       # By bidding, the player remains in the auction, and can win if all
@@ -165,6 +163,8 @@ module Baron
       def selectcertificate(action)
         @certificate = action.certificate
       end
+
+      private
 
       # Validate that this bid is legal
       #

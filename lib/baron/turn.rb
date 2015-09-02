@@ -19,7 +19,7 @@ module Baron
     def perform(action)
       validate_turn(action.player)
       validate_action(action)
-      __send__(action.symbol, action)
+      public_send(action.symbol, action)
     end
 
     # Returns a list of actions that the player can take
