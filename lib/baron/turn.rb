@@ -17,9 +17,11 @@ module Baron
     # @param [Baron::Action] action
     # @return [void]
     def perform(action)
+      action_method = action.symbol
       validate_turn(action.player)
       validate_action(action)
-      public_send(action.symbol, action)
+      action.process
+      public_send(action_method, action) if respond_to?(action_method)
     end
 
     # Returns a list of actions that the player can take

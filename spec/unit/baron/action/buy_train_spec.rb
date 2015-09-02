@@ -20,12 +20,12 @@ RSpec.describe Baron::Action::BuyTrain do
     end
   end
 
-  describe '#create_transaction' do
+  describe '#process' do
     before do
       source.grant train
     end
 
-    subject { action.create_transaction }
+    subject { action.process }
 
     it 'transfers the train to the company' do
       expect { subject }.to change { company.trains.count }.by(1)

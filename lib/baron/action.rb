@@ -30,5 +30,15 @@ module Baron
     def symbol
       self.class.name.split('::').last.downcase.to_sym
     end
+
+    # Execute any additional logic for this action
+    #
+    # This can be overridden by child classes in order to perform additional
+    # operations after the action has been validated.
+    #
+    # @api private
+    # @return [void]
+    def process
+    end
   end
 end

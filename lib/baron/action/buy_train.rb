@@ -34,7 +34,7 @@ module Baron
       #
       # @api private
       # @return [Baron::Transaction] The transaction created
-      def create_transaction
+      def process
         Transaction.new(
           @turn.company,
           [@train],

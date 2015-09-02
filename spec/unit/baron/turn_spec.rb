@@ -2,7 +2,7 @@ RSpec.describe Baron::Turn do
   let(:turn) { Baron::Turn.new }
 
   # Simple shunt for testing turn related stuff
-  class MyTurn < Baron::Turn
+  class MyTurnNoPass < Baron::Turn
     attr_reader :called, :player
 
     def initialize(player, available_action)
@@ -13,7 +13,10 @@ RSpec.describe Baron::Turn do
     def available_actions
       [@available_action]
     end
+  end
 
+  # Simple shunt for testing turn related stuff
+  class MyTurn < MyTurnNoPass
     def pass(action)
       @called = action
     end
@@ -62,8 +65,27 @@ RSpec.describe Baron::Turn do
     end
 
     context 'when performing an available action on my turn' do
-      it 'calls the corresponding method' do
-        expect { subject }.to change { turn.called }.from(nil).to(action)
+      it 'calls action process' do
+        expect(action).to receive(:process)
+        subject
+      end
+
+      context 'when the corresponding method exists' do
+        it 'calls the corresponding method' do
+          expect { subject }.to change { turn.called }.from(nil).to(action)
+        end
+      end
+
+      context 'when the corresponding method does not exist' do
+        let(:turn) { MyTurnNoPass.new(player, available_action) }
+
+        it 'does not call the method' do
+          expect { subject }.to_not change { turn.called }
+        end
+
+        it 'does not raise an error' do
+          expect { subject }.to_not raise_error
+        end
       end
     end
   end

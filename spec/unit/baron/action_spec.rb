@@ -31,4 +31,12 @@ RSpec.describe Baron::Action do
       end
     end
   end
+
+  describe '#process' do
+    subject { action.process }
+
+    it 'is a no-op' do
+      expect { subject }.to_not raise_error
+    end
+  end
 end
