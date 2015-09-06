@@ -18,10 +18,10 @@ module Baron
     # @return [void]
     def perform(action)
       action_method = action.symbol
-      validate_turn(action.player)
-      validate_action(action)
+      validate(action)
       action.process
       public_send(action_method, action) if respond_to?(action_method)
+      taken_actions << action
     end
 
     # Returns a list of actions that the player can take
@@ -54,12 +54,22 @@ module Baron
 
     private
 
+    # The actions which have been taken this turn
+    #
+    # @api private
+    # @return [Array<Baron::Action>] The actions that have been taken this turn.
+    # If no actions have been taken, an empty array is returned
+    def taken_actions
+      @taken_actions ||= []
+    end
+
     # Validate that the action is currently allowed
     #
     # @api private
     # @param [Baron::Action] action
     # @return [void]
-    def validate_action(action)
+    def validate(action)
+      validate_turn(action.player)
       klass = action.class
       fail InvalidActionError, "Attempted to perform #{klass}, " \
         "Allowed Actions: (#{available_actions})" unless

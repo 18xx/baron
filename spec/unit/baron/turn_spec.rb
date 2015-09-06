@@ -13,6 +13,10 @@ RSpec.describe Baron::Turn do
     def available_actions
       [@available_action]
     end
+
+    def my_taken_actions
+      taken_actions
+    end
   end
 
   # Simple shunt for testing turn related stuff
@@ -68,6 +72,11 @@ RSpec.describe Baron::Turn do
       it 'calls action process' do
         expect(action).to receive(:process)
         subject
+      end
+
+      it 'logs the action as taken' do
+        subject
+        expect(turn.my_taken_actions).to include action
       end
 
       context 'when the corresponding method exists' do
