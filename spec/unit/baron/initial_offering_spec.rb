@@ -1,7 +1,6 @@
 RSpec.describe Baron::InitialOffering do
   let(:certificate) { Baron::Certificate.new(company, portion) }
-  let(:initial_offering) { Baron::InitialOffering.new market }
-  let(:market) { instance_double Baron::Market, add_company: nil }
+  let(:initial_offering) { Baron::InitialOffering.new }
 
   describe '#cost' do
     subject { initial_offering.cost certificate }
@@ -68,14 +67,6 @@ RSpec.describe Baron::InitialOffering do
       it 'returns the par price' do
         set_price
         should == amount
-      end
-
-      it 'sets the market price' do
-        expect(market).to receive(:add_company).with(
-          company,
-          amount
-        )
-        set_price
       end
 
       it 'throws an error when trying to reset the par price' do

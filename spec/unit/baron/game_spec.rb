@@ -27,10 +27,6 @@ RSpec.describe Baron::Game do
         expect(subject.certificates).to be_empty
       end
     end
-
-    it 'assigns the market' do
-      expect(subject.market).to be game.market
-    end
   end
 
   describe '#market' do

@@ -206,7 +206,7 @@ module Baron
     # @api private
     # @return [void]
     def init_initial_offering
-      @initial_offering = InitialOffering.new(market)
+      @initial_offering = InitialOffering.new
     end
 
     # Grant the players their initial starting capital

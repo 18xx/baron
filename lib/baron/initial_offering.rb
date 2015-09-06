@@ -8,26 +8,6 @@ module Baron
   class InitialOffering
     include Shareholder
 
-    # The market
-    #
-    # @example
-    #   initial_offering.market
-    #
-    # @api public
-    # @return [Baron::Market]
-    attr_reader :market
-
-    # Create the Initial Offering
-    #
-    # @example
-    #   Baron::InitialOffering.new(Baron::Market.new)
-    #
-    # @api public
-    # @param [Baron::Market] market
-    def initialize(market)
-      @market = market
-    end
-
     # Returns the cost of the certificate
     #
     # This will be determined by its face value or par price.
@@ -75,7 +55,6 @@ module Baron
         "Attempted to reset par price for #{company}"
       ) if get_par_price(company)
       @par_prices[company] = par_price
-      @market.add_company company, par_price
     end
 
     # Return a string representation of the initial offering

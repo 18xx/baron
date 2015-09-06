@@ -122,12 +122,22 @@ module Baron
         @round.game.initial_offering
       end
 
+      # The market
+      #
+      # @api private
+      # @return [Baron::Market]
+      def market
+        @round.game.market
+      end
+
       # Floats the specified company
       #
       # @api private
       # @return [void]
       def float(company)
-        bank.give company, initial_offering.get_par_price(company) * 10
+        par_price = initial_offering.get_par_price(company)
+        bank.give company, par_price * 10
+        market.add_company company, par_price
       end
 
       # Check to see if the company has floated

@@ -1,8 +1,7 @@
 RSpec.describe Baron::Action::BuyCertificate do
   let(:player) { Baron::Player.new 'a' }
-  let(:source) { Baron::InitialOffering.new market }
+  let(:source) { Baron::InitialOffering.new }
   let(:certificate) { Baron::Certificate.new company, BigDecimal.new('0.1') }
-  let(:market) { instance_double Baron::Market, add_company: nil }
   let(:company) { instance_double Baron::Company }
 
   let(:action) { described_class.new player, source, certificate }

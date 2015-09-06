@@ -33,7 +33,7 @@ module Baron
       # Initialize the operating turn
       #
       # @example
-      #   Baron::Turn::OperatingTurn.new(company)
+      #   Baron::Turn::OperatingTurn.new(director, company)
       #
       # @api public
       # @param [Baron::Player] player

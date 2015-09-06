@@ -4,8 +4,7 @@ RSpec.describe Baron::Action::BuyTrain do
   end
   let(:player) { Baron::Player.new('a') }
   let(:company) { Baron::Company.new 'CPR', 'Canadian Pacific' }
-  let(:source) { Baron::InitialOffering.new market }
-  let(:market) { double }
+  let(:source) { Baron::InitialOffering.new }
   let(:train) { Baron::Train.new train_type }
   let(:train_type) { Baron::TrainType.new(3, Baron::Money.new(300)) }
 

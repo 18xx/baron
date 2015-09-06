@@ -4,13 +4,19 @@ RSpec.describe Baron::Turn::StockTurn do
   let(:player) { instance_double Baron::Player }
   let(:round) { instance_double Baron::Round::StockRound, game: game }
   let(:game) do
-    instance_double Baron::Game, initial_offering: ipo, bank: bank
+    instance_double(
+      Baron::Game,
+      initial_offering: ipo,
+      bank: bank,
+      market: market
+    )
   end
   let(:ipo) { instance_double Baron::InitialOffering }
   let(:bank) { Baron::Bank.new }
 
   let(:certificate) { instance_double Baron::Certificate, company: company }
   let(:company) { instance_double Baron::Company }
+  let(:market) { instance_double Baron::Market, add_company: nil }
 
   describe '#player' do
     subject { turn.player }
@@ -120,6 +126,14 @@ RSpec.describe Baron::Turn::StockTurn do
         expect { subject }.to change { bank.balance }.by(
           Baron::Money.new(-900)
         )
+      end
+
+      it 'sets the market price' do
+        expect(market).to receive(:add_company).with(
+          company,
+          Baron::Money.new(90)
+        )
+        subject
       end
     end
   end
