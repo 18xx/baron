@@ -62,6 +62,20 @@ module Baron
           @turns.last(num_players).all?(&:passed?)
       end
 
+      # Determine who gets priority deal for the next round
+      #
+      # Note: This raises an error if the round is not over
+      #
+      # @example
+      #   round.priority_deail
+      #
+      # @api public
+      # @return [Baron::Player]
+      def priority_deal
+        fail RoundNotOver unless over?
+        @turns.last(@players.count).first.player
+      end
+
       private
 
       # The next player to take a turn

@@ -147,4 +147,54 @@ RSpec.describe Baron::Round::StockRound do
       end
     end
   end
+
+  describe '#priority_deal' do
+    subject { stock_round.priority_deal }
+    context 'when the round is not over' do
+      it 'raises a RoundNotOver error' do
+        expect { subject }.to raise_error(Baron::Round::RoundNotOver)
+      end
+    end
+
+    context 'when the round is over' do
+      context 'when no one acted' do
+        it 'lets the starting player go first' do
+          stock_round.current_turn.perform Baron::Action::Pass.new(player1)
+          stock_round.current_turn.perform Baron::Action::Pass.new(player2)
+          stock_round.current_turn.perform Baron::Action::Pass.new(player3)
+          expect(subject).to be player1
+        end
+      end
+
+      context 'when some players have acted' do
+        let(:unavailable_pool) { game.unavailable_certificates_pool }
+        let(:ipo) { game.initial_offering }
+        let(:certificate) do
+          unavailable_pool.certificates.find do |cert|
+            cert.portion == BigDecimal.new('0.1')
+          end
+        end
+        let(:company) { certificate.company }
+
+        before do
+          unavailable_pool.give(ipo, certificate)
+          ipo.set_par_price company, Baron::Money.new(100)
+        end
+
+        it 'lets the player after the last acting player go first' do
+          stock_round.current_turn.perform(
+            Baron::Action::BuyCertificate.new(
+              player1,
+              ipo,
+              certificate
+            )
+          )
+          stock_round.current_turn.perform Baron::Action::Pass.new(player2)
+          stock_round.current_turn.perform Baron::Action::Pass.new(player3)
+          stock_round.current_turn.perform Baron::Action::Pass.new(player1)
+          expect(subject).to be player2
+        end
+      end
+    end
+  end
 end
