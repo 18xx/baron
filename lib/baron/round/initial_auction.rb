@@ -71,7 +71,7 @@ module Baron
       def ordered_players
         arr = players.dup
         new_starting_player_index.times do
-          arr.push arr.shift
+          arr.rotate!
         end
         arr
       end

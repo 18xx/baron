@@ -138,7 +138,7 @@ module Baron
       # @return [Array<Baron::Action::Bid>] All bids on this auction
       def bid(action)
         validate_bid(action)
-        @active_players.push @active_players.shift
+        @active_players.rotate!
         @bids << action
       end
 
