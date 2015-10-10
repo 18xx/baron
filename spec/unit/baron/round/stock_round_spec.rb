@@ -1,6 +1,7 @@
 RSpec.describe Baron::Round::StockRound do
-  let(:stock_round) { described_class.new game }
+  let(:stock_round) { described_class.new game, priority_deal }
 
+  let(:priority_deal) { player1 }
   let(:player1) { Baron::Player.new '1' }
   let(:player2) { Baron::Player.new '2' }
   let(:player3) { Baron::Player.new '3' }
@@ -49,6 +50,14 @@ RSpec.describe Baron::Round::StockRound do
 
     it 'returns the player whose turn it currently is' do
       should be player1
+    end
+
+    context 'when player2 has priority deal' do
+      let(:priority_deal) { player2 }
+
+      it 'makes player2 go first' do
+        should be player2
+      end
     end
   end
 

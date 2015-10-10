@@ -49,10 +49,21 @@ module Baron
     # @return [Array<Baron::Round>]
     def future_rounds
       if @current_round.instance_of?(Round::InitialAuction)
-        Round::StockRound.new(@game)
+        new_stock_round
       elsif !@game.over?
-        [Round::OperatingRound.new(@game), Round::StockRound.new(@game)]
+        [
+          Round::OperatingRound.new(@game),
+          new_stock_round
+        ]
       end
+    end
+
+    # Return a new stock round for the game
+    #
+    # @api private
+    # @return [Baron::Round::StockRound]
+    def new_stock_round
+      Round::StockRound.new(@game, @current_round.next_priority_deal)
     end
   end
 end

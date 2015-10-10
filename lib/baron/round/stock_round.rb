@@ -17,9 +17,11 @@ module Baron
       #
       # @api public
       # @param [Baron::Game] game
-      def initialize(game)
+      # @param [Baron::Player] priority_deal
+      def initialize(game, priority_deal)
         @game = game
         @players = game.players.dup
+        @players.find_index(priority_deal).times { @players.rotate! }
         @unavailable_certificates_pool = game.unavailable_certificates_pool
         @turns = []
         make_directorships_available

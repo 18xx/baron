@@ -44,6 +44,19 @@ module Baron
         game.initial_offering.certificates.empty?
       end
 
+      # The player who has priority deal for the next operating round
+      #
+      # TODO: 1860 returns the player with the most money
+      #
+      # @example do
+      #   auction.next_priority_deal
+      #
+      # @api public
+      # @return [Baron::Player]
+      def next_priority_deal
+        players.first
+      end
+
       private
 
       # Returns the players for the game
@@ -87,8 +100,6 @@ module Baron
       def new_starting_player_index
         players.find_index(@current_turn.high_bidder) + 1
       end
-
-      private
 
       # The companies which are available to be auctioned
       #

@@ -149,4 +149,12 @@ RSpec.describe Baron::Round::InitialAuction do
       it { should be true }
     end
   end
+
+  describe '#next_priority_deal' do
+    subject { auction_round.next_priority_deal }
+
+    it 'returns the first player' do
+      should be player1
+    end
+  end
 end

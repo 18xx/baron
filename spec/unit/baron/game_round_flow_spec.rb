@@ -28,6 +28,7 @@ RSpec.describe Baron::GameRoundFlow do
       before do
         round = flow.current_round
         allow(round).to receive(:over?) { true }
+        allow(round).to receive(:next_priority_deal) { player_a }
       end
 
       it 'is a stock round' do
@@ -42,6 +43,7 @@ RSpec.describe Baron::GameRoundFlow do
         before do
           round = flow.current_round
           allow(round).to receive(:over?) { true }
+          allow(round).to receive(:next_priority_deal) { player_a }
         end
 
         it 'is a operating round' do
