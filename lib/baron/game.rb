@@ -79,6 +79,7 @@ module Baron
     def initialize(rules, players)
       @rules = rules
       @players = players.freeze
+      @flow = GameRoundFlow.new(self)
       init_bank
       init_certificates
       init_market
@@ -98,9 +99,7 @@ module Baron
     # @api public
     # @return [Baron::Round]
     def current_round
-      @current_round ||= Round::InitialAuction.new(self)
-      @current_round = next_round.new(self) if @current_round.over?
-      @current_round
+      @flow.current_round
     end
 
     # The current turn in the game
@@ -149,6 +148,19 @@ module Baron
     # @return [String]
     def inspect
       "#<Baron::Game:#{object_id}>"
+    end
+
+    # Is the game over
+    #
+    # TODO: Implement game over logic
+    #
+    # @example
+    #   game.over?
+    #
+    # @api public
+    # @return [Boolean] True if the game is over, false otherwise.
+    def over?
+      false
     end
 
     private
@@ -248,20 +260,6 @@ module Baron
         initial_offering,
         unavailable_certificates_pool.next_trains
       )
-    end
-
-    # Returns the next round to be played in the game
-    #
-    # The game will normally cycle between stock rounds and operating rounds
-    #
-    # @api private
-    # @return [Baron::Round]
-    def next_round
-      if @current_round.instance_of?(Round::StockRound)
-        Round::OperatingRound
-      else
-        Round::StockRound
-      end
     end
 
     # The amount of money that players start the game with

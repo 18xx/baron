@@ -31,6 +31,7 @@ require 'baron/company/major_company'
 require 'baron/certificate'
 require 'baron/initial_offering'
 require 'baron/game'
+require 'baron/game_round_flow'
 require 'baron/market'
 require 'baron/money'
 

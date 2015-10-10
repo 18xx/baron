@@ -111,44 +111,16 @@ RSpec.describe Baron::Game do
   describe '#current_round' do
     subject { game.current_round }
 
-    context 'at the start of the game' do
-      it 'is an initial auction round' do
-        expect(subject).to be_a Baron::Round::InitialAuction
-      end
+    let(:round) { double }
 
-      it 'assigns this game to the round' do
-        expect(subject.game).to be game
-      end
+    before do
+      expect_any_instance_of(Baron::GameRoundFlow).to receive(
+        :current_round
+      ).and_return(round)
     end
 
-    context 'after the auction round has ended' do
-      before do
-        round = game.current_round
-        allow(round).to receive(:over?) { true }
-      end
-
-      it 'is a stock round' do
-        expect(subject).to be_a Baron::Round::StockRound
-      end
-
-      it 'assigns this game to the round' do
-        expect(subject.game).to be game
-      end
-
-      context 'after the stock round has ended' do
-        before do
-          round = game.current_round
-          allow(round).to receive(:over?) { true }
-        end
-
-        it 'is a operating round' do
-          expect(subject).to be_a Baron::Round::OperatingRound
-        end
-
-        it 'assigns this game to the round' do
-          expect(subject.game).to be game
-        end
-      end
+    it 'returns the current round from the game flow' do
+      should be round
     end
   end
 
@@ -206,6 +178,14 @@ RSpec.describe Baron::Game do
       should eq(
         "#<Baron::Game:#{game.object_id}>"
       )
+    end
+  end
+
+  describe '#over?' do
+    subject { game.over? }
+
+    it 'returns false' do
+      should be false
     end
   end
 
