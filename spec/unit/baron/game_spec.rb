@@ -199,6 +199,16 @@ RSpec.describe Baron::Game do
     end
   end
 
+  describe '#inspect' do
+    subject { game.inspect }
+
+    it 'returns a string representation of the object' do
+      should eq(
+        "#<Baron::Game:#{game.object_id}>"
+      )
+    end
+  end
+
   describe 'trains' do
     it 'puts the current set of trains in the initial offering' do
       expect(subject.initial_offering.trains.count).to be 5

@@ -143,6 +143,14 @@ module Baron
       nil
     end
 
+    # Returns a basic string representation of the game
+    #
+    # @api private
+    # @return [String]
+    def inspect
+      "#<Baron::Game:#{object_id}>"
+    end
+
     private
 
     # Initialize the bank and grant it the starting money
