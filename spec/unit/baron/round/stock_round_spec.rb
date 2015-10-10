@@ -148,8 +148,8 @@ RSpec.describe Baron::Round::StockRound do
     end
   end
 
-  describe '#priority_deal' do
-    subject { stock_round.priority_deal }
+  describe '#next_priority_deal' do
+    subject { stock_round.next_priority_deal }
     context 'when the round is not over' do
       it 'raises a RoundNotOver error' do
         expect { subject }.to raise_error(Baron::Round::RoundNotOver)

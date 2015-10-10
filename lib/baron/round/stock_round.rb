@@ -67,11 +67,11 @@ module Baron
       # Note: This raises an error if the round is not over
       #
       # @example
-      #   round.priority_deail
+      #   round.next_priority_deail
       #
       # @api public
       # @return [Baron::Player]
-      def priority_deal
+      def next_priority_deal
         fail RoundNotOver unless over?
         @turns.last(@players.count).first.player
       end
