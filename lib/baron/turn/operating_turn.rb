@@ -10,6 +10,15 @@ module Baron
     # - Purchase Trains
     # and more
     class OperatingTurn < self
+      # The game that this operating turn is a part of
+      #
+      # @example
+      #   turn.game
+      #
+      # @api public
+      # @return [Baron::Game]
+      attr_reader :game
+
       # The company performing this operation
       #
       # @example
@@ -33,12 +42,14 @@ module Baron
       # Initialize the operating turn
       #
       # @example
-      #   Baron::Turn::OperatingTurn.new(director, company)
+      #   Baron::Turn::OperatingTurn.new(game, director, company)
       #
       # @api public
+      # @param [Baron::Game] game
       # @param [Baron::Player] player
       # @param [Baron::Company] company
-      def initialize(player, company)
+      def initialize(game, player, company)
+        @game = game
         @company = company
         @player = player
       end

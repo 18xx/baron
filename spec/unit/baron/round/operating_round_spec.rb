@@ -65,6 +65,10 @@ RSpec.describe Baron::Round::OperatingRound do
       it 'sets the director' do
         expect(subject.player).to be director
       end
+
+      it 'sets the game' do
+        expect(subject.game).to be game
+      end
     end
 
     context 'when the turn completes' do
