@@ -39,6 +39,15 @@ module Baron
       # @return [Baron::Player]
       attr_reader :player
 
+      # The amount that the company ran for this operation
+      #
+      # @example
+      #   turn.run_amount
+      #
+      # @api public
+      # @return [Fixnum]
+      attr_reader :run_amount
+
       # Initialize the operating turn
       #
       # @example
@@ -66,6 +75,7 @@ module Baron
           can_place_tile,
           can_place_token,
           can_run_trains,
+          can_payout,
           can_buy_trains,
           can_done
         ].compact
@@ -109,8 +119,19 @@ module Baron
       # @api private
       # @param [Baron::Action::RunTrains] _
       # @return [void]
-      def runtrains(_)
-        # TODO: Implement run trains
+      def runtrains(action)
+        @run_amount = action.amount
+      end
+
+      # Pay out earnings to shareholders
+      #
+      # @api private
+      # @param [Baron::Action::Payout] _
+      # @return [void]
+      def payout(_)
+        payout_amounts.each do |player, amount|
+          game.bank.give(player, Money.new(amount)) if amount > 0
+        end
       end
 
       # Count the number of times the action taken this turn
@@ -136,6 +157,14 @@ module Baron
       # @return [Boolean]
       def run_trains?
         count_actions_taken(Action::RunTrains) > 0
+      end
+
+      # Has this declared what it is going to do with its earnings
+      #
+      # @api private
+      # @return [Boolean]
+      def declared_earnings?
+        run_amount.equal?(0) || count_actions_taken(Action::Payout) > 0
       end
 
       # Return the place tile action is the company can place tiles
@@ -165,12 +194,20 @@ module Baron
         Action::RunTrains unless run_trains?
       end
 
+      # Return the payout action is the company can pay out
+      #
+      # @api private
+      # @return [Baron::Action::Payout]
+      def can_payout
+        Action::Payout if run_trains? && !declared_earnings?
+      end
+
       # Return the buy trains action is the company can buy trains
       #
       # @api private
       # @return [Baron::Action::BuyTrain]
       def can_buy_trains
-        Action::BuyTrain unless !run_trains? || done?
+        Action::BuyTrain if declared_earnings? && !done?
       end
 
       # Return the done action is the company can declar it is done
@@ -178,7 +215,18 @@ module Baron
       # @api private
       # @return [Baron::Action::Done]
       def can_done
-        Action::Done unless !run_trains? || done?
+        Action::Done if declared_earnings? && !done?
+      end
+
+      # The amounts to be paid out to each payer
+      #
+      # @api private
+      # @return [Hash<Baron::Player, Fixnup>] The player and amount that they
+      # are to be paid
+      def payout_amounts
+        game.players.map do |player|
+          [player, (run_amount * player.percentage_owned(company)).to_int]
+        end
       end
     end
   end

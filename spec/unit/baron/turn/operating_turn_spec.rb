@@ -1,6 +1,6 @@
 RSpec.describe Baron::Turn::OperatingTurn do
   let(:turn) { described_class.new game, player, company }
-  let(:game) { instance_double Baron::Game }
+  let(:game) { instance_double Baron::Game, players: [] }
   let(:company) { instance_double Baron::Company }
   let(:player) { instance_double Baron::Player }
 
@@ -100,17 +100,42 @@ RSpec.describe Baron::Turn::OperatingTurn do
         turn.perform action
       end
 
-      it 'allows them to buy trains, and declare it is done' do
-        should contain_exactly(
-          Baron::Action::BuyTrain,
-          Baron::Action::Done
-        )
+      context 'when the company runs for greater than zero' do
+        let(:action) { Baron::Action::RunTrains.new(turn, 10, 0) }
+
+        it 'allows them to payout' do
+          should contain_exactly(
+            Baron::Action::Payout
+          )
+        end
+
+        context 'after the companies declares earnings' do
+          before do
+            turn.perform Baron::Action::Payout.new(turn)
+          end
+
+          it 'allows them to buy trains, and declare it is done' do
+            should contain_exactly(
+              Baron::Action::BuyTrain,
+              Baron::Action::Done
+            )
+          end
+        end
       end
 
-      context 'when the company has declared it is done' do
-        before { turn.perform Baron::Action::Done.new(turn) }
+      context 'when the company runs for nothing' do
+        it 'allows them to buy trains, and declare it is done' do
+          should contain_exactly(
+            Baron::Action::BuyTrain,
+            Baron::Action::Done
+          )
+        end
 
-        it { should be_empty }
+        context 'when the company has declared it is done' do
+          before { turn.perform Baron::Action::Done.new(turn) }
+
+          it { should be_empty }
+        end
       end
     end
   end
@@ -159,6 +184,53 @@ RSpec.describe Baron::Turn::OperatingTurn do
 
     it 'is a no-op' do
       expect { subject }.to_not raise_error
+    end
+  end
+
+  describe 'payout' do
+    let(:game) do
+      instance_double(
+        Baron::Game,
+        bank: bank,
+        players: players
+      )
+    end
+
+    let(:bank) { instance_double Baron::Bank }
+    let(:company) { instance_double Baron::Company }
+    let(:players) { [player1, player2, player3] }
+    let(:player1) { instance_double Baron::Player, 'P1' }
+    let(:player2) { instance_double Baron::Player, 'P2' }
+    let(:player3) { instance_double Baron::Player, 'P3' }
+
+    describe 'transactions' do
+      before do
+        allow(player1).to receive(:percentage_owned).with(company).and_return(
+          BigDecimal.new('0.6')
+        )
+        allow(player2).to receive(:percentage_owned).with(company).and_return(
+          BigDecimal.new('0.1')
+        )
+        allow(player3).to receive(:percentage_owned).with(company).and_return(
+          BigDecimal.new('0.0')
+        )
+        turn.perform Baron::Action::RunTrains.new(turn, 10, 0)
+      end
+
+      let(:action) { Baron::Action::Payout.new turn }
+
+      subject { turn.perform action }
+
+      context 'when the company runs for 10' do
+        let(:run_amount) { 10 }
+
+        it 'pays out players 1 & 2' do
+          expect(bank).to receive(:give).with(player1, Baron::Money.new(6))
+          expect(bank).to receive(:give).with(player2, Baron::Money.new(1))
+          expect(bank).to_not receive(:give).with(player3, Baron::Money.new(0))
+          subject
+        end
+      end
     end
   end
 end
