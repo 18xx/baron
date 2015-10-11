@@ -1,7 +1,13 @@
 RSpec.describe Baron::Action::BuyTrain do
   let(:turn) do
-    instance_double Baron::Turn::OperatingTurn, player: player, company: company
+    instance_double(
+      Baron::Turn::OperatingTurn,
+      company: company,
+      game: game,
+      player: player
+    )
   end
+  let(:game) { instance_double Baron::Game, add_next_level_of_trains: nil }
   let(:player) { Baron::Player.new('a') }
   let(:company) { Baron::Company.new 'CPR', 'Canadian Pacific' }
   let(:source) { Baron::InitialOffering.new }
@@ -44,6 +50,11 @@ RSpec.describe Baron::Action::BuyTrain do
       expect { subject }.to change { source.balance }.by(
         Baron::Money.new(300)
       )
+    end
+
+    it 'adds the next level of trains' do
+      expect(game).to receive(:add_next_level_of_trains)
+      subject
     end
   end
 end

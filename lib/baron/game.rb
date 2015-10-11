@@ -163,6 +163,24 @@ module Baron
       false
     end
 
+    # Place the next level of trains in the initial offering
+    #
+    # This will generally be triggered at the start of the game or after a
+    # train has been purchased. The trains will be added if the appopriate
+    # conditions have been met.
+    #
+    # @example
+    #   game.add_next_level_of_trains
+    #
+    # @api public
+    # @return [void]
+    def add_next_level_of_trains
+      unavailable_certificates_pool.give(
+        initial_offering,
+        unavailable_certificates_pool.next_trains
+      ) if initial_offering.trains.empty?
+    end
+
     private
 
     # Initialize the bank and grant it the starting money
@@ -246,20 +264,6 @@ module Baron
     def init_trains
       unavailable_certificates_pool.grant rules.trains
       add_next_level_of_trains
-    end
-
-    # Place the next level of trains in the initial offering
-    #
-    # This will generally be triggered when the current set of trains has
-    # sold out.
-    #
-    # @api private
-    # @return [void]
-    def add_next_level_of_trains
-      unavailable_certificates_pool.give(
-        initial_offering,
-        unavailable_certificates_pool.next_trains
-      )
     end
 
     # The amount of money that players start the game with

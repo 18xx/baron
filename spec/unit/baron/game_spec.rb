@@ -198,4 +198,27 @@ RSpec.describe Baron::Game do
       expect(subject.unavailable_certificates_pool.trains.count).to be 29
     end
   end
+
+  describe '#add_next_level_of_trains' do
+    subject { game.add_next_level_of_trains }
+
+    let(:bank) { game.bank }
+    let(:initial_offering) { game.initial_offering }
+
+    context 'when the initial offering is devoid of trains' do
+      before do
+        initial_offering.give(bank, initial_offering.trains)
+      end
+
+      it 'the next level of trains' do
+        expect { subject }.to change { initial_offering.trains.count }
+      end
+    end
+
+    context 'when the initial offering has trains' do
+      it 'does not add more trains' do
+        expect { subject }.to_not change { initial_offering.trains.count }
+      end
+    end
+  end
 end

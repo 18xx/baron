@@ -33,7 +33,7 @@ module Baron
       # Create a transaction to transfer the certificate for money
       #
       # @api private
-      # @return [Baron::Transaction] The transaction created
+      # @return [void]
       def process
         Transaction.new(
           @turn.company,
@@ -41,6 +41,7 @@ module Baron
           @source,
           [@amount]
         )
+        turn.game.add_next_level_of_trains
       end
     end
   end
