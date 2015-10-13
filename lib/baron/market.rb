@@ -73,6 +73,24 @@ module Baron
       end
     end
 
+    # Change the price of a company by a specified number of steps
+    #
+    # The price will be increased by the number of steps specified, or reduce
+    # it by the number of steps specified.
+    #
+    # @example
+    #   market.reduce_price(comapny, 2) # increase the price by 2 steps
+    #
+    # @api public
+    # @param [Baron::Company] company
+    # @param [Fixnum] steps
+    # @return [void]
+    def change_price(company, steps)
+      market_values = @rules.market_values
+      index = market_values.find_index(price(company).amount)
+      @current_prices[company] = market_values.fetch(index + steps)
+    end
+
     # The price used is not a valid starting price on the market
     class InvalidStartingPrice < StandardError
     end

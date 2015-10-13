@@ -61,4 +61,29 @@ RSpec.describe Baron::Market do
       end
     end
   end
+
+  describe '#change_price' do
+    before { market.add_company company, starting_price }
+    subject { market.change_price company, steps }
+
+    context 'when steps is positive' do
+      let(:steps) { 4 }
+
+      it 'increases the price' do
+        expect { subject }.to change {
+          market.price(company).amount
+        }.from(90).to(110)
+      end
+    end
+
+    context 'when steps is negative' do
+      let(:steps) { -3 }
+
+      it 'increases the price' do
+        expect { subject }.to change {
+          market.price(company).amount
+        }.from(90).to(78)
+      end
+    end
+  end
 end
