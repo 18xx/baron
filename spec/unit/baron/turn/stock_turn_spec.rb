@@ -160,7 +160,8 @@ RSpec.describe Baron::Turn::StockTurn do
         should match_array([
           Baron::Action::BuyCertificate,
           Baron::Action::Pass,
-          Baron::Action::SellCertificates
+          Baron::Action::SellCertificates,
+          Baron::Action::StartCompany
         ])
       end
     end
@@ -174,6 +175,22 @@ RSpec.describe Baron::Turn::StockTurn do
     it 'calls create_transaction on the action' do
       expect(action).to receive(:create_transaction).once
       subject
+    end
+  end
+
+  describe 'start company' do
+    subject { turn.startcompany action }
+
+    let(:action) { instance_double Baron::Action::StartCompany, setup: nil }
+
+    it 'calls setup on the action' do
+      expect(action).to receive(:setup).once
+      subject
+    end
+
+    it 'marks the turn as done' do
+      subject
+      expect(turn).to be_done
     end
   end
 

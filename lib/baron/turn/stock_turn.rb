@@ -77,7 +77,8 @@ module Baron
         [
           Action::BuyCertificate,
           Action::Pass,
-          Action::SellCertificates
+          Action::SellCertificates,
+          Action::StartCompany
         ]
       end
 
@@ -118,6 +119,19 @@ module Baron
       # @return [void]
       def sellcertificates(action)
         action.create_transaction
+      end
+
+      # The player starts a new company
+      #
+      # This sets up the par price, and transfers the directors certificate to
+      # the player in exchange for the appropriate amount of money
+      #
+      # @api private
+      # @param [Baron::Action::StartCompany] action
+      # @return [void]
+      def startcompany(action)
+        @done = true
+        action.setup
       end
 
       private

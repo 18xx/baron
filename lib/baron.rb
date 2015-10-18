@@ -23,6 +23,7 @@ require 'baron/action/place_token'
 require 'baron/action/run_trains'
 require 'baron/action/select_certificate'
 require 'baron/action/sell_certificates'
+require 'baron/action/start_company'
 
 require 'baron/bank'
 
