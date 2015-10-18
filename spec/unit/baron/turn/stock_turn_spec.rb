@@ -159,7 +159,8 @@ RSpec.describe Baron::Turn::StockTurn do
       it 'allows the player to buy, or pass' do
         should match_array([
           Baron::Action::BuyCertificate,
-          Baron::Action::Pass
+          Baron::Action::Pass,
+          Baron::Action::SellCertificates
         ])
       end
     end

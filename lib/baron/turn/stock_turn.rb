@@ -74,7 +74,11 @@ module Baron
       # @api public
       # @return [Array<Baron::Action>]
       def available_actions
-        [Action::BuyCertificate, Action::Pass]
+        [
+          Action::BuyCertificate,
+          Action::Pass,
+          Action::SellCertificates
+        ]
       end
 
       # The player buys the certifiate from a source
