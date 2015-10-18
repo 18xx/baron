@@ -6,3 +6,6 @@
     max_allowed_nesting: 2
     exclude:
       - 'Baron::Shareholder#currently_owned' # Dealing with a ruby 2.2 warnings
+  UtilityFunction:
+    exclude:
+      - 'Baron::Turn::StockTurn#sellcertificates'

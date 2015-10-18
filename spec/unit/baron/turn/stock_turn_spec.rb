@@ -166,6 +166,17 @@ RSpec.describe Baron::Turn::StockTurn do
     end
   end
 
+  describe 'sell certificates' do
+    subject { turn.sellcertificates action }
+
+    let(:action) { instance_double Baron::Action::SellCertificates }
+
+    it 'calls create_transaction on the action' do
+      expect(action).to receive(:create_transaction).once
+      subject
+    end
+  end
+
   describe '#passed?' do
     subject { turn.passed? }
 

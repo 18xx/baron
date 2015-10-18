@@ -108,6 +108,18 @@ module Baron
         @done = true
       end
 
+      # The player sells one or more certificates
+      #
+      # This creates the transaction which transfers the certificates to the
+      # bank in exchange for money.
+      #
+      # @api private
+      # @param [Baron::Action::SellCertificates] action
+      # @return [void]
+      def sellcertificates(action)
+        action.create_transaction
+      end
+
       private
 
       # The bank for this game
