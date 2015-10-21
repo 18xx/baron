@@ -1,7 +1,10 @@
 RSpec.describe Baron::Turn::OperatingTurn do
   let(:turn) { described_class.new game, player, company }
-  let(:game) { instance_double Baron::Game, players: [] }
-  let(:company) { instance_double Baron::Company }
+  let(:game) { instance_double Baron::Game, bank: bank, players: [] }
+  let(:bank) { Baron::Bank.new }
+  let(:company) do
+    Baron::Company.new('LNWR', 'London & Northwestern')
+  end
   let(:player) { instance_double Baron::Player }
 
   describe '#game' do
@@ -103,15 +106,29 @@ RSpec.describe Baron::Turn::OperatingTurn do
       context 'when the company runs for greater than zero' do
         let(:action) { Baron::Action::RunTrains.new(turn, 10, 0) }
 
-        it 'allows them to payout' do
+        it 'allows them to payout or retain' do
           should contain_exactly(
-            Baron::Action::Payout
+            Baron::Action::Payout,
+            Baron::Action::Retain
           )
         end
 
-        context 'after the companies declares earnings' do
+        context 'after the company pays out' do
           before do
             turn.perform Baron::Action::Payout.new(turn)
+          end
+
+          it 'allows them to buy trains, and declare it is done' do
+            should contain_exactly(
+              Baron::Action::BuyTrain,
+              Baron::Action::Done
+            )
+          end
+        end
+
+        context 'after the company retains' do
+          before do
+            turn.perform Baron::Action::Retain.new(turn)
           end
 
           it 'allows them to buy trains, and declare it is done' do
@@ -222,8 +239,6 @@ RSpec.describe Baron::Turn::OperatingTurn do
       subject { turn.perform action }
 
       context 'when the company runs for 10' do
-        let(:run_amount) { 10 }
-
         it 'pays out players 1 & 2' do
           expect(bank).to receive(:give).with(player1, Baron::Money.new(6))
           expect(bank).to receive(:give).with(player2, Baron::Money.new(1))
@@ -231,6 +246,36 @@ RSpec.describe Baron::Turn::OperatingTurn do
           subject
         end
       end
+    end
+  end
+
+  describe 'retain' do
+    let(:game) do
+      instance_double(
+        Baron::Game,
+        bank: bank,
+        players: players
+      )
+    end
+
+    let(:bank) { Baron::Bank.new }
+    let(:players) { [player1, player2, player3] }
+    let(:player1) { instance_double Baron::Player, 'P1' }
+    let(:player2) { instance_double Baron::Player, 'P2' }
+    let(:player3) { instance_double Baron::Player, 'P3' }
+
+    let(:action) { Baron::Action::Retain.new turn }
+    before do
+      turn.perform Baron::Action::RunTrains.new(turn, 100, 0)
+    end
+    subject { turn.perform action }
+
+    it 'transfers the earnings to the company' do
+      expect { subject }.to change { company.balance }.by(Baron::Money.new(100))
+    end
+
+    it 'transfers the earnings from the bank' do
+      expect { subject }.to change { bank.balance }.by(Baron::Money.new(-100))
     end
   end
 end

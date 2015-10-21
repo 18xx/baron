@@ -73,7 +73,11 @@ module Baron
       # @return [void]
       def set_turn_order
         @turn_order = operating_order.map do |company|
-          Turn::OperatingTurn.new @game, @game.director(company), company
+          Turn::OperatingTurn.new(
+            @game,
+            @game.director(company),
+            company
+          )
         end
         @current_turn = @turn_order.shift
       end

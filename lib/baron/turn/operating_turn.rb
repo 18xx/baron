@@ -76,6 +76,7 @@ module Baron
           can_place_token,
           can_run_trains,
           can_payout,
+          can_retain,
           can_buy_trains,
           can_done
         ].compact
@@ -134,6 +135,15 @@ module Baron
         end
       end
 
+      # Retain earnings to the company
+      #
+      # @api private
+      # @param [Baron::Action::Retain] _
+      # @return [void]
+      def retain(_)
+        game.bank.give(company, Money.new(@run_amount))
+      end
+
       # Count the number of times the action taken this turn
       #
       # @api private
@@ -164,7 +174,10 @@ module Baron
       # @api private
       # @return [Boolean]
       def declared_earnings?
-        run_amount.equal?(0) || count_actions_taken(Action::Payout) > 0
+        run_amount.equal?(0) || (
+          count_actions_taken(Action::Payout) +
+          count_actions_taken(Action::Retain)
+        ) > 0
       end
 
       # Return the place tile action is the company can place tiles
@@ -200,6 +213,14 @@ module Baron
       # @return [Baron::Action::Payout]
       def can_payout
         Action::Payout if run_trains? && !declared_earnings?
+      end
+
+      # Return the retain action is the company can retain
+      #
+      # @api private
+      # @return [Baron::Action::Retain]
+      def can_retain
+        Action::Retain if can_payout
       end
 
       # Return the buy trains action is the company can buy trains
