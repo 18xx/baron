@@ -159,7 +159,7 @@ RSpec.describe Baron::Game do
     end
 
     context 'when a company has no director' do
-      it { should be nil }
+      it { should be game.bank }
     end
 
     context 'when player a is the director' do

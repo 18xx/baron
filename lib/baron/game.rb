@@ -139,7 +139,7 @@ module Baron
       players.each do |player|
         return player if player.directorships.include?(company)
       end
-      nil
+      bank
     end
 
     # Returns a basic string representation of the game

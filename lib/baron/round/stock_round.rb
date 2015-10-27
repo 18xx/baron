@@ -113,7 +113,7 @@ module Baron
           @unavailable_certificates_pool.make_certificate_available(
             cert,
             @game.initial_offering
-          ) if @game.director(cert.company)
+          ) if @game.director(cert.company).instance_of?(Player)
         end
       end
     end
