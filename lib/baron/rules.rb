@@ -161,7 +161,7 @@ module Baron
       @train_types ||= @config.fetch('trains').map do |train|
         major_allowance, minor_allowance = train.fetch('type').split('+')
         TrainType.new(
-          major_allowance,
+          major_allowance.to_i,
           Money.new(train.fetch('face_value')),
           minor_station_allowance: minor_allowance
         )

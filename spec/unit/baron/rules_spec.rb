@@ -168,6 +168,10 @@ RSpec.describe Baron::Rules do
         expect(types.count).to be 8
       end
 
+      it 'has major station allowances for each train' do
+        expect(types.map(&:major_station_allowance)).to match_array((2..9).to_a)
+      end
+
       it 'has the face value for each train' do
         expect(types.map { |type| type.face_value.amount }).to contain_exactly(
           250,
