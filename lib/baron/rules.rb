@@ -116,6 +116,19 @@ module Baron
       @config.fetch('stock_market').fetch('values')
     end
 
+    # The number of operating rounds for the game phase
+    #
+    # @example
+    #   rules.number_of_operating_rounds(3) # => 2
+    #
+    # @api public
+    # @return [Fixnum]
+    def number_of_operating_rounds(phase)
+      @config.fetch('operating_rounds').find do |round|
+        round.fetch('phase').equal?(phase)
+      end.fetch('count')
+    end
+
     private
 
     # Create the companies that are defined for this game in the config

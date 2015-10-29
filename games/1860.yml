@@ -178,3 +178,13 @@ trains:
     type: '9+5'
     face_value: 800
     count: 16
+operating_rounds:
+  -
+    phase: 2
+    count: 1
+  -
+    phase: 3
+    count: 2
+  -
+    phase: 4
+    count: 2

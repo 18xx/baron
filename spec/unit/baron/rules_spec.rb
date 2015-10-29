@@ -190,4 +190,23 @@ RSpec.describe Baron::Rules do
       expect(subject.count).to be 34
     end
   end
+
+  describe '#number_of_operating_rounds' do
+    subject { rules.number_of_operating_rounds phase }
+
+    context 'when the phase is 2' do
+      let(:phase) { 2 }
+      it { should be 1 }
+    end
+
+    context 'when the phase is 3' do
+      let(:phase) { 3 }
+      it { should be 2 }
+    end
+
+    context 'when the phase is 4' do
+      let(:phase) { 4 }
+      it { should be 2 }
+    end
+  end
 end
