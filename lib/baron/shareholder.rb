@@ -38,6 +38,18 @@ module Baron
       currently_owned(Transaction::IS_TRAIN)
     end
 
+    # The largest train by major station allowance
+    #
+    # @example
+    #   shareholder.largest_train
+    #
+    # @api public
+    # @return [Fixnum] The number of major stations the largest train is
+    # allowed to hit. nil if the company has no trains
+    def largest_train
+      trains.map { |train| train.type.major_station_allowance }.max
+    end
+
     # Returns all of the certificates for the matching company
     #
     # @example

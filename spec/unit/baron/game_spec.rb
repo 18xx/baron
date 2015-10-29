@@ -221,4 +221,25 @@ RSpec.describe Baron::Game do
       end
     end
   end
+
+  describe '#phase' do
+    subject { game.phase }
+
+    context 'when no trains have been sold' do
+      it { should be 2 }
+    end
+
+    context 'when the first 3 trains has been sold' do
+      let(:company) { rules.major_companies.first }
+      let(:train_type) { Baron::TrainType.new(3, Baron::Money.new(250)) }
+
+      before do
+        allow(company).to receive(:trains) do
+          [Baron::Train.new(train_type)]
+        end
+      end
+
+      it { should be 3 }
+    end
+  end
 end

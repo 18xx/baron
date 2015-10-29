@@ -5,6 +5,9 @@ module Baron
   # The basic information for the game is defined in yml files in the games
   # directory.
   class Game
+    extend Forwardable
+    def_delegator :@rules, :major_companies
+
     # The size of the bank.
     #
     # In many games the bank size involves an end game trigger, however in Baron
@@ -181,6 +184,20 @@ module Baron
       ) if initial_offering.trains.empty?
     end
 
+    # The current phase of the game
+    #
+    # The game phase is defined by the trains which have been sold. As an
+    # example, when the first 3 train has been sold, the game enters phase 3.
+    #
+    # @example
+    #   game.phase
+    #
+    # @api public
+    # @return [Fixnum] The phase of the game
+    def phase
+      major_companies.map(&:largest_train).compact.max || 2
+    end
+
     private
 
     # Initialize the bank and grant it the starting money
@@ -205,7 +222,7 @@ module Baron
     # @api private
     # @return [Array<Baron::Certificate>]
     def major_certificates
-      rules.major_companies.flat_map do |company|
+      major_companies.flat_map do |company|
         rules.share_configuration.map do |portion|
           Certificate.new company, portion
         end

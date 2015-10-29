@@ -277,4 +277,26 @@ RSpec.describe Baron::Shareholder do
       end
     end
   end
+
+  describe '#largest_train' do
+    subject { a.largest_train }
+
+    context 'when the company owns no trains' do
+      it { should be nil }
+    end
+
+    context 'when the company owns trains' do
+      let(:type2) { Baron::TrainType.new(2, nil) }
+      let(:type3) { Baron::TrainType.new(3, nil) }
+
+      before do
+        a.grant Baron::Train.new(type2)
+        a.grant Baron::Train.new(type3)
+      end
+
+      it 'returns the major station allowance of the largest train' do
+        should be 3
+      end
+    end
+  end
 end
