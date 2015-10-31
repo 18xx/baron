@@ -51,11 +51,26 @@ module Baron
       if @current_round.instance_of?(Round::InitialAuction)
         new_stock_round
       elsif !@game.over?
-        [
-          Round::OperatingRound.new(@game),
-          new_stock_round
-        ]
+        operating_rounds + [new_stock_round]
       end
+    end
+
+    # Get the operating rounds which will be added to the next set
+    #
+    # @api private
+    # @return [Array<Baron::OperatingRound>]
+    def operating_rounds
+      number_of_operating_rounds.times.map do
+        Round::OperatingRound.new(@game)
+      end
+    end
+
+    # The number of operating rounds added to the next set
+    #
+    # @api private
+    # @return [Fixnum]
+    def number_of_operating_rounds
+      @game.rules.number_of_operating_rounds(@game.phase)
     end
 
     # Return a new stock round for the game
