@@ -83,6 +83,18 @@ module Baron
       end
     end
 
+    # The market cost of the current certificate
+    #
+    # @example
+    #   certificate.market_cost(market)
+    #
+    # @api public
+    # @param [Baron::Market] market
+    # @return [Baron::Money]
+    def market_cost(market)
+      market.price(company) * num_shares
+    end
+
     # Return a string representation of the player
     #
     # @api private

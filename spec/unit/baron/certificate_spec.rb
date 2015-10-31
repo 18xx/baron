@@ -80,4 +80,29 @@ RSpec.describe Baron::Certificate do
       should == "#<Baron::Certificiate:#{certificate.object_id} LNWR @ 0.1>"
     end
   end
+
+  describe '#market_cost' do
+    subject { certificate.market_cost market }
+
+    let(:market) { instance_double Baron::Market }
+    let(:value) { Baron::Money.new(100) }
+
+    before do
+      allow(market).to receive(:price).with(company).and_return(value)
+    end
+
+    context 'when the certificate is for 1 share' do
+      it 'returns the market value of the company' do
+        should eq Baron::Money.new(100)
+      end
+    end
+
+    context 'when the certificate is for 2 shares' do
+      let(:portion) { BigDecimal.new '0.2' }
+
+      it 'returns the two times the market value of the company' do
+        should eq Baron::Money.new(200)
+      end
+    end
+  end
 end

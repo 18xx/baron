@@ -1,7 +1,7 @@
 RSpec.describe Baron::Action::SellCertificates do
   let(:player) { Baron::Player.new 'a' }
   let(:player2) { Baron::Player.new 'b' }
-  let(:bank) { Baron::Bank.new }
+  let(:bank) { Baron::Bank.new game }
   let(:market) { Baron::Market.new rules }
   let(:game) { Baron::Game.new rules, [player, player2] }
   let(:rules) { Baron::Rules.new('1860') }

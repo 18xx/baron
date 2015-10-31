@@ -11,7 +11,8 @@ RSpec.describe Baron::Turn::WinnerChooseAuction do
     Baron::Player.new('Maggie')
   end
 
-  let(:bank) { Baron::Bank.new }
+  let(:bank) { Baron::Bank.new game }
+  let(:game) { double }
 
   let(:players) { [player1, player2, player3] }
 

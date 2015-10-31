@@ -17,6 +17,10 @@ RSpec.describe Baron::Game do
       # $100MM - $2000 in starting capital
       expect(subject.bank.balance).to eq Baron::Money.new(99_998_000)
     end
+
+    it 'assigns the game' do
+      expect(subject.bank.game).to be game
+    end
   end
 
   describe '#initial_offering' do

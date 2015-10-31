@@ -205,7 +205,7 @@ module Baron
     # @api private
     # @return [Baron::Bank]
     def init_bank
-      @bank = Bank.new
+      @bank = Bank.new(self)
       @bank.grant Money.new(BANK_SIZE)
     end
 

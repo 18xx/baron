@@ -1,7 +1,7 @@
 RSpec.describe Baron::Turn::OperatingTurn do
   let(:turn) { described_class.new game, player, company }
   let(:game) { instance_double Baron::Game, bank: bank, players: [] }
-  let(:bank) { Baron::Bank.new }
+  let(:bank) { Baron::Bank.new double }
   let(:company) do
     Baron::Company.new('LNWR', 'London & Northwestern')
   end
@@ -258,7 +258,7 @@ RSpec.describe Baron::Turn::OperatingTurn do
       )
     end
 
-    let(:bank) { Baron::Bank.new }
+    let(:bank) { Baron::Bank.new double }
     let(:players) { [player1, player2, player3] }
     let(:player1) { instance_double Baron::Player, 'P1' }
     let(:player2) { instance_double Baron::Player, 'P2' }

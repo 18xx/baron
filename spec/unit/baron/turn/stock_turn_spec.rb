@@ -12,7 +12,7 @@ RSpec.describe Baron::Turn::StockTurn do
     )
   end
   let(:ipo) { instance_double Baron::InitialOffering }
-  let(:bank) { Baron::Bank.new }
+  let(:bank) { Baron::Bank.new double }
 
   let(:certificate) { instance_double Baron::Certificate, company: company }
   let(:company) { instance_double Baron::Company }
