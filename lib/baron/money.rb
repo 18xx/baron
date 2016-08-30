@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # Money is a fundamental concept in 18xx. It is used to pay for shares,
   # trains, track, token placement, and more.

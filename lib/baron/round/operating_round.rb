@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Round
     # An operating round in the game
@@ -51,9 +52,9 @@ module Baron
       # @api private
       # @return [void]
       def pay_privates
-        @game.players.each do |player|
+        game.players.each do |player|
           player.private_certificates.each do |private_cert|
-            @game.bank.give player, private_cert.company.revenue
+            game.bank.give player, private_cert.company.revenue
           end
         end
       end
@@ -64,7 +65,7 @@ module Baron
       # @return [Array<Baron::Company>] A sorted array with the companies that
       # will operate in the order that they will operate
       def operating_order
-        @game.market.operating_order
+        game.market.operating_order
       end
 
       # Sets up the turn order for the round
@@ -74,8 +75,8 @@ module Baron
       def set_turn_order
         @turn_order = operating_order.map do |company|
           Turn::OperatingTurn.new(
-            @game,
-            @game.director(company),
+            game,
+            game.director(company),
             company
           )
         end

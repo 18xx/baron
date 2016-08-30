@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::BuyTrain do
   let(:turn) do
     instance_double(

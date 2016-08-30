@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Turn::OperatingTurn do
   let(:turn) { described_class.new game, player, company }
   let(:game) { instance_double Baron::Game, bank: bank, players: [] }

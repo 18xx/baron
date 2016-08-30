@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # BuyTrain allows a company to purchase a train from either the
@@ -36,8 +37,8 @@ module Baron
       # @return [void]
       def process
         Transaction.new(
-          @turn.company,
-          [@train],
+          turn.company,
+          [train],
           @source,
           [@amount]
         )

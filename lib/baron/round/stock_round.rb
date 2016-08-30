@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Round
     # A stock round in the game
@@ -99,7 +100,7 @@ module Baron
         ).each do |certificate|
           @unavailable_certificates_pool.make_certificate_available(
             certificate,
-            @game.initial_offering
+            game.initial_offering
           )
         end
       end
@@ -112,8 +113,8 @@ module Baron
         @unavailable_certificates_pool.certificates.each do |cert|
           @unavailable_certificates_pool.make_certificate_available(
             cert,
-            @game.initial_offering
-          ) if @game.director(cert.company).instance_of?(Player)
+            game.initial_offering
+          ) if game.director(cert.company).instance_of?(Player)
         end
       end
     end

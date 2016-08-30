@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Game do
   let(:game) { described_class.new(rules, players) }
   let(:rules) { Baron::Rules.new('1860') }

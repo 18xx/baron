@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::SelectCertificate do
   let(:action) { described_class.new game, player, certificate }
 

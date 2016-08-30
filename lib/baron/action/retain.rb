@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # Payout represents a company retaining earnings on the money earned by its

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::InitialOffering do
   let(:certificate) { Baron::Certificate.new(company, portion) }
   let(:initial_offering) { Baron::InitialOffering.new }

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A type of train available for use in the game
   #

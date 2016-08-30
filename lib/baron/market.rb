@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # The market manages the open market pricing for shares in a company
   #
@@ -41,7 +42,7 @@ module Baron
     def add_company(company, starting_price)
       amount = starting_price.amount
       fail InvalidStartingPrice unless
-        @rules.market_values.include?(amount)
+        rules.market_values.include?(amount)
       @current_prices[company] = amount
     end
 
@@ -86,7 +87,7 @@ module Baron
     # @param [Fixnum] steps
     # @return [void]
     def change_price(company, steps)
-      market_values = @rules.market_values
+      market_values = rules.market_values
       index = market_values.find_index(price(company).amount)
       @current_prices[company] = market_values.fetch(index + steps)
     end

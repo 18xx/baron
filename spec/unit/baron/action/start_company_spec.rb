@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::StartCompany do
   let(:action) do
     described_class.new(

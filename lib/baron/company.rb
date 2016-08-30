@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A company represents one of the sets of railroad companies which exist
   # in the game, including Private, Minor, and Major railroad companies
@@ -44,6 +45,19 @@ module Baron
     # @return [String]
     def to_s
       abbreviation
+    end
+
+    # The face value of this company
+    #
+    # Most companies do not have a face value, but some types do and they should
+    # implement this and set the value to a non-nil value.
+    #
+    # @example
+    #   company.face_value #=> nil
+    #
+    # @api public
+    # @return [Baron::Money] The amount of its face value, or nil.
+    def face_value
     end
   end
 end

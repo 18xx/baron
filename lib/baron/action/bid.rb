@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # A bid is made on an auction, by a player in a specific amount.
@@ -39,7 +40,10 @@ module Baron
       # @api private
       # @return nil
       def validate_non_negative
-        fail IllegalBidAmount, 'Amount cannot be negative' if @amount.to_int < 0
+        fail(
+          IllegalBidAmount,
+          'Amount cannot be negative'
+        ) if amount.to_int.negative?
       end
 
       # Validate that the bid is divisible by the minimum increment
@@ -53,7 +57,7 @@ module Baron
         fail(
           IllegalBidAmount,
           "Amount must be divisible by #{BID_INCREMENT}"
-        ) unless (@amount.to_int % BID_INCREMENT).zero?
+        ) unless (amount.to_int % BID_INCREMENT).zero?
       end
     end
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Bank do
   let(:bank) { described_class.new game }
   let(:game) { instance_double Baron::Game, market: market }

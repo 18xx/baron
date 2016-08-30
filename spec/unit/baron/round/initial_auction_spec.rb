@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Round::InitialAuction do
   let(:auction_round) { described_class.new game }
 
@@ -17,7 +18,7 @@ RSpec.describe Baron::Round::InitialAuction do
     it 'makes the initial 4 private companies available' do
       expect { subject }.to change {
         game.initial_offering.certificates.select do |cert|
-          cert.company.is_a? Baron::Company::PrivateCompany
+          cert.company.kind_of? Baron::Company::PrivateCompany
         end.count
       }.from(0).to(4)
     end
@@ -25,7 +26,7 @@ RSpec.describe Baron::Round::InitialAuction do
     it 'makes the initial 2 major companies directors shares' do
       expect { subject }.to change {
         game.initial_offering.certificates.select do |cert|
-          cert.company.is_a? Baron::Company::MajorCompany
+          cert.company.kind_of? Baron::Company::MajorCompany
         end.count
       }.from(0).to(2)
     end
@@ -33,7 +34,7 @@ RSpec.describe Baron::Round::InitialAuction do
     it 'makes the initial 2 major companies directors shares' do
       subject
       certs = game.initial_offering.certificates.select do |cert|
-        cert.company.is_a? Baron::Company::MajorCompany
+        cert.company.kind_of? Baron::Company::MajorCompany
       end
       expect(certs.all?(&:director?)).to be true
     end

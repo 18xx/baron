@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Turn do
   let(:turn) { Baron::Turn.new }
 
@@ -16,6 +17,9 @@ RSpec.describe Baron::Turn do
 
     def my_taken_actions
       taken_actions
+    end
+
+    def pass(_)
     end
   end
 

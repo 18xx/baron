@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A train which can be owned by a company
   #

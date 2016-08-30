@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # Base class for all games, this contains the logic for maintaining a
   # standard 18xx game, which can be customized through configuration.
@@ -206,7 +207,7 @@ module Baron
     # @return [Baron::Bank]
     def init_bank
       @bank = Bank.new(self)
-      @bank.grant Money.new(BANK_SIZE)
+      bank.grant Money.new(BANK_SIZE)
     end
 
     # All certificates in the game
@@ -245,7 +246,7 @@ module Baron
     # @return [void]
     def init_certificates
       @unavailable_certificates_pool = UnavailableCertificatesPool.new
-      @unavailable_certificates_pool.grant certificates
+      unavailable_certificates_pool.grant certificates
     end
 
     # Create the market

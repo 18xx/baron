@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Money do
   subject { Baron::Money.new amount }
 
@@ -75,7 +76,7 @@ RSpec.describe Baron::Money do
       let(:other_money) { Baron::Money.new 15 }
       specify do
         expect(subject == other_money).to be true
-        expect(subject.equal? other_money).to be false
+        expect(subject.equal?(other_money)).to be false
       end
     end
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # The bank represents the source of money for turns and other financial
   # aspects of the company. It can hold money, company shares (in the bank pool)
@@ -37,7 +38,7 @@ module Baron
     # @param [Baron::Certificate] certificate
     # @return [Baron::Money]
     def cost(certificate)
-      certificate.market_cost(@game.market)
+      certificate.market_cost(game.market)
     end
 
     # Return a string representation of the bank

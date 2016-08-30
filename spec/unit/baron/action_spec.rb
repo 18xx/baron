@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action do
   let(:action) { described_class.new player }
   let(:player) { double }

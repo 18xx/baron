@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # In this action the company runs its trains for an amount

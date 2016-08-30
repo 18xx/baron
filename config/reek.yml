@@ -6,6 +6,14 @@
     max_allowed_nesting: 2
     exclude:
       - 'Baron::Shareholder#currently_owned' # Dealing with a ruby 2.2 warnings
+  TooManyInstanceVariables:
+    exclude:
+      - 'Baron::Game'
+      - 'Baron::Rules'
+  TooManyMethods:
+    exclude:
+      - 'Baron::Game'
+      - 'Baron::Turn::OperatingTurn'
   UtilityFunction:
     exclude:
       - 'Baron::Turn::StockTurn#sellcertificates'

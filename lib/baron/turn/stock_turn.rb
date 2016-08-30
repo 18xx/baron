@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Turn
     # A stock turn is a single players turn to sell and buy certificates
@@ -141,7 +142,7 @@ module Baron
       # @api private
       # @return [Baron::Bank]
       def bank
-        @round.game.bank
+        round.game.bank
       end
 
       # The initial offering
@@ -149,7 +150,7 @@ module Baron
       # @api private
       # @return [Baron::InitialOffering]
       def initial_offering
-        @round.game.initial_offering
+        round.game.initial_offering
       end
 
       # The market
@@ -157,7 +158,7 @@ module Baron
       # @api private
       # @return [Baron::Market]
       def market
-        @round.game.market
+        round.game.market
       end
 
       # Floats the specified company

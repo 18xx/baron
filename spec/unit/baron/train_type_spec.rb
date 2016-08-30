@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::TrainType do
   let(:face_value) { Baron::Money.new(300) }
   let(:train_type) do

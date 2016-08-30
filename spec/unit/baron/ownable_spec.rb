@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Ownable do
   # Dummy class to test baron ownable
   class Dummy

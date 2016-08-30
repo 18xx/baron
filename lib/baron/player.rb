@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A partipant in a game
   class Player
@@ -16,12 +17,11 @@ module Baron
     # The player's position in the game
     #
     # @example
-    #   shareholder.position = 5
     #   shareholder.position #=> 5
     #
     # @api public
     # @return [Fixnum] The player's seating position in the game.
-    attr_accessor :position
+    attr_reader :position
 
     # @see class description
     #

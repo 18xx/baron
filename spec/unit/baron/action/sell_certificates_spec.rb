@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::SellCertificates do
   let(:player) { Baron::Player.new 'a' }
   let(:player2) { Baron::Player.new 'b' }

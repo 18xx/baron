@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Round
     # The initial auction round of the game

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A certificate represents a portion of ownership in a company.
   #

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # The base class for all actions. Actions should inherit from this class.
   class Action

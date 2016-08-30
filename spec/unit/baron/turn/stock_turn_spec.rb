@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Turn::StockTurn do
   let(:turn) { described_class.new player, round }
 
@@ -157,12 +158,12 @@ RSpec.describe Baron::Turn::StockTurn do
 
     context 'when the player has not taken an action' do
       it 'allows the player to buy, or pass' do
-        should match_array([
+        should contain_exactly(
           Baron::Action::BuyCertificate,
           Baron::Action::Pass,
           Baron::Action::SellCertificates,
           Baron::Action::StartCompany
-        ])
+        )
       end
     end
   end

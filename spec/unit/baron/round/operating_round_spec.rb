@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Round::OperatingRound do
   let(:round) { described_class.new game }
 

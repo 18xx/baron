@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # Buy certificate allows a player to purchase a certificate from a
@@ -33,10 +34,10 @@ module Baron
       # @return [Baron::Transaction] The transaction created
       def create_transaction
         Transaction.new(
-          @player,
-          [@certificate],
+          player,
+          [certificate],
           @source,
-          [@source.cost(@certificate)]
+          [@source.cost(certificate)]
         )
       end
     end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # The initial offering is where company certificates, and trains are held
   # until they are purchased by a player or corporation.
@@ -20,11 +21,7 @@ module Baron
     # @return [Baron::Money]
     def cost(certificate)
       company = certificate.company
-      if company.respond_to?(:face_value)
-        company.face_value
-      else
-        get_par_price(company) * certificate.num_shares
-      end
+      company.face_value || get_par_price(company) * certificate.num_shares
     end
 
     # Set the par price for a major company

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A transaction is the exchange of money, trains, certificates, or other
   # purchasable items between two parties.
@@ -196,8 +197,8 @@ module Baron
     # @api private
     # @return [void]
     def validate_items
-      [@buyer_items, @seller_items].each do |items|
-        fail InvalidItemsError unless items.respond_to?(:each)
+      [buyer_items, seller_items].each do |items|
+        fail InvalidItemsError unless items.kind_of?(Enumerable)
       end
     end
 
@@ -206,8 +207,8 @@ module Baron
     # @api private
     # @return [void]
     def validate_transferrable
-      (@buyer_items + @seller_items).each do |item|
-        fail NonTransferrableError unless item.is_a?(Transferrable)
+      (buyer_items + seller_items).each do |item|
+        fail NonTransferrableError unless item.kind_of?(Transferrable)
       end
     end
 
@@ -225,8 +226,8 @@ module Baron
     # @api private
     # @return [void]
     def notify_parties
-      @buyer.add_transaction self
-      @seller.add_transaction self if @seller
+      buyer.add_transaction self
+      seller.add_transaction self if seller
     end
 
     # Notifies the items that they are now owned by someone
@@ -234,10 +235,10 @@ module Baron
     # @api private
     # @return [void]
     def notify_item_ownership
-      [[@buyer, @buyer_items], [@seller, @seller_items]].each do |set|
+      [[buyer, buyer_items], [seller, seller_items]].each do |set|
         shareholder, items = set
         items.each do |item|
-          item.owner = shareholder if item.respond_to?(:owner=)
+          item.owner = shareholder
         end
       end
     end

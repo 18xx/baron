@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # GameRoundFlow manages the flow of rounds that occur throughout the game,
   # deciding if there is a stock round, or operating round next as an example.
@@ -39,7 +40,7 @@ module Baron
     # @api private
     # @return [Baron::Round]
     def next_round
-      @upcoming_rounds.push(*future_rounds) if @upcoming_rounds.empty?
+      @upcoming_rounds.concat(future_rounds) if @upcoming_rounds.empty?
       @upcoming_rounds.shift
     end
 
@@ -49,9 +50,11 @@ module Baron
     # @return [Array<Baron::Round>]
     def future_rounds
       if @current_round.instance_of?(Round::InitialAuction)
-        new_stock_round
+        [new_stock_round]
       elsif !@game.over?
         operating_rounds + [new_stock_round]
+      else
+        []
       end
     end
 
@@ -60,7 +63,7 @@ module Baron
     # @api private
     # @return [Array<Baron::OperatingRound>]
     def operating_rounds
-      number_of_operating_rounds.times.map do
+      Array.new(number_of_operating_rounds) do
         Round::OperatingRound.new(@game)
       end
     end

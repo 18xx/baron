@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::Bid do
   let(:player) { object_double Baron::Player }
   let(:amount) { Baron::Money.new 10 }

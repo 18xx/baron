@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # Sell one or more certificates to the bank for the current market price
@@ -33,7 +34,7 @@ module Baron
         Transaction.new(
           @bank,
           @certificates,
-          @player,
+          player,
           [proceeds]
         )
         reduce_prices

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Certificate do
   let(:certificate) { described_class.new(company, portion) }
   let(:company) do

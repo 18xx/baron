@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Transaction do
   let(:buyer) { Baron::Player.new 'buyer' }
   let(:seller) { Baron::Player.new 'seller' }

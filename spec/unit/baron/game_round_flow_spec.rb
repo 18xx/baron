@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::GameRoundFlow do
   let(:game) { Baron::Game.new(rules, players) }
   let(:rules) { Baron::Rules.new('1860') }

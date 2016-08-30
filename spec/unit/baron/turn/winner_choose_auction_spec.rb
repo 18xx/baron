@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Turn::WinnerChooseAuction do
   let(:player1) do
     Baron::Player.new('Bart')

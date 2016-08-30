@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # Transferrable is a type of thing which can be tranferred as part of a
   # Baron::Transaction
@@ -11,6 +12,16 @@ module Baron
     # @param [Baron::Shareholder] _
     # @return [void]
     def validate_owner(_)
+    end
+
+    # Set the owner of this transferrable
+    #
+    # This is designed to be overridden by items which can have owners
+    #
+    # @api private
+    # @param [Baron::Shareholder] _
+    # @return [void]
+    def owner=(_)
     end
   end
 end

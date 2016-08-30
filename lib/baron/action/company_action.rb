@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # A company action is an action taken by a director on behalf of a company

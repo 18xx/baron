@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Shareholder do
   # Shareholder shunt
   class MyShareholder

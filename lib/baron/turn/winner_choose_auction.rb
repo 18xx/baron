@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Turn
     # This is an auction where the players bid, and the winner then chooses
@@ -56,7 +57,7 @@ module Baron
       # @api public
       # @return [Baron::Player] The player whose turn it is
       def player
-        @active_players.first
+        active_players.first
       end
 
       # Is there a winner of the auction
@@ -67,7 +68,7 @@ module Baron
       # @api public
       # @return [Boolean] true if the auction is over, false otherwise
       def winner?
-        @active_players.count.equal?(1) && @bids.any?
+        active_players.count.equal?(1) && @bids.any?
       end
 
       # The most recent bid in the auction
@@ -138,7 +139,7 @@ module Baron
       # @return [Array<Baron::Action::Bid>] All bids on this auction
       def bid(action)
         validate_bid(action)
-        @active_players.rotate!
+        active_players.rotate!
         @bids << action
       end
 
@@ -151,8 +152,8 @@ module Baron
       # @param [Baron::Action:Pass] _ The bid being made.
       # @return [void]
       def pass(_)
-        @active_players.shift
-        high_bidder.give(@bank, current_bid.amount) if winner?
+        active_players.shift
+        high_bidder.give(bank, current_bid.amount) if winner?
       end
 
       # The player selects a certificate with their action

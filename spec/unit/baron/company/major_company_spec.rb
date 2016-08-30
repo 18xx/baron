@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Company::MajorCompany do
   let(:abbreviation) { 'LNWR' }
   let(:company) { described_class.new(abbreviation, name) }

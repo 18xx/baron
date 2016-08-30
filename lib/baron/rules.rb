@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # Configuration file parsing. This loads the companies, stock market, map
   # tiles, trains and other basic information from the config file.
@@ -87,9 +88,11 @@ module Baron
     # @return [Array<BigDecimal>] An array of big decimals defining the share
     # configuration. The big decimals should sum to 1.
     def share_configuration
-      @config.fetch('share_configuration').fetch('major')
+      @config
+        .fetch('share_configuration')
+        .fetch('major')
         .flat_map do |portion, number|
-        number.times.map { BigDecimal.new portion }
+        Array.new(number) { BigDecimal.new portion }
       end
     end
 
@@ -148,7 +151,7 @@ module Baron
     def init_trains
       init_train_types
       @config.fetch('trains').flat_map do |train_type|
-        train_type.fetch('count').times.map do
+        Array.new(train_type.fetch('count')) do
           create_train(train_type)
         end
       end
@@ -174,7 +177,7 @@ module Baron
       @train_types ||= @config.fetch('trains').map do |train|
         major_allowance, minor_allowance = train.fetch('type').split('+')
         TrainType.new(
-          major_allowance.to_i,
+          Integer(major_allowance),
           Money.new(train.fetch('face_value')),
           minor_station_allowance: minor_allowance
         )

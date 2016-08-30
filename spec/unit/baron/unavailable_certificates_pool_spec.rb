@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::UnavailableCertificatesPool do
   let(:pool) { described_class.new }
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Market do
   let(:market) { described_class.new rules }
   let(:rules) { Baron::Rules.new('1860') }
@@ -37,11 +38,13 @@ RSpec.describe Baron::Market do
     subject { market.operating_order }
 
     it 'operates the companies from most expensive to least expensive' do
-      expect(subject).to eq([
-        expensive_company,
-        mid_priced_company,
-        cheap_company
-      ])
+      expect(subject).to eq(
+        [
+          expensive_company,
+          mid_priced_company,
+          cheap_company
+        ]
+      )
     end
 
     context 'when two companies are tied' do
@@ -52,12 +55,14 @@ RSpec.describe Baron::Market do
       end
 
       it 'operates them in the order that they were added as a tiebreak' do
-        expect(subject).to eq([
-          expensive_company,
-          mid_priced_company,
-          cheap_company,
-          other_cheap_company
-        ])
+        expect(subject).to eq(
+          [
+            expensive_company,
+            mid_priced_company,
+            cheap_company,
+            other_cheap_company
+          ]
+        )
       end
     end
   end

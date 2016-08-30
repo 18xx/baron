@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # Start a new company by purchasing the directors certificate and setting
@@ -48,7 +49,7 @@ module Baron
       # @return [Baron::Transaction]
       def create_transaction
         Transaction.new(
-          @player,
+          player,
           [director_certificate],
           @game.initial_offering,
           [@par_price * director_certificate.num_shares]

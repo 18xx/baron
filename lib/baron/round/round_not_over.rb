@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Round
     # An error raised when the round is not over

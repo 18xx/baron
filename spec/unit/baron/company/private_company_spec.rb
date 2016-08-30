@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Company::PrivateCompany do
   subject do
     described_class.new('C&A', 'Camden & Amboy', face_value: 160, revenue: 25)

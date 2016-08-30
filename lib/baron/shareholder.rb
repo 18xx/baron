@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # A shareholder is someone who can hold certificates in a company. This will
   # include things like players, companies (if the game supports companies
@@ -160,7 +161,7 @@ module Baron
     # @return [Array<Baron::Train>] All trains this shareholder has
     def currently_owned(type)
       transactions.each_with_object([]) do |transaction, certs|
-        certs.push(*transaction.incoming(self, type))
+        certs.concat(transaction.incoming(self, type))
         certs.reject! do |cert|
           transaction.outgoing(self, nil).any? do |outgoing_cert|
             outgoing_cert.equal?(cert)

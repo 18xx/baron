@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # The unavailable certificates pool will store companies that can't be
   # purchased for whatever reason. Examples would be shares in companies that

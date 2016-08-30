@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::RunTrains do
   let(:turn) { instance_double Baron::Turn, player: player }
   let(:hex) { double }

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Train do
   let(:train) { described_class.new type }
   let(:face_value) { Baron::Money.new(100) }

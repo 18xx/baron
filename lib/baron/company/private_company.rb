@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Company
     # A private company represents a single certificate company which can be

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Round::StockRound do
   let(:stock_round) { described_class.new game, priority_deal }
 

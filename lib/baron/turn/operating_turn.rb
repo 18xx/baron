@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Turn
     # An operating turn is taken by the player on behalf of a company
@@ -94,7 +95,21 @@ module Baron
       # @api public
       # @return [Boolean] Returns true if this turn is done, false otherwise
       def done?
-        count_actions_taken(Action::Done) > 0
+        count_actions_taken(Action::Done).positive?
+      end
+
+      # End the operation turn
+      #
+      # This action is called then the current company finishes their turn.
+      # Any end of turn effects will be placed here.
+      #
+      # @example
+      #   turn.done
+      #
+      # @param [Baron::Action::Done] _
+      # @api public
+      # @return [void]
+      def done(_)
       end
 
       # Place a tile on the board
@@ -109,10 +124,10 @@ module Baron
       # Place a token on the board
       #
       # @api private
-      # @param [Baron::Action::PlaceTile] _
+      # @param [Baron::Action::PlaceToken] _
       # @return [void]
       def placetoken(_)
-        # TODO: Implement placetile
+        # TODO: Implement placetoken
       end
 
       # Run trains this companies operating turn
@@ -131,7 +146,7 @@ module Baron
       # @return [void]
       def payout(_)
         payout_amounts.each do |player, amount|
-          game.bank.give(player, Money.new(amount)) if amount > 0
+          game.bank.give(player, Money.new(amount)) if amount.positive?
         end
       end
 
@@ -141,7 +156,7 @@ module Baron
       # @param [Baron::Action::Retain] _
       # @return [void]
       def retain(_)
-        game.bank.give(company, Money.new(@run_amount))
+        game.bank.give(company, Money.new(run_amount))
       end
 
       # Count the number of times the action taken this turn
@@ -158,7 +173,7 @@ module Baron
       # @api private
       # @return [Boolean]
       def placed_token?
-        count_actions_taken(Action::PlaceToken) > 0
+        count_actions_taken(Action::PlaceToken).positive?
       end
 
       # Has this company run trains this turn
@@ -166,7 +181,7 @@ module Baron
       # @api private
       # @return [Boolean]
       def run_trains?
-        count_actions_taken(Action::RunTrains) > 0
+        count_actions_taken(Action::RunTrains).positive?
       end
 
       # Has this declared what it is going to do with its earnings
@@ -177,7 +192,7 @@ module Baron
         run_amount.equal?(0) || (
           count_actions_taken(Action::Payout) +
           count_actions_taken(Action::Retain)
-        ) > 0
+        ).positive?
       end
 
       # Return the place tile action is the company can place tiles

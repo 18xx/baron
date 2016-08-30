@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Action
     # This action is where a company places a tile on the board

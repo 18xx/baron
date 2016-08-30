@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # Ownable is a class to list the types of things that can be owned by a
   # player or corporation

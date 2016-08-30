@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   # An turn is a group of a set of actions taken in a game
   #
@@ -20,7 +21,7 @@ module Baron
       action_method = action.symbol
       validate(action)
       action.process
-      public_send(action_method, action) if respond_to?(action_method)
+      public_send(action_method, action)
       taken_actions << action
     end
 

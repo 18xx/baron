@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::CompanyAction do
   let(:turn) { instance_double Baron::Turn, player: player }
   let(:player) { instance_double Baron::Player, 'player' }

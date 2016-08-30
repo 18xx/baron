@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Baron
   class Company
     # A major company represents a 10 share company in an 18xx Game

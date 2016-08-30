@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 RSpec.describe Baron::Action::BuyCertificate do
   let(:player) { Baron::Player.new 'a' }
   let(:source) { Baron::InitialOffering.new }
   let(:certificate) { Baron::Certificate.new company, BigDecimal.new('0.1') }
-  let(:company) { instance_double Baron::Company }
+  let(:company) { instance_double Baron::Company, face_value: nil }
 
   let(:action) { described_class.new player, source, certificate }
 
