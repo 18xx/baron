@@ -159,6 +159,14 @@ module Baron
         game.bank.give(company, Money.new(run_amount))
       end
 
+      # Take an action to buy a train
+      #
+      # @api private
+      # @param [Baron::Action::BuyTrain] _
+      # @return [void]
+      def buytrain(_)
+      end
+
       # Count the number of times the action taken this turn
       #
       # @api private

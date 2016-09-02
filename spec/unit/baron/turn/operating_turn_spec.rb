@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 RSpec.describe Baron::Turn::OperatingTurn do
   let(:turn) { described_class.new game, player, company }
-  let(:game) { instance_double Baron::Game, bank: bank, players: [] }
+  let(:game) do
+    instance_double(
+      Baron::Game,
+      bank: bank,
+      players: [],
+      add_next_level_of_trains: nil
+    )
+  end
   let(:bank) { Baron::Bank.new double }
   let(:company) do
     Baron::Company.new('LNWR', 'London & Northwestern')
@@ -277,6 +284,42 @@ RSpec.describe Baron::Turn::OperatingTurn do
 
     it 'transfers the earnings from the bank' do
       expect { subject }.to change { bank.balance }.by(Baron::Money.new(-100))
+    end
+  end
+
+  describe 'buytrain' do
+    let(:train_type) do
+      Baron::TrainType.new(
+        2,
+        Baron::Money.new(250),
+        minor_station_allowance: 1
+      )
+    end
+    let(:train) { Baron::Train.new(train_type) }
+
+    let(:action) do
+      Baron::Action::BuyTrain.new(turn, bank, train, train.face_value)
+    end
+
+    before do
+      bank.grant train
+      turn.perform Baron::Action::RunTrains.new(turn, 100, 0)
+      turn.perform Baron::Action::Retain.new turn
+    end
+    subject { turn.perform action }
+
+    it 'transfers the train to the company' do
+      expect { subject }.to change { company.trains.size }.by(1)
+    end
+
+    it 'transfers charges the company the appropriate amount' do
+      expect { subject }.to change { company.balance }.by(
+        Baron::Money.new(-250)
+      )
+    end
+
+    it 'transfers the train from the source' do
+      expect { subject }.to change { bank.trains.size }.by(-1)
     end
   end
 end
