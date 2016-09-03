@@ -51,6 +51,13 @@ RSpec.describe Baron::GameRoundFlow do
           expect(subject).to be_a Baron::Round::OperatingRound
         end
 
+        it 'starts the round' do
+          expect_any_instance_of(
+            Baron::Round::OperatingRound
+          ).to receive(:start)
+          subject
+        end
+
         it 'assigns this game to the round' do
           expect(subject.game).to be game
         end

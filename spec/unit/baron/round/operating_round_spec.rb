@@ -15,7 +15,7 @@ RSpec.describe Baron::Round::OperatingRound do
     end
   end
 
-  describe 'initialization' do
+  describe 'start' do
     let(:private_company) do
       Baron::Company::PrivateCompany.new(
         'C&A',
@@ -32,12 +32,14 @@ RSpec.describe Baron::Round::OperatingRound do
       player1.grant certificate
     end
 
+    subject { round.start }
+
     it 'pays out private companies' do
-      expect { round }.to change { player1.balance.amount }.by(25)
+      expect { subject }.to change { player1.balance.amount }.by(25)
     end
 
     it 'pays the money out from the bank' do
-      expect { round }.to change { game.bank.balance.amount }.by(-25)
+      expect { subject }.to change { game.bank.balance.amount }.by(-25)
     end
   end
 

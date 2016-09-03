@@ -11,6 +11,30 @@ module Baron
     # @return [Baron::Game]
     attr_reader :game
 
+    # Start the round and execute any special rules
+    #
+    # This does nothing by default but can be overriden by subclasses.
+    #
+    # @example
+    #   round.start
+    #
+    # @api public
+    # @return [void]
+    def start
+    end
+
+    # End the round and execute anything special
+    #
+    # This does nothing by default but can be overriden by subclasses.
+    #
+    # @example
+    #   round.end
+    #
+    # @api public
+    # @return [void]
+    def end
+    end
+
     # Is the current round over?
     #
     # @example

@@ -27,7 +27,10 @@ module Baron
     # @return [Baron::Round]
     def current_round
       @current_round ||= Round::InitialAuction.new(@game)
-      @current_round = next_round if @current_round.over?
+      if @current_round.over?
+        @current_round = next_round
+        @current_round.start if @current_round
+      end
       @current_round
     end
 

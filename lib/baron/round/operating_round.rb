@@ -16,7 +16,6 @@ module Baron
       # @param [Baron::Game] game
       def initialize(game)
         @game = game
-        pay_privates
         set_turn_order
       end
 
@@ -43,6 +42,19 @@ module Baron
       # @return [Boolean] True if the round is over, false otherwise
       def over?
         !current_turn
+      end
+
+      # Start the round and execute any special rules
+      #
+      # This pays out private companies at the start of every operating round
+      #
+      # @example
+      #   round.start
+      #
+      # @api public
+      # @return [void]
+      def start
+        pay_privates
       end
 
       private
